@@ -1,3 +1,6 @@
-import app from "./app";
+﻿import app from './app';
 
-app.listen(...);
+export const server = { app };
+
+export default server;
+

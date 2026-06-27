@@ -1,0 +1,2 @@
+﻿export const requestLoggerMiddlewarePlaceholder = true;
+

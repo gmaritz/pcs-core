@@ -1,0 +1,2 @@
+﻿export const contentroutesPlaceholder = true;
+

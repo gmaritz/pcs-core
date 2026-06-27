@@ -1,0 +1,2 @@
+﻿export const searchviewsPlaceholder = true;
+

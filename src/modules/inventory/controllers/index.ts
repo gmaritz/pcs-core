@@ -1,0 +1,2 @@
+﻿export const inventorycontrollersPlaceholder = true;
+

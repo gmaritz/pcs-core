@@ -1,0 +1,6 @@
+git commit -m "docs: complete handbook chapter 03 project structure"
+
+git commit -m "feat: implement chapter 03 project structure"
+
+"type": "commonjs",
+"type": "module",
