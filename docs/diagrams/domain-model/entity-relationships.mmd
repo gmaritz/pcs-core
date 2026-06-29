@@ -2,30 +2,30 @@
 %% PCS Core
 %%
 %% Diagram:
-%% Catalog Domain Entity Relationships
+%% Catalog Entity Relationships
 %%
 %% Version:
-%% 1.0.0
+%% 1.1.0
 %%
 %% Status:
-%% Draft
+%% Approved
 %%
 %% Related Document:
 %% docs/domain-model/entity-catalogue/catalog/
 %%
 %% Description:
-%% Defines the business relationships within the
-%% Catalog Domain.
+%% Defines business relationships within the
+%% Catalog Domain only.
 %%
 %% Standard:
 %% PCS Core Mermaid Standard v1.0
 %%
 %% ==========================================================
 
-flowchart TB
+flowchart LR
 
 %% ==========================================================
-%% Catalog Domain
+%% Catalog Entities
 %% ==========================================================
 
 SPORT["ENT-100 Sport"]
@@ -71,35 +71,11 @@ ATTRIBUTEVALUE -. Describes .-> VARIANT
 MEDIA -. Illustrates .-> VARIANT
 
 %% ==========================================================
-%% Future Cross-Domain References
-%%
-%% These entities belong to other bounded contexts.
-%% They are included only to show future integration
-%% points and are not owned by the Catalog Domain.
-%% ==========================================================
-
-SUPPLIERPRODUCT["ENT-203 Supplier Product"]
-
-INVENTORY["ENT-205 Inventory"]
-
-CARTITEM["ENT-304 Cart Item"]
-
-ORDERITEM["ENT-401 Order Item"]
-
-SUPPLIERPRODUCT -. References .-> VARIANT
-
-INVENTORY -. References .-> VARIANT
-
-CARTITEM -. References .-> VARIANT
-
-ORDERITEM -. References .-> VARIANT
-
-%% ==========================================================
 %% Legend
 %%
 %% -->   Ownership
 %% -.->  Reference / Association
-%% ==>   Dependency / Process Flow
+%% ==>   Workflow / Process
 %% ==========================================================
 
 %% ==========================================================
@@ -119,7 +95,3 @@ class VARIANT entity
 class ATTRIBUTE entity
 class ATTRIBUTEVALUE entity
 class MEDIA entity
-class SUPPLIERPRODUCT entity
-class INVENTORY entity
-class CARTITEM entity
-class ORDERITEM entity

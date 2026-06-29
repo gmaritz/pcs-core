@@ -1,0 +1,134 @@
+%% ==========================================================
+%% PCS Core
+%%
+%% Diagram:
+%% Supply Chain Workflow
+%%
+%% Version:
+%% 1.0.0
+%%
+%% Status:
+%% Approved
+%%
+%% Related Document:
+%% docs/domain-model/supply-chain-domain.md
+%%
+%% Description:
+%% End-to-end workflow for synchronising supplier data
+%% into PCS Core.
+%%
+%% Standard:
+%% PCS Core Mermaid Standard v1.0
+%%
+%% ==========================================================
+
+flowchart TD
+
+%% ==========================================================
+%% Workflow
+%% ==========================================================
+
+START([Scheduled or Manual Synchronisation])
+
+FEED["ENT-201
+Supplier Feed"]
+
+IMPORT["ENT-202
+Create Import Job"]
+
+DOWNLOAD["Retrieve Supplier Data"]
+
+VALIDATE{"Data Valid?"}
+
+ERROR["Record Validation Errors"]
+
+MATCH["Match Supplier Product
+to Product Variant"]
+
+UPSERT["Create / Update
+Supplier Product"]
+
+WAREHOUSE["Resolve Warehouse"]
+
+INVENTORY["Update Inventory
+(Current State)"]
+
+MOVEMENT["Create Inventory
+Movement"]
+
+PRICE{"Price Changed?"}
+
+PRICEHISTORY["Create Price
+History Record"]
+
+COMPLETE["Complete Import Job"]
+
+END([Workflow Complete])
+
+%% ==========================================================
+%% Workflow
+%% ==========================================================
+
+START ==> FEED
+
+FEED ==> IMPORT
+
+IMPORT ==> DOWNLOAD
+
+DOWNLOAD ==> VALIDATE
+
+VALIDATE -- No --> ERROR
+
+ERROR ==> COMPLETE
+
+VALIDATE -- Yes --> MATCH
+
+MATCH ==> UPSERT
+
+UPSERT ==> WAREHOUSE
+
+WAREHOUSE ==> INVENTORY
+
+INVENTORY ==> MOVEMENT
+
+MOVEMENT ==> PRICE
+
+PRICE -- Yes --> PRICEHISTORY
+
+PRICE -- No --> COMPLETE
+
+PRICEHISTORY ==> COMPLETE
+
+COMPLETE ==> END
+
+%% ==========================================================
+%% Legend
+%%
+%% ==>   Workflow / Process Flow
+%% -->   Ownership (not used)
+%% -.->  Reference / Association (not used)
+%%
+%% ==========================================================
+
+%% ==========================================================
+%% Styles
+%% ==========================================================
+
+classDef start fill:#D5F5E3,stroke:#1E8449,stroke-width:2px
+
+classDef process fill:#EBF5FB,stroke:#1F618D,stroke-width:1px
+
+classDef decision fill:#FCF3CF,stroke:#B7950B,stroke-width:2px
+
+classDef error fill:#FADBD8,stroke:#C0392B,stroke-width:2px
+
+classDef finish fill:#D5F5E3,stroke:#1E8449,stroke-width:2px
+
+class START start
+class END finish
+
+class FEED,IMPORT,DOWNLOAD,MATCH,UPSERT,WAREHOUSE,INVENTORY,MOVEMENT,PRICEHISTORY,COMPLETE process
+
+class VALIDATE,PRICE decision
+
+class ERROR error

@@ -5,17 +5,16 @@
 %% Aggregate Roots
 %%
 %% Version:
-%% 1.0.0
+%% 1.1.0
 %%
 %% Status:
-%% Draft
+%% Approved
 %%
 %% Related Document:
 %% docs/domain-model/aggregate-roots.md
 %%
 %% Description:
-%% Defines the Aggregate Roots of PCS Core together with
-%% their ownership boundaries and cross-aggregate references.
+%% Defines Aggregate Roots and the entities they own.
 %%
 %% Standard:
 %% PCS Core Mermaid Standard v1.0
@@ -25,24 +24,10 @@
 flowchart LR
 
 %% ==========================================================
-%% Aggregate Roots
+%% Commerce Aggregate
 %% ==========================================================
 
 STORE["AGR-001 Store"]
-
-PRODUCT["AGR-002 Product"]
-
-SUPPLIER["AGR-003 Supplier"]
-
-CUSTOMER["AGR-004 Customer"]
-
-ORDER["AGR-005 Order"]
-
-PAGE["AGR-006 Page"]
-
-%% ==========================================================
-%% Commerce Aggregate
-%% ==========================================================
 
 STORE --> SETTINGS["Store Settings"]
 
@@ -58,6 +43,8 @@ STORE --> PAYMENTMETHOD["Payment Method"]
 %% Catalog Aggregate
 %% ==========================================================
 
+PRODUCT["AGR-002 Product"]
+
 PRODUCT --> VARIANT["Product Variant"]
 
 PRODUCT --> ATTRIBUTE["Attribute"]
@@ -70,17 +57,27 @@ PRODUCT --> MEDIA["Media"]
 %% Supply Chain Aggregate
 %% ==========================================================
 
-SUPPLIER --> SUPPLIERPRODUCT["Supplier Product"]
+SUPPLIER["AGR-003 Supplier"]
 
 SUPPLIER --> SUPPLIERFEED["Supplier Feed"]
 
 SUPPLIER --> IMPORTJOB["Import Job"]
 
+SUPPLIER --> SUPPLIERPRODUCT["Supplier Product"]
+
+SUPPLIER --> WAREHOUSE["Warehouse"]
+
 SUPPLIER --> INVENTORY["Inventory"]
+
+SUPPLIER --> PRICEHISTORY["Price History"]
+
+SUPPLIER --> INVENTORYMOVEMENT["Inventory Movement"]
 
 %% ==========================================================
 %% Customer Aggregate
 %% ==========================================================
+
+CUSTOMER["AGR-004 Customer"]
 
 CUSTOMER --> ADDRESS["Address"]
 
@@ -94,6 +91,8 @@ CUSTOMER --> WISHLIST["Wishlist"]
 %% Sales Aggregate
 %% ==========================================================
 
+ORDER["AGR-005 Order"]
+
 ORDER --> ORDERITEM["Order Item"]
 
 ORDER --> PAYMENT["Payment"]
@@ -106,6 +105,8 @@ ORDER --> REFUND["Refund"]
 %% Content Aggregate
 %% ==========================================================
 
+PAGE["AGR-006 Page"]
+
 PAGE --> HERO["Hero"]
 
 PAGE --> BANNER["Banner"]
@@ -113,18 +114,6 @@ PAGE --> BANNER["Banner"]
 PAGE --> NAVIGATION["Navigation"]
 
 PAGE --> SEO["SEO Metadata"]
-
-%% ==========================================================
-%% Cross Aggregate References
-%% ==========================================================
-
-SUPPLIERPRODUCT -. References .-> VARIANT
-
-ORDERITEM -. References .-> VARIANT
-
-CARTITEM -. References .-> VARIANT
-
-PAGE -. References .-> PRODUCT
 
 %% ==========================================================
 %% Legend
@@ -149,33 +138,9 @@ class CUSTOMER aggregate
 class ORDER aggregate
 class PAGE aggregate
 
-class SETTINGS entity
-class CURRENCY entity
-class TAX entity
-class SHIPPING entity
-class PAYMENTMETHOD entity
-
-class VARIANT entity
-class ATTRIBUTE entity
-class ATTRIBUTEVALUE entity
-class MEDIA entity
-
-class SUPPLIERPRODUCT entity
-class SUPPLIERFEED entity
-class IMPORTJOB entity
-class INVENTORY entity
-
-class ADDRESS entity
-class SHOPPINGCART entity
-class CARTITEM entity
-class WISHLIST entity
-
-class ORDERITEM entity
-class PAYMENT entity
-class SHIPMENT entity
-class REFUND entity
-
-class HERO entity
-class BANNER entity
-class NAVIGATION entity
-class SEO entity
+class SETTINGS,CURRENCY,TAX,SHIPPING,PAYMENTMETHOD entity
+class VARIANT,ATTRIBUTE,ATTRIBUTEVALUE,MEDIA entity
+class SUPPLIERFEED,IMPORTJOB,SUPPLIERPRODUCT,WAREHOUSE,INVENTORY,PRICEHISTORY,INVENTORYMOVEMENT entity
+class ADDRESS,SHOPPINGCART,CARTITEM,WISHLIST entity
+class ORDERITEM,PAYMENT,SHIPMENT,REFUND entity
+class HERO,BANNER,NAVIGATION,SEO entity

@@ -1,0 +1,118 @@
+%% ==========================================================
+%% PCS Core
+%%
+%% Diagram:
+%% Supply Chain Entity Relationships
+%%
+%% Version:
+%% 1.0.0
+%%
+%% Status:
+%% Draft
+%%
+%% Related Document:
+%% docs/domain-model/supply-chain/
+%%
+%% Description:
+%% Defines the business relationships within the
+%% Supply Chain bounded context.
+%%
+%% Standard:
+%% PCS Core Mermaid Standard v1.0
+%%
+%% ==========================================================
+
+flowchart LR
+
+%% ==========================================================
+%% Supply Chain Entities
+%% ==========================================================
+
+SUPPLIER["ENT-200 Supplier"]
+
+SUPPLIERFEED["ENT-201 Supplier Feed"]
+
+IMPORTJOB["ENT-202 Import Job"]
+
+SUPPLIERPRODUCT["ENT-203 Supplier Product"]
+
+WAREHOUSE["ENT-204 Warehouse"]
+
+INVENTORY["ENT-205 Inventory"]
+
+INVENTORYMOVEMENT["ENT-206 Inventory Movement"]
+
+PRICEHISTORY["ENT-207 Price History"]
+
+%% ==========================================================
+%% External Reference
+%% ==========================================================
+
+PRODUCTVARIANT["ENT-104 Product Variant"]
+
+%% ==========================================================
+%% Ownership Relationships
+%% ==========================================================
+
+SUPPLIER --> SUPPLIERFEED
+
+SUPPLIER --> IMPORTJOB
+
+SUPPLIER --> SUPPLIERPRODUCT
+
+SUPPLIER --> WAREHOUSE
+
+WAREHOUSE --> INVENTORY
+
+INVENTORY --> INVENTORYMOVEMENT
+
+SUPPLIERPRODUCT --> PRICEHISTORY
+
+%% ==========================================================
+%% Reference Relationships
+%% ==========================================================
+
+SUPPLIERFEED -. Executes .-> IMPORTJOB
+
+IMPORTJOB -. Creates / Updates .-> SUPPLIERPRODUCT
+
+SUPPLIERPRODUCT -. Stocks .-> INVENTORY
+
+SUPPLIERPRODUCT -. References .-> PRODUCTVARIANT
+
+PRICEHISTORY -. Records Prices For .-> SUPPLIERPRODUCT
+
+INVENTORYMOVEMENT -. Records Changes To .-> INVENTORY
+
+%% ==========================================================
+%% Cross-Domain Reference
+%% ==========================================================
+
+PRODUCTVARIANT -. Canonical Product .-> SUPPLIERPRODUCT
+
+%% ==========================================================
+%% Legend
+%%
+%% -->   Ownership
+%% -.->  Reference / Association
+%% ==>   Workflow / Process
+%% ==========================================================
+
+%% ==========================================================
+%% Styles
+%% ==========================================================
+
+classDef aggregate fill:#DCEEFF,stroke:#003366,stroke-width:3px
+
+classDef entity fill:#F8F8F8,stroke:#888888,stroke-width:1px
+
+class SUPPLIER aggregate
+
+class SUPPLIERFEED entity
+class IMPORTJOB entity
+class SUPPLIERPRODUCT entity
+class WAREHOUSE entity
+class INVENTORY entity
+class INVENTORYMOVEMENT entity
+class PRICEHISTORY entity
+class PRODUCTVARIANT entity
