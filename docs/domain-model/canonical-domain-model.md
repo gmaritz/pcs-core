@@ -1,10 +1,3 @@
-# Canonical Domain Model
-
-This document captures the canonical domain model for PCS Core.
-
-flowchart TD
-    A[Domain Model] --> B[Business Domains]
-    
 # PCS Core Domain Model
 
 # Canonical Domain Model

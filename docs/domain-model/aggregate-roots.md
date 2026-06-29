@@ -1,7 +1,3 @@
-# Aggregate Roots
-
-This document identifies the aggregate roots in the PCS Core domain model.
-
 # PCS Core Domain Model
 
 # Aggregate Roots

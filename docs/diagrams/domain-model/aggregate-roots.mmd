@@ -1,148 +1,181 @@
-flowchart TD
-    Order[Order Aggregate]
-    Customer[Customer Aggregate]
-    Supplier[Supplier Aggregate]
-    Product[Product Aggregate]
+%% ==========================================================
+%% PCS Core
+%%
+%% Diagram:
+%% Aggregate Roots
+%%
+%% Version:
+%% 1.0.0
+%%
+%% Status:
+%% Draft
+%%
+%% Related Document:
+%% docs/domain-model/aggregate-roots.md
+%%
+%% Description:
+%% Defines the Aggregate Roots of PCS Core together with
+%% their ownership boundaries and cross-aggregate references.
+%%
+%% Standard:
+%% PCS Core Mermaid Standard v1.0
+%%
+%% ==========================================================
 
----
-title: PCS Core - Aggregate Roots
-version: 1.0.0
-status: Draft
-related-document: docs/domain-model/aggregate-roots.md
-last-updated: 2026-06-29
----
-
-flowchart TB
+flowchart LR
 
 %% ==========================================================
-%% PCS Core Aggregate Roots
+%% Aggregate Roots
 %% ==========================================================
 
-subgraph COM["AGR-001 Commerce"]
-    STORE["Store<br/>(Aggregate Root)"]
+STORE["AGR-001 Store"]
 
-    SETTINGS["Store Settings"]
-    CURRENCY["Currencies"]
-    TAX["Tax Configuration"]
-    SHIPPING["Shipping Methods"]
-    PAYMENT["Payment Methods"]
+PRODUCT["AGR-002 Product"]
 
-    STORE --> SETTINGS
-    STORE --> CURRENCY
-    STORE --> TAX
-    STORE --> SHIPPING
-    STORE --> PAYMENT
-end
+SUPPLIER["AGR-003 Supplier"]
 
+CUSTOMER["AGR-004 Customer"]
 
-subgraph CAT["AGR-002 Catalog"]
-    PRODUCT["Product<br/>(Aggregate Root)"]
+ORDER["AGR-005 Order"]
 
-    VARIANT["Product Variant"]
-    ATTRIBUTE["Attribute"]
-    ATTRIBUTEVALUE["Attribute Value"]
-    MEDIA["Media"]
+PAGE["AGR-006 Page"]
 
-    PRODUCT --> VARIANT
-    PRODUCT --> ATTRIBUTE
-    ATTRIBUTE --> ATTRIBUTEVALUE
-    PRODUCT --> MEDIA
-end
+%% ==========================================================
+%% Commerce Aggregate
+%% ==========================================================
 
+STORE --> SETTINGS["Store Settings"]
 
-subgraph SUP["AGR-003 Supply Chain"]
-    SUPPLIER["Supplier<br/>(Aggregate Root)"]
+STORE --> CURRENCY["Currency"]
 
-    SUPPLIERPRODUCT["Supplier Product"]
-    FEED["Supplier Feed"]
-    IMPORT["Import Job"]
-    INVENTORY["Inventory"]
+STORE --> TAX["Tax Rate"]
 
-    SUPPLIER --> SUPPLIERPRODUCT
-    SUPPLIER --> FEED
-    SUPPLIER --> IMPORT
-    SUPPLIER --> INVENTORY
-end
+STORE --> SHIPPING["Shipping Method"]
 
+STORE --> PAYMENTMETHOD["Payment Method"]
 
-subgraph CUS["AGR-004 Customers"]
-    CUSTOMER["Customer<br/>(Aggregate Root)"]
+%% ==========================================================
+%% Catalog Aggregate
+%% ==========================================================
 
-    ADDRESS["Address"]
-    CART["Shopping Cart"]
-    CARTITEM["Cart Item"]
-    WISHLIST["Wishlist"]
+PRODUCT --> VARIANT["Product Variant"]
 
-    CUSTOMER --> ADDRESS
-    CUSTOMER --> CART
-    CART --> CARTITEM
-    CUSTOMER --> WISHLIST
-end
+PRODUCT --> ATTRIBUTE["Attribute"]
 
+ATTRIBUTE --> ATTRIBUTEVALUE["Attribute Value"]
 
-subgraph SAL["AGR-005 Sales"]
-    ORDER["Order<br/>(Aggregate Root)"]
+PRODUCT --> MEDIA["Media"]
 
-    ORDERITEM["Order Item"]
-    SHIPMENT["Shipment"]
-    PAYMENTREC["Payment"]
-    REFUND["Refund"]
+%% ==========================================================
+%% Supply Chain Aggregate
+%% ==========================================================
 
-    ORDER --> ORDERITEM
-    ORDER --> PAYMENTREC
-    ORDER --> SHIPMENT
-    ORDER --> REFUND
-end
+SUPPLIER --> SUPPLIERPRODUCT["Supplier Product"]
 
+SUPPLIER --> SUPPLIERFEED["Supplier Feed"]
 
-subgraph CON["AGR-006 Content"]
-    PAGE["Page<br/>(Aggregate Root)"]
+SUPPLIER --> IMPORTJOB["Import Job"]
 
-    HERO["Hero"]
-    BANNER["Banner"]
-    NAV["Navigation"]
-    SEO["SEO Metadata"]
+SUPPLIER --> INVENTORY["Inventory"]
 
-    PAGE --> HERO
-    PAGE --> BANNER
-    PAGE --> NAV
-    PAGE --> SEO
-end
+%% ==========================================================
+%% Customer Aggregate
+%% ==========================================================
 
+CUSTOMER --> ADDRESS["Address"]
+
+CUSTOMER --> SHOPPINGCART["Shopping Cart"]
+
+SHOPPINGCART --> CARTITEM["Cart Item"]
+
+CUSTOMER --> WISHLIST["Wishlist"]
+
+%% ==========================================================
+%% Sales Aggregate
+%% ==========================================================
+
+ORDER --> ORDERITEM["Order Item"]
+
+ORDER --> PAYMENT["Payment"]
+
+ORDER --> SHIPMENT["Shipment"]
+
+ORDER --> REFUND["Refund"]
+
+%% ==========================================================
+%% Content Aggregate
+%% ==========================================================
+
+PAGE --> HERO["Hero"]
+
+PAGE --> BANNER["Banner"]
+
+PAGE --> NAVIGATION["Navigation"]
+
+PAGE --> SEO["SEO Metadata"]
 
 %% ==========================================================
 %% Cross Aggregate References
-%% (Dashed lines indicate references only)
 %% ==========================================================
 
-PRODUCT -. references .-> SUPPLIERPRODUCT
+SUPPLIERPRODUCT -. References .-> VARIANT
 
-SUPPLIERPRODUCT -. supplies .-> VARIANT
+ORDERITEM -. References .-> VARIANT
 
-CUSTOMER -. places .-> ORDER
+CARTITEM -. References .-> VARIANT
 
-ORDERITEM -. references .-> VARIANT
-
-PAGE -. promotes .-> PRODUCT
-
-STORE -. configures .-> PRODUCT
-STORE -. configures .-> SUPPLIER
-STORE -. configures .-> CUSTOMER
-STORE -. configures .-> ORDER
-
+PAGE -. References .-> PRODUCT
 
 %% ==========================================================
 %% Legend
+%%
+%% -->   Ownership
+%% -.->  Reference / Association
+%% ==>   Workflow / Process
 %% ==========================================================
 
-classDef aggregate fill:#DCEEFF,stroke:#003366,stroke-width:3px;
-classDef entity fill:#F8F8F8,stroke:#888,stroke-width:1px;
+%% ==========================================================
+%% Styles
+%% ==========================================================
 
-class STORE,PRODUCT,SUPPLIER,CUSTOMER,ORDER,PAGE aggregate;
+classDef aggregate fill:#DCEEFF,stroke:#003366,stroke-width:3px
 
-class SETTINGS,CURRENCY,TAX,SHIPPING,PAYMENT,
-VARIANT,ATTRIBUTE,ATTRIBUTEVALUE,MEDIA,
-SUPPLIERPRODUCT,FEED,IMPORT,INVENTORY,
-ADDRESS,CART,CARTITEM,WISHLIST,
-ORDERITEM,SHIPMENT,PAYMENTREC,REFUND,
-HERO,BANNER,NAV,SEO entity;
+classDef entity fill:#F8F8F8,stroke:#888888,stroke-width:1px
+
+class STORE aggregate
+class PRODUCT aggregate
+class SUPPLIER aggregate
+class CUSTOMER aggregate
+class ORDER aggregate
+class PAGE aggregate
+
+class SETTINGS entity
+class CURRENCY entity
+class TAX entity
+class SHIPPING entity
+class PAYMENTMETHOD entity
+
+class VARIANT entity
+class ATTRIBUTE entity
+class ATTRIBUTEVALUE entity
+class MEDIA entity
+
+class SUPPLIERPRODUCT entity
+class SUPPLIERFEED entity
+class IMPORTJOB entity
+class INVENTORY entity
+
+class ADDRESS entity
+class SHOPPINGCART entity
+class CARTITEM entity
+class WISHLIST entity
+
+class ORDERITEM entity
+class PAYMENT entity
+class SHIPMENT entity
+class REFUND entity
+
+class HERO entity
+class BANNER entity
+class NAVIGATION entity
+class SEO entity

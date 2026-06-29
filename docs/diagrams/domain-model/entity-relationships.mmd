@@ -1,5 +1,125 @@
-erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    ORDER ||--|{ ORDER_ITEM : contains
-    PRODUCT ||--o{ ORDER_ITEM : appears_in
-    SUPPLIER ||--o{ PRODUCT : supplies
+%% ==========================================================
+%% PCS Core
+%%
+%% Diagram:
+%% Catalog Domain Entity Relationships
+%%
+%% Version:
+%% 1.0.0
+%%
+%% Status:
+%% Draft
+%%
+%% Related Document:
+%% docs/domain-model/entity-catalogue/catalog/
+%%
+%% Description:
+%% Defines the business relationships within the
+%% Catalog Domain.
+%%
+%% Standard:
+%% PCS Core Mermaid Standard v1.0
+%%
+%% ==========================================================
+
+flowchart TB
+
+%% ==========================================================
+%% Catalog Domain
+%% ==========================================================
+
+SPORT["ENT-100 Sport"]
+
+CATEGORY["ENT-101 Category"]
+
+BRAND["ENT-102 Brand"]
+
+PRODUCT["ENT-103 Product"]
+
+VARIANT["ENT-104 Product Variant"]
+
+ATTRIBUTE["ENT-105 Attribute"]
+
+ATTRIBUTEVALUE["ENT-106 Attribute Value"]
+
+MEDIA["ENT-107 Media"]
+
+%% ==========================================================
+%% Ownership Relationships
+%% ==========================================================
+
+PRODUCT --> VARIANT
+
+PRODUCT --> ATTRIBUTE
+
+ATTRIBUTE --> ATTRIBUTEVALUE
+
+PRODUCT --> MEDIA
+
+%% ==========================================================
+%% Reference Relationships
+%% ==========================================================
+
+SPORT -. Classifies .-> PRODUCT
+
+CATEGORY -. Categorises .-> PRODUCT
+
+BRAND -. Brands .-> PRODUCT
+
+ATTRIBUTEVALUE -. Describes .-> VARIANT
+
+MEDIA -. Illustrates .-> VARIANT
+
+%% ==========================================================
+%% Future Cross-Domain References
+%%
+%% These entities belong to other bounded contexts.
+%% They are included only to show future integration
+%% points and are not owned by the Catalog Domain.
+%% ==========================================================
+
+SUPPLIERPRODUCT["ENT-203 Supplier Product"]
+
+INVENTORY["ENT-205 Inventory"]
+
+CARTITEM["ENT-304 Cart Item"]
+
+ORDERITEM["ENT-401 Order Item"]
+
+SUPPLIERPRODUCT -. References .-> VARIANT
+
+INVENTORY -. References .-> VARIANT
+
+CARTITEM -. References .-> VARIANT
+
+ORDERITEM -. References .-> VARIANT
+
+%% ==========================================================
+%% Legend
+%%
+%% -->   Ownership
+%% -.->  Reference / Association
+%% ==>   Dependency / Process Flow
+%% ==========================================================
+
+%% ==========================================================
+%% Styles
+%% ==========================================================
+
+classDef aggregate fill:#DCEEFF,stroke:#003366,stroke-width:3px
+
+classDef entity fill:#F8F8F8,stroke:#888888,stroke-width:1px
+
+class PRODUCT aggregate
+
+class SPORT entity
+class CATEGORY entity
+class BRAND entity
+class VARIANT entity
+class ATTRIBUTE entity
+class ATTRIBUTEVALUE entity
+class MEDIA entity
+class SUPPLIERPRODUCT entity
+class INVENTORY entity
+class CARTITEM entity
+class ORDERITEM entity

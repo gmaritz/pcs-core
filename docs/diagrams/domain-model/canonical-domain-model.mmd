@@ -1,0 +1,91 @@
+%% ==========================================================
+%% PCS Core
+%%
+%% Diagram:
+%% Canonical Domain Model
+%%
+%% Version:
+%% 1.0.0
+%%
+%% Status:
+%% Draft
+%%
+%% Related Document:
+%% docs/domain-model/canonical-domain-model.md
+%%
+%% Description:
+%% High-level business architecture showing the six
+%% bounded domains of PCS Core and their relationships.
+%%
+%% Standard:
+%% PCS Core Mermaid Standard v1.0
+%%
+%% ==========================================================
+
+flowchart LR
+
+%% ==========================================================
+%% Business Domains
+%% ==========================================================
+
+COMMERCE["DOM-001
+Commerce"]
+
+CATALOG["DOM-002
+Catalog"]
+
+SUPPLY["DOM-003
+Supply Chain"]
+
+CUSTOMERS["DOM-004
+Customers"]
+
+SALES["DOM-005
+Sales"]
+
+CONTENT["DOM-006
+Content"]
+
+%% ==========================================================
+%% Business Relationships
+%% ==========================================================
+
+COMMERCE -. Configures .-> CATALOG
+
+COMMERCE -. Configures .-> SUPPLY
+
+COMMERCE -. Configures .-> CUSTOMERS
+
+COMMERCE -. Configures .-> SALES
+
+COMMERCE -. Configures .-> CONTENT
+
+CATALOG --> SUPPLY
+
+SUPPLY --> SALES
+
+CUSTOMERS --> SALES
+
+CONTENT -. Promotes .-> CATALOG
+
+CONTENT -. Engages .-> CUSTOMERS
+
+%% ==========================================================
+%% Legend
+%%
+%% -->   Business Dependency
+%% -.->  Business Support / Association
+%% ==>   Process Flow (reserved for workflow diagrams)
+%% ==========================================================
+
+%% ==========================================================
+%% Styles
+%% ==========================================================
+
+classDef core fill:#DCEEFF,stroke:#003366,stroke-width:3px
+
+classDef support fill:#F8F8F8,stroke:#888888,stroke-width:1px
+
+class CATALOG,SUPPLY,CUSTOMERS,SALES core
+
+class COMMERCE,CONTENT support
