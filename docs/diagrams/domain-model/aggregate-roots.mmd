@@ -1,0 +1,148 @@
+flowchart TD
+    Order[Order Aggregate]
+    Customer[Customer Aggregate]
+    Supplier[Supplier Aggregate]
+    Product[Product Aggregate]
+
+---
+title: PCS Core - Aggregate Roots
+version: 1.0.0
+status: Draft
+related-document: docs/domain-model/aggregate-roots.md
+last-updated: 2026-06-29
+---
+
+flowchart TB
+
+%% ==========================================================
+%% PCS Core Aggregate Roots
+%% ==========================================================
+
+subgraph COM["AGR-001 Commerce"]
+    STORE["Store<br/>(Aggregate Root)"]
+
+    SETTINGS["Store Settings"]
+    CURRENCY["Currencies"]
+    TAX["Tax Configuration"]
+    SHIPPING["Shipping Methods"]
+    PAYMENT["Payment Methods"]
+
+    STORE --> SETTINGS
+    STORE --> CURRENCY
+    STORE --> TAX
+    STORE --> SHIPPING
+    STORE --> PAYMENT
+end
+
+
+subgraph CAT["AGR-002 Catalog"]
+    PRODUCT["Product<br/>(Aggregate Root)"]
+
+    VARIANT["Product Variant"]
+    ATTRIBUTE["Attribute"]
+    ATTRIBUTEVALUE["Attribute Value"]
+    MEDIA["Media"]
+
+    PRODUCT --> VARIANT
+    PRODUCT --> ATTRIBUTE
+    ATTRIBUTE --> ATTRIBUTEVALUE
+    PRODUCT --> MEDIA
+end
+
+
+subgraph SUP["AGR-003 Supply Chain"]
+    SUPPLIER["Supplier<br/>(Aggregate Root)"]
+
+    SUPPLIERPRODUCT["Supplier Product"]
+    FEED["Supplier Feed"]
+    IMPORT["Import Job"]
+    INVENTORY["Inventory"]
+
+    SUPPLIER --> SUPPLIERPRODUCT
+    SUPPLIER --> FEED
+    SUPPLIER --> IMPORT
+    SUPPLIER --> INVENTORY
+end
+
+
+subgraph CUS["AGR-004 Customers"]
+    CUSTOMER["Customer<br/>(Aggregate Root)"]
+
+    ADDRESS["Address"]
+    CART["Shopping Cart"]
+    CARTITEM["Cart Item"]
+    WISHLIST["Wishlist"]
+
+    CUSTOMER --> ADDRESS
+    CUSTOMER --> CART
+    CART --> CARTITEM
+    CUSTOMER --> WISHLIST
+end
+
+
+subgraph SAL["AGR-005 Sales"]
+    ORDER["Order<br/>(Aggregate Root)"]
+
+    ORDERITEM["Order Item"]
+    SHIPMENT["Shipment"]
+    PAYMENTREC["Payment"]
+    REFUND["Refund"]
+
+    ORDER --> ORDERITEM
+    ORDER --> PAYMENTREC
+    ORDER --> SHIPMENT
+    ORDER --> REFUND
+end
+
+
+subgraph CON["AGR-006 Content"]
+    PAGE["Page<br/>(Aggregate Root)"]
+
+    HERO["Hero"]
+    BANNER["Banner"]
+    NAV["Navigation"]
+    SEO["SEO Metadata"]
+
+    PAGE --> HERO
+    PAGE --> BANNER
+    PAGE --> NAV
+    PAGE --> SEO
+end
+
+
+%% ==========================================================
+%% Cross Aggregate References
+%% (Dashed lines indicate references only)
+%% ==========================================================
+
+PRODUCT -. references .-> SUPPLIERPRODUCT
+
+SUPPLIERPRODUCT -. supplies .-> VARIANT
+
+CUSTOMER -. places .-> ORDER
+
+ORDERITEM -. references .-> VARIANT
+
+PAGE -. promotes .-> PRODUCT
+
+STORE -. configures .-> PRODUCT
+STORE -. configures .-> SUPPLIER
+STORE -. configures .-> CUSTOMER
+STORE -. configures .-> ORDER
+
+
+%% ==========================================================
+%% Legend
+%% ==========================================================
+
+classDef aggregate fill:#DCEEFF,stroke:#003366,stroke-width:3px;
+classDef entity fill:#F8F8F8,stroke:#888,stroke-width:1px;
+
+class STORE,PRODUCT,SUPPLIER,CUSTOMER,ORDER,PAGE aggregate;
+
+class SETTINGS,CURRENCY,TAX,SHIPPING,PAYMENT,
+VARIANT,ATTRIBUTE,ATTRIBUTEVALUE,MEDIA,
+SUPPLIERPRODUCT,FEED,IMPORT,INVENTORY,
+ADDRESS,CART,CARTITEM,WISHLIST,
+ORDERITEM,SHIPMENT,PAYMENTREC,REFUND,
+HERO,BANNER,NAV,SEO entity;
