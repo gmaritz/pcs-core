@@ -94,6 +94,14 @@ enum InventoryStatus {
   DISCONTINUED
 }
 
+enum SpecificationDataType {
+  TEXT
+  INTEGER
+  DECIMAL
+  BOOLEAN
+  DATE
+}
+
 // ==========================================================
 // COMMERCE
 // ==========================================================
@@ -447,6 +455,8 @@ model Sport {
 
   brands Brand[]
 
+  specifications Specification[]
+
   // ========================================================
   // Indexes
   // ========================================================
@@ -665,7 +675,7 @@ model Product {
 
   variants ProductVariant[]
 
-  attributes Attribute[]
+  productSpecifications ProductSpecification[]
 
   media Media[]
 
@@ -719,6 +729,8 @@ model ProductVariant {
 
   sellingPrice Decimal? @db.Decimal(10,2)
 
+  shippingWeight Decimal? @db.Decimal(8,2)
+
   isDefault Boolean @default(false)
 
   // ========================================================
@@ -749,10 +761,6 @@ model ProductVariant {
 
   priceHistory PriceHistory[]
 
-  cartItems CartItem[]
-
-  orderItems OrderItem[]
-
   // ========================================================
   // Indexes
   // ========================================================
@@ -772,8 +780,751 @@ model ProductVariant {
 
 
 // ==========================================================
+// SPECIFICATION
+// ==========================================================
+
+model Specification {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Identity
+  // ========================================================
+
+  name String
+
+  code String @unique
+
+  slug String @unique
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  dataType SpecificationDataType
+
+  unit String?
+
+  description String?
+
+  displayOrder Int @default(0)
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  sportId String
+
+  sport Sport @relation(fields: [sportId], references: [id])
+
+  productSpecifications ProductSpecification[]
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([sportId])
+
+  @@index([displayOrder])
+
+  @@index([name])
+
+  @@index([status])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("specifications")
+}
+
+
+// ==========================================================
+// PRODUCT SPECIFICATION
+// ==========================================================
+
+model ProductSpecification {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Product Value
+  // ========================================================
+
+  value String
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  productId String
+
+  product Product @relation(fields: [productId], references: [id])
+
+  specificationId String
+
+  specification Specification @relation(fields: [specificationId], references: [id])
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([productId])
+
+  @@index([specificationId])
+
+  @@unique([productId, specificationId])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("product_specifications")
+}
+
+
+// ==========================================================
+// MEDIA
+// ==========================================================
+
+model Media {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  url String
+
+  altText String?
+
+  displayOrder Int @default(0)
+
+  isPrimary Boolean @default(false)
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  productId String
+
+  product Product @relation(fields: [productId], references: [id])
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([productId])
+
+  @@index([displayOrder])
+
+  @@index([status])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("media")
+}
+
+
+
+
+// ==========================================================
 // SUPPLY CHAIN
 // ==========================================================
+
+
+// ==========================================================
+// SUPPLIER
+// ==========================================================
+
+model Supplier {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Identity
+  // ========================================================
+
+  name String
+
+  code String @unique
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  website String?
+
+  email String?
+
+  phone String?
+
+  description String?
+
+  displayOrder Int @default(0)
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  supplierFeeds SupplierFeed[]
+
+  importJobs ImportJob[]
+
+  supplierProducts SupplierProduct[]
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([displayOrder])
+
+  @@index([name])
+
+  @@index([status])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("suppliers")
+}
+
+
+// ==========================================================
+// WAREHOUSE
+// ==========================================================
+
+model Warehouse {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Identity
+  // ========================================================
+
+  name String
+
+  code String @unique
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  description String?
+
+  displayOrder Int @default(0)
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  inventory Inventory[]
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([displayOrder])
+
+  @@index([name])
+
+  @@index([status])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("warehouses")
+}
+
+
+// ==========================================================
+// SUPPLIER FEED
+// ==========================================================
+
+model SupplierFeed {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Identity
+  // ========================================================
+
+  name String
+
+  code String @unique
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  feedUrl String?
+
+  description String?
+
+  displayOrder Int @default(0)
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  supplierId String
+
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+
+  importJobs ImportJob[]
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([supplierId])
+
+  @@index([displayOrder])
+
+  @@index([status])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("supplier_feeds")
+}
+
+
+// ==========================================================
+// IMPORT JOB
+// ==========================================================
+
+model ImportJob {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  startedAt DateTime?
+
+  completedAt DateTime?
+
+  recordsProcessed Int @default(0)
+
+  recordsImported Int @default(0)
+
+  recordsFailed Int @default(0)
+
+  errorMessage String?
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status ImportJobStatus @default(PENDING)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  supplierId String
+
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+
+  supplierFeedId String
+
+  supplierFeed SupplierFeed @relation(fields: [supplierFeedId], references: [id])
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([supplierId])
+
+  @@index([supplierFeedId])
+
+  @@index([status])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("import_jobs")
+}
+
+
+// ==========================================================
+// SUPPLIER PRODUCT
+// ==========================================================
+
+model SupplierProduct {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Supplier Identity
+  // ========================================================
+
+  supplierSku String
+
+  supplierBarcode String?
+
+  // ========================================================
+  // Supplier Information
+  // ========================================================
+
+  supplierName String?
+
+  supplierDescription String?
+
+  supplierPrice Decimal? @db.Decimal(10,2)
+
+  currencyCode String?
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  supplierId String
+
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+
+  productVariantId String
+
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([supplierId])
+
+  @@index([productVariantId])
+
+  @@unique([supplierId, supplierSku])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("supplier_products")
+}
+
+
+// ==========================================================
+// INVENTORY
+// ==========================================================
+
+model Inventory {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Inventory Information
+  // ========================================================
+
+  quantityOnHand Int @default(0)
+
+  quantityReserved Int @default(0)
+
+  reorderLevel Int?
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status InventoryStatus @default(IN_STOCK)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  warehouseId String
+
+  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+
+  productVariantId String
+
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
+
+  inventoryMovements InventoryMovement[]
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([warehouseId])
+
+  @@index([productVariantId])
+
+  @@index([status])
+
+  @@unique([warehouseId, productVariantId])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("inventory")
+}
+
+
+// ==========================================================
+// INVENTORY MOVEMENT
+// ==========================================================
+
+model InventoryMovement {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Movement Information
+  // ========================================================
+
+  quantity Int
+
+  reason String
+
+  reference String?
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  inventoryId String
+
+  inventory Inventory @relation(fields: [inventoryId], references: [id])
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([inventoryId])
+
+  @@index([createdAt])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("inventory_movements")
+}
+
+
+// ==========================================================
+// PRICE HISTORY
+// ==========================================================
+
+model PriceHistory {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Pricing Information
+  // ========================================================
+
+  costPrice Decimal @db.Decimal(10,2)
+
+  sellingPrice Decimal? @db.Decimal(10,2)
+
+  effectiveFrom DateTime @default(now())
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  productVariantId String
+
+  productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([productVariantId])
+
+  @@index([effectiveFrom])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("price_history")
+}
+
+
+
 
 // ==========================================================
 // CUSTOMERS
