@@ -1,13 +1,13 @@
 ---
 title: Product Architecture Review
-version: 2.0.0
-status: Approved
+version: 2.1.0
+status: APPROVED
 author: PCS Core Architecture
 last-updated: 2026-06-30
 related-documents:
   - canonical-domain-model.md
-  - variant-attribute-strategy.md
   - entity-catalogue.md
+  - variant-attribute-strategy.md
 ---
 
 # Product Architecture Review
@@ -16,17 +16,15 @@ related-documents:
 
 # Purpose
 
-This document defines the architectural responsibilities of the Product Aggregate within PCS Core.
+This document defines the responsibilities of the Product Aggregate within PCS Core.
 
-It explains why the Product model exists, what information belongs to it, and how it interacts with Product Variants, Suppliers, Inventory and the remainder of the platform.
-
-The Product Aggregate is the central business aggregate of the Catalog Domain.
+It explains how Products, Product Variants, Product Specifications and Specification Definitions work together to create a scalable catalogue architecture suitable for a multi-supplier ecommerce platform.
 
 ---
 
 # Product Philosophy
 
-PCS Core separates catalogue information from commercial information.
+PCS Core deliberately separates catalogue information from commercial information.
 
 Customers browse Products.
 
@@ -36,13 +34,15 @@ Suppliers supply Product Variants.
 
 Inventory tracks Product Variants.
 
-This separation keeps catalogue information stable while allowing commercial information to change independently.
+Pricing belongs to Product Variants.
+
+This separation keeps catalogue information stable while allowing commercial information to evolve independently.
 
 ---
 
 # Product Classification
 
-Every Product is classified by two independent business dimensions.
+Every Product is classified using two independent business dimensions.
 
 ```
 Sport
@@ -50,9 +50,9 @@ Sport
 ├── Category
 │
 └── Brand
-       │
-       ▼
-    Product
+        │
+        ▼
+     Product
 ```
 
 A Product references:
@@ -62,34 +62,55 @@ A Product references:
 
 The Sport is derived through the Category.
 
-This removes redundant data while ensuring every Product belongs to exactly one Sport.
+This avoids redundant relationships while ensuring every Product belongs to a single Sport.
+
+---
+
+# Aggregate Structure
+
+```
+Product
+│
+├── Product Variant
+├── Product Specification
+└── Media
+
+Specification Definition
+        │
+        ▼
+Product Specification
+```
+
+The Product is the Aggregate Root.
+
+Specification Definitions are reusable Master Data and are not owned by the Product Aggregate.
 
 ---
 
 # Product Responsibilities
 
-The Product owns all catalogue information that is shared across every purchasable variation.
+A Product owns all information shared across every purchasable variation.
 
 Examples include:
 
 - Product Name
-- Brand
+- URL Slug
 - Category
+- Brand
+- Marketing Description
 - Short Description
-- Long Description
-- Marketing Content
+- Featured Status
 - Product Specifications
-- SEO Metadata
 - Product Media
 
-A Product does **not** own:
+A Product does not own:
 
 - SKU
 - Barcode
-- Inventory
-- Selling Price
-- Cost Price
 - Supplier SKU
+- Inventory
+- Cost Price
+- Selling Price
 - Warehouse Stock
 
 These belong to the Product Variant.
@@ -98,7 +119,7 @@ These belong to the Product Variant.
 
 # Product Variant Responsibilities
 
-A Product Variant represents a specific purchasable item.
+A Product Variant represents one purchasable item.
 
 Examples:
 
@@ -113,39 +134,63 @@ Each Product Variant owns:
 
 - SKU
 - Barcode
-- Variant Values
-- Inventory
-- Supplier Mapping
 - Cost Price
 - Selling Price
-- Weight (Shipping)
-- Dimensions
+- Inventory
+- Supplier Mapping
 - Commercial Status
 
-Every Product Variant can be stocked independently.
+Each Product Variant may be stocked independently.
 
 ---
 
-# Aggregate Ownership
+# Specification Definitions
 
-```
-Product
-│
-├── Product Variant
-├── Attribute
-├── Attribute Value
-└── Media
-```
+Specification Definitions are reusable master data.
 
-The Product is the Aggregate Root.
+Examples:
 
-All modifications to Product Variants, Attributes and Media occur through the Product Aggregate.
+- Weight
+- Balance
+- Head Size
+- Beam Width
+- Material
+- String Pattern
+
+Each Specification Definition defines:
+
+- Name
+- Code
+- Slug
+- Data Type
+- Unit
+- Description
+
+Specification Definitions define what may be recorded.
+
+They never contain product-specific values.
+
+---
+
+# Product Specifications
+
+Product Specifications connect a Product with a Specification Definition.
+
+Example:
+
+| Product | Specification | Value |
+|----------|---------------|------|
+| Wilson Blade 98 | Weight | 305 |
+| Wilson Blade 98 | Balance | 320 |
+| Wilson Blade 98 | Head Size | 98 |
+
+Each Product may contain only one value for a given Specification Definition.
 
 ---
 
 # Supplier Integration
 
-Supplier integrations never reference Products directly.
+Supplier integrations reference Product Variants.
 
 ```
 Supplier
@@ -163,7 +208,7 @@ Supplier Product
 Product Variant
 ```
 
-This allows multiple suppliers to sell the same Product while maintaining a single canonical catalogue entry.
+This enables multiple suppliers to provide the same Product while maintaining a single canonical catalogue entry.
 
 ---
 
@@ -219,9 +264,9 @@ Examples include:
 - Buying Guides
 - Featured Products
 - Homepage Promotions
-- SEO
+- SEO Content
 
-This keeps marketing independent from inventory and pricing.
+This keeps merchandising independent from inventory and pricing.
 
 ---
 
@@ -234,7 +279,9 @@ The Product Architecture follows these principles.
 - Product Variant represents the purchasable item.
 - Category classifies Products.
 - Brand identifies the manufacturer.
-- Sport is derived through the Category.
+- Sport is derived through Category.
+- Specification Definitions are reusable Master Data.
+- Product Specifications store Product values.
 - Suppliers reference Product Variants.
 - Inventory references Product Variants.
 - Orders reference Product Variants.
@@ -246,7 +293,7 @@ The Product Architecture follows these principles.
 
 The Product Aggregate separates catalogue information from commercial information.
 
-This enables PCS Core to support multiple suppliers, multiple warehouses, independent inventory, rich product content and future catalogue expansion while maintaining a single authoritative Product record.
+This architecture enables PCS Core to support multiple suppliers, multiple warehouses, reusable product specifications and future catalogue expansion while maintaining a single authoritative Product record.
 
 ---
 
@@ -254,5 +301,6 @@ This enables PCS Core to support multiple suppliers, multiple warehouses, indepe
 
 | Version | Date | Description |
 |----------|------------|-----------------------------------------------------------|
-| 2.0.0 | 2026-06-30 | Updated Product architecture to use independent Category and Brand classification. Sport is derived through Category. |
-| 1.0.0 | 2026-06-30 | Initial Product Architecture Review. |
+| 2.1.0 | 2026-06-30 | Finalised Product architecture. Introduced Specification Definition and Product Specification terminology. |
+| 2.0.0 | 2026-06-30 | Revised Catalog hierarchy. |
+| 1.0.0 | 2026-06-29 | Initial Product Architecture Review. |

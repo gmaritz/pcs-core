@@ -1,7 +1,7 @@
 ---
 title: PCS Core Aggregate Roots
-version: 2.0.0
-status: Approved
+version: 2.1.0
+status: APPROVED
 last-updated: 2026-06-30
 ---
 
@@ -28,6 +28,26 @@ Store --> PaymentMethod
 end
 
 %% ==========================================================
+%% CATALOG MASTER DATA
+%% ==========================================================
+
+subgraph MASTERDATA["Catalog Master Data"]
+
+Sport["Sport"]
+
+Category["Category"]
+
+Brand["Brand"]
+
+Specification["Specification"]
+
+Sport --> Category
+Sport --> Brand
+Sport --> Specification
+
+end
+
+%% ==========================================================
 %% CATALOG
 %% ==========================================================
 
@@ -35,24 +55,20 @@ subgraph CATALOG["Catalog Domain"]
 
 Product["Product<br/>(Aggregate Root)"]
 
-Sport["Sport"]
-Category["Category"]
-Brand["Brand"]
-Variant["Product Variant"]
-Attribute["Attribute"]
-AttributeValue["Attribute Value"]
+ProductVariant["Product Variant"]
+
+ProductSpecification["Product Specification"]
+
 Media["Media"]
 
-Sport --> Category
-Sport --> Brand
+Category -. classifies .-> Product
+Brand -. manufactures .-> Product
 
-Category --> Product
-Brand --> Product
-
-Product --> Variant
-Product --> Attribute
-Attribute --> AttributeValue
+Product --> ProductVariant
+Product --> ProductSpecification
 Product --> Media
+
+Specification -. defines .-> ProductSpecification
 
 end
 
@@ -65,7 +81,9 @@ subgraph SUPPLYCHAIN["Supply Chain Domain"]
 Supplier["Supplier<br/>(Aggregate Root)"]
 
 SupplierFeed["Supplier Feed"]
+
 ImportJob["Import Job"]
+
 SupplierProduct["Supplier Product"]
 
 Warehouse["Warehouse"]
@@ -80,12 +98,12 @@ Supplier --> SupplierFeed
 Supplier --> ImportJob
 Supplier --> SupplierProduct
 
-Variant -. references .-> SupplierProduct
-Variant -. references .-> Inventory
-Variant -. references .-> PriceHistory
-
 Warehouse --> Inventory
 Inventory --> InventoryMovement
+
+ProductVariant -. referenced by .-> SupplierProduct
+ProductVariant -. stocked as .-> Inventory
+ProductVariant -. priced by .-> PriceHistory
 
 end
 
@@ -98,8 +116,11 @@ subgraph CUSTOMERS["Customer Domain"]
 Customer["Customer<br/>(Aggregate Root)"]
 
 Address["Address"]
+
 ShoppingCart["Shopping Cart"]
+
 CartItem["Cart Item"]
+
 Wishlist["Wishlist"]
 
 Customer --> Address
@@ -107,7 +128,7 @@ Customer --> ShoppingCart
 ShoppingCart --> CartItem
 Customer --> Wishlist
 
-Variant -. references .-> CartItem
+ProductVariant -. selected as .-> CartItem
 
 end
 
@@ -120,8 +141,11 @@ subgraph SALES["Sales Domain"]
 Order["Order<br/>(Aggregate Root)"]
 
 OrderItem["Order Item"]
+
 Shipment["Shipment"]
+
 Payment["Payment"]
+
 Refund["Refund"]
 
 Order --> OrderItem
@@ -129,9 +153,9 @@ Order --> Shipment
 Order --> Payment
 Order --> Refund
 
-Variant -. references .-> OrderItem
-
 Customer -. places .-> Order
+
+ProductVariant -. purchased as .-> OrderItem
 
 end
 
@@ -144,7 +168,9 @@ subgraph CONTENT["Content Domain"]
 Page["Page<br/>(Aggregate Root)"]
 
 Navigation["Navigation"]
+
 Banner["Banner"]
+
 Seo["SEO Metadata"]
 
 Page --> Navigation

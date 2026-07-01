@@ -1,12 +1,11 @@
 ---
 title: PCS Core Entity Catalogue
-version: 2.0.0
-status: Approved
+version: 2.1.0
+status: APPROVED
 author: PCS Core Architecture
 last-updated: 2026-06-30
 related-documents:
   - canonical-domain-model.md
-  - aggregate-roots.md
 ---
 
 # PCS Core Entity Catalogue
@@ -15,11 +14,11 @@ related-documents:
 
 # Purpose
 
-The Entity Catalogue provides a high-level inventory of every business entity within PCS Core.
+The Entity Catalogue provides the definitive inventory of every business entity within PCS Core.
 
-Each entity has its own detailed specification within the Domain Model.
+It serves as the master index for the Domain Model and provides a high-level overview of each business domain.
 
-This document serves as the master index for all domain entities.
+Detailed business rules for each entity are maintained in their individual entity specification documents.
 
 ---
 
@@ -41,207 +40,156 @@ Sales
 Content
 ```
 
-Each domain owns its own Aggregate Root and business entities.
+Each domain owns a single Aggregate Root.
 
 ---
 
 # Commerce Domain
 
-The Commerce Domain configures how the business operates.
-
 ## Aggregate Root
 
-- Store
+Store
+
+## Purpose
+
+The Commerce Domain configures how the ecommerce platform operates.
 
 ## Entities
 
-| Entity | ID | Purpose |
-|---------|----|---------|
-| Store | ENT-001 | Business configuration |
-| Currency | ENT-002 | Supported currencies |
-| Tax Rate | ENT-003 | Tax configuration |
-| Shipping Method | ENT-004 | Shipping configuration |
-| Payment Method | ENT-005 | Payment configuration |
-
-Entity specifications:
-
-```
-entity-catalogue/
-└── commerce/
-    ├── ENT-001-store.md
-    ├── ENT-002-currency.md
-    ├── ENT-003-tax-rate.md
-    ├── ENT-004-shipping-method.md
-    └── ENT-005-payment-method.md
-```
+| ID | Entity | Purpose |
+|----|--------|---------|
+| ENT-001 | Store | Business configuration |
+| ENT-002 | Currency | Supported currencies |
+| ENT-003 | Tax Rate | Tax configuration |
+| ENT-004 | Shipping Method | Shipping configuration |
+| ENT-005 | Payment Method | Payment configuration |
 
 ---
 
 # Catalog Domain
 
-The Catalog Domain manages the canonical product catalogue.
+The Catalog Domain is divided into two logical areas.
 
-## Aggregate Root
+---
 
-- Product
+## Catalog Master Data
 
-## Classification Hierarchy
+Master Data changes infrequently and is reused throughout the catalogue.
 
-```
-Sport
-│
-├── Category
-│
-├── Brand
-│
-└── Product
-        │
-        ├── Product Variant
-        ├── Attribute
-        ├── Attribute Value
-        └── Media
-```
+### Entities
 
-Products reference:
+| ID | Entity | Purpose |
+|----|--------|---------|
+| ENT-100 | Sport | Highest catalogue classification |
+| ENT-101 | Category | Product classification |
+| ENT-102 | Brand | Product manufacturer |
+| ENT-105 | Specification Definition | Reusable product characteristic |
 
-- Category
-- Brand
+---
 
-The Sport is derived through the Category.
+## Catalogue
 
-## Entities
+The operational catalogue contains products and their associated commercial information.
 
-| Entity | ID | Purpose |
-|---------|----|---------|
-| Sport | ENT-100 | Highest-level catalogue classification |
-| Category | ENT-101 | Product classification |
-| Brand | ENT-102 | Product manufacturer |
-| Product | ENT-103 | Canonical catalogue entity |
-| Product Variant | ENT-104 | Purchasable product |
-| Attribute | ENT-105 | Product specification type |
-| Attribute Value | ENT-106 | Product specification value |
-| Media | ENT-107 | Product media assets |
+### Aggregate Root
 
-Entity specifications:
+Product
 
-```
-entity-catalogue/
-└── catalog/
-    ├── ENT-100-sport.md
-    ├── ENT-101-category.md
-    ├── ENT-102-brand.md
-    ├── ENT-103-product.md
-    ├── ENT-104-product-variant.md
-    ├── ENT-105-attribute.md
-    ├── ENT-106-attribute-value.md
-    └── ENT-107-media.md
-```
+### Entities
+
+| ID | Entity | Purpose |
+|----|--------|---------|
+| ENT-103 | Product | Canonical catalogue entry |
+| ENT-104 | Product Variant | Purchasable product |
+| ENT-106 | Product Specification | Product value for a Specification Definition |
+| ENT-107 | Media | Product media assets |
 
 ---
 
 # Supply Chain Domain
 
-The Supply Chain Domain manages supplier integrations and inventory.
-
 ## Aggregate Root
 
-- Supplier
+Supplier
+
+## Purpose
+
+Manages supplier integrations, inventory and pricing history.
 
 ## Entities
 
-| Entity | ID | Purpose |
-|---------|----|---------|
-| Supplier | ENT-200 | Supplier organisation |
-| Supplier Feed | ENT-201 | Supplier data source |
-| Import Job | ENT-202 | Import execution |
-| Supplier Product | ENT-203 | Supplier product mapping |
-| Warehouse | ENT-204 | Stock location |
-| Inventory | ENT-205 | Stock quantity |
-| Inventory Movement | ENT-206 | Inventory audit trail |
-| Price History | ENT-207 | Historical pricing |
-
-Entity specifications:
-
-```
-entity-catalogue/
-└── supply-chain/
-    ├── ENT-200-supplier.md
-    ├── ENT-201-supplier-feed.md
-    ├── ENT-202-import-job.md
-    ├── ENT-203-supplier-product.md
-    ├── ENT-204-warehouse.md
-    ├── ENT-205-inventory.md
-    ├── ENT-206-inventory-movement.md
-    └── ENT-207-price-history.md
-```
+| ID | Entity | Purpose |
+|----|--------|---------|
+| ENT-200 | Supplier | Supplier organisation |
+| ENT-201 | Supplier Feed | Supplier data source |
+| ENT-202 | Import Job | Feed execution |
+| ENT-203 | Supplier Product | Supplier-to-variant mapping |
+| ENT-204 | Warehouse | Inventory location |
+| ENT-205 | Inventory | Current stock |
+| ENT-206 | Inventory Movement | Stock audit trail |
+| ENT-207 | Price History | Historical pricing |
 
 ---
 
 # Customer Domain
 
-The Customer Domain manages customer information.
-
 ## Aggregate Root
 
-- Customer
+Customer
 
 ## Planned Entities
 
-| Entity | ID |
-|---------|----|
-| Customer | ENT-300 |
-| Address | ENT-301 |
-| Shopping Cart | ENT-302 |
-| Cart Item | ENT-303 |
-| Wishlist | ENT-304 |
+| ID | Entity |
+|----|--------|
+| ENT-300 | Customer |
+| ENT-301 | Address |
+| ENT-302 | Shopping Cart |
+| ENT-303 | Cart Item |
+| ENT-304 | Wishlist |
 
 ---
 
 # Sales Domain
 
-The Sales Domain manages commercial transactions.
-
 ## Aggregate Root
 
-- Order
+Order
 
 ## Planned Entities
 
-| Entity | ID |
-|---------|----|
-| Order | ENT-400 |
-| Order Item | ENT-401 |
-| Payment | ENT-402 |
-| Shipment | ENT-403 |
-| Refund | ENT-404 |
+| ID | Entity |
+|----|--------|
+| ENT-400 | Order |
+| ENT-401 | Order Item |
+| ENT-402 | Payment |
+| ENT-403 | Shipment |
+| ENT-404 | Refund |
 
 ---
 
 # Content Domain
 
-The Content Domain manages merchandising and CMS functionality.
-
 ## Aggregate Root
 
-- Page
+Page
 
 ## Planned Entities
 
-| Entity | ID |
-|---------|----|
-| Page | ENT-500 |
-| Navigation | ENT-501 |
-| Banner | ENT-502 |
-| SEO Metadata | ENT-503 |
+| ID | Entity |
+|----|--------|
+| ENT-500 | Page |
+| ENT-501 | Navigation |
+| ENT-502 | Banner |
+| ENT-503 | SEO Metadata |
 
 ---
 
 # Aggregate Roots
 
-PCS Core currently defines the following Aggregate Roots.
+PCS Core defines the following Aggregate Roots.
 
 | Domain | Aggregate Root |
-|----------|----------------|
+|---------|----------------|
 | Commerce | Store |
 | Catalog | Product |
 | Supply Chain | Supplier |
@@ -251,24 +199,52 @@ PCS Core currently defines the following Aggregate Roots.
 
 ---
 
+# Entity Naming Conventions
+
+To ensure consistency across the platform, the following naming conventions are adopted.
+
+### Documentation
+
+Documentation uses business terminology.
+
+Examples:
+
+- Specification Definition
+- Product Specification
+
+### Implementation
+
+The Prisma models use concise implementation names.
+
+| Documentation | Prisma Model |
+|---------------|--------------|
+| Specification Definition | Specification |
+| Product Specification | ProductSpecification |
+
+This provides clear documentation while keeping the implementation concise.
+
+---
+
 # Architectural Principles
 
 The Entity Catalogue follows these principles.
 
 - Every entity belongs to exactly one business domain.
 - Every domain has one Aggregate Root.
-- Every entity has a permanent entity identifier.
-- Detailed specifications are maintained in individual entity documents.
-- Relationships are defined in the Canonical Domain Model.
-- Implementation follows the Entity Catalogue.
+- Master Data is reusable across the platform.
+- Catalogue entities represent customer-facing information.
+- Commercial data belongs to Product Variants.
+- Product Specifications reference reusable Specification Definitions.
+- Relationships are defined by the Canonical Domain Model.
+- Prisma implementation follows this catalogue.
 
 ---
 
 # Summary
 
-The Entity Catalogue is the master index of every business entity within PCS Core.
+The Entity Catalogue is the authoritative index of all business entities within PCS Core.
 
-It provides a stable reference for architecture, implementation, documentation and future expansion while delegating detailed business rules to the individual entity specifications.
+It provides a stable architectural reference for implementation while maintaining a clear separation between Master Data, Catalogue data and operational business domains.
 
 ---
 
@@ -276,5 +252,6 @@ It provides a stable reference for architecture, implementation, documentation a
 
 | Version | Date | Description |
 |----------|------------|-----------------------------------------------------------|
-| 2.0.0 | 2026-06-30 | Updated Catalog hierarchy and converted Entity Catalogue into the master index for all entity specifications. |
+| 2.1.0 | 2026-06-30 | Finalised Catalog terminology. Introduced Specification Definition and Product Specification. |
+| 2.0.0 | 2026-06-30 | Updated Catalog hierarchy. |
 | 1.0.0 | 2026-06-29 | Initial Entity Catalogue. |

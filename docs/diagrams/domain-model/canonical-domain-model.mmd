@@ -1,8 +1,7 @@
 ---
 title: PCS Core Canonical Domain Model
-version: 2.0.0
-status: Approved
-related-document: docs/domain-model/canonical-domain-model.md
+version: 2.1.0
+status: APPROVED
 last-updated: 2026-06-30
 ---
 
@@ -25,27 +24,33 @@ Store "1" --> "*" ShippingMethod
 Store "1" --> "*" PaymentMethod
 
 %% ==========================================================
-%% CATALOG
+%% CATALOG MASTER DATA
 %% ==========================================================
 
 class Sport
 class Category
 class Brand
-class Product
-class ProductVariant
-class Attribute
-class AttributeValue
-class Media
+class Specification
 
 Sport "1" --> "*" Category
 Sport "1" --> "*" Brand
+Sport "1" --> "*" Specification
+
+%% ==========================================================
+%% CATALOG
+%% ==========================================================
+
+class Product
+class ProductVariant
+class ProductSpecification
+class Media
 
 Category "1" --> "*" Product
 Brand "1" --> "*" Product
 
 Product "1" --> "*" ProductVariant
-Product "1" --> "*" Attribute
-Attribute "1" --> "*" AttributeValue
+Product "1" --> "*" ProductSpecification
+Specification "1" --> "*" ProductSpecification
 Product "1" --> "*" Media
 
 %% ==========================================================
@@ -62,8 +67,8 @@ class InventoryMovement
 class PriceHistory
 
 Supplier "1" --> "*" SupplierFeed
-Supplier "1" --> "*" SupplierProduct
 Supplier "1" --> "*" ImportJob
+Supplier "1" --> "*" SupplierProduct
 
 Warehouse "1" --> "*" Inventory
 
@@ -79,9 +84,9 @@ Inventory "1" --> "*" InventoryMovement
 
 class Customer
 class Address
-class Wishlist
 class ShoppingCart
 class CartItem
+class Wishlist
 
 Customer "1" --> "*" Address
 Customer "1" --> "1" ShoppingCart

@@ -1,7 +1,7 @@
 ---
-title: Variant & Attribute Strategy
-version: 2.0.0
-status: Approved
+title: Variant & Specification Strategy
+version: 2.1.0
+status: APPROVED
 author: PCS Core Architecture
 last-updated: 2026-06-30
 related-documents:
@@ -10,13 +10,13 @@ related-documents:
   - entity-catalogue.md
 ---
 
-# Variant & Attribute Strategy
+# Variant & Specification Strategy
 
 ---
 
 # Purpose
 
-This document defines how PCS Core distinguishes between Product Variants and Product Attributes.
+This document defines how PCS Core distinguishes between Product Variants and Product Specifications.
 
 It establishes the architectural rules governing catalogue structure, inventory management, supplier integration and the customer purchasing experience.
 
@@ -32,13 +32,13 @@ The defining question is:
 
 If the answer is **Yes**, it is a **Product Variant**.
 
-If the answer is **No**, it is a **Product Attribute**.
+If the answer is **No**, it is a **Product Specification**.
 
 This principle applies consistently throughout PCS Core.
 
 ---
 
-# Product Classification
+# Catalog Classification
 
 Products are classified using two independent business dimensions.
 
@@ -48,9 +48,9 @@ Sport
 ├── Category
 │
 └── Brand
-       │
-       ▼
-    Product
+        │
+        ▼
+     Product
 ```
 
 A Product references:
@@ -60,27 +60,75 @@ A Product references:
 
 The Sport is derived through the Category.
 
-Variants and Attributes extend the Product rather than replacing its classification.
+---
+
+# Specification Definitions
+
+Specification Definitions are reusable Master Data.
+
+Each Specification Definition defines a characteristic that may be recorded against Products.
+
+Examples include:
+
+- Weight
+- Balance
+- Head Size
+- Beam Width
+- Material
+- Flex Rating
+- String Pattern
+- Surface
+- Player Level
+
+Each Specification Definition contains:
+
+- Name
+- Code
+- Slug
+- Data Type
+- Unit
+- Description
+- Display Order
+
+Specification Definitions never store Product values.
+
+---
+
+# Product Specifications
+
+A Product Specification stores the value of a Specification Definition for a Product.
+
+Example:
+
+| Product | Specification | Value |
+|----------|---------------|------|
+| Wilson Blade 98 | Weight | 305 |
+| Wilson Blade 98 | Balance | 320 |
+| Wilson Blade 98 | Head Size | 98 |
+
+Business Rule:
+
+A Product may contain only one value for each Specification Definition.
 
 ---
 
 # Decision Matrix
 
-| Characteristic | Variant | Attribute | Reason |
-|----------------|:-------:|:---------:|--------|
+| Characteristic | Product Variant | Product Specification | Reason |
+|----------------|:---------------:|:---------------------:|--------|
 | Grip Size | ✅ | ❌ | Customer selects a specific grip size |
 | Shoe Size | ✅ | ❌ | Inventory differs per size |
-| Apparel Size | ✅ | ❌ | Each size has independent stock |
-| Colour (stocked separately) | ✅ | ❌ | Separate inventory and SKU |
-| String Gauge | ✅ | ❌ | Sold as independent products |
-| String Colour | ✅ | ❌ | Different SKU when stocked separately |
-| Product Weight | ❌ | ✅ | Shared technical specification |
-| Balance Point | ❌ | ✅ | Shared product specification |
-| Head Size | ❌ | ✅ | Shared product specification |
-| Beam Width | ❌ | ✅ | Shared product specification |
-| String Pattern | ❌ | ✅ | Shared product specification |
-| Material | ❌ | ✅ | Shared manufacturing specification |
-| Flex Rating | ❌ | ✅ | Shared product specification |
+| Apparel Size | ✅ | ❌ | Separate inventory per size |
+| Colour (stocked separately) | ✅ | ❌ | Separate SKU and inventory |
+| String Gauge | ✅ | ❌ | Separate purchasable product |
+| Weight | ❌ | ✅ | Technical specification |
+| Balance | ❌ | ✅ | Technical specification |
+| Head Size | ❌ | ✅ | Technical specification |
+| Beam Width | ❌ | ✅ | Technical specification |
+| Material | ❌ | ✅ | Product characteristic |
+| Flex Rating | ❌ | ✅ | Product characteristic |
+| String Pattern | ❌ | ✅ | Product characteristic |
+| Surface | ❌ | ✅ | Product characteristic |
 | Player Level | ❌ | ✅ | Marketing information |
 
 ---
@@ -91,47 +139,34 @@ A Product Variant represents one purchasable item.
 
 Each Product Variant has its own commercial identity.
 
-Typical Product Variant fields include:
+Typical fields include:
 
 - SKU
 - Barcode
-- Supplier SKU
-- Variant Values
-- Inventory
-- Selling Price
 - Cost Price
-- Shipping Weight
+- Selling Price
+- Supplier Mapping
+- Inventory
 - Commercial Status
 
 Each Product Variant may be stocked independently.
 
 ---
 
-# Product Attributes
+# Product Specifications
 
-Attributes describe Products.
+Product Specifications describe Products.
 
-Attributes provide technical and marketing information but never create inventory.
+They never create inventory.
 
-Typical examples include:
+They support:
 
-- Weight
-- Head Size
-- Balance
-- Beam Width
-- Material
-- Construction
-- Flex Rating
-- Technology
-- String Pattern
-
-Attributes support:
-
-- Product Specifications
+- Product specifications
+- Product comparison
 - Search
-- Product Filtering
-- Product Comparison
-- Buying Guides
+- Filtering
+- Buying guides
+- SEO
 
 ---
 
@@ -150,13 +185,13 @@ Wilson Blade 98 V9
 - Grip Size 3
 - Grip Size 4
 
-**Attributes**
+**Specifications**
 
-- 305 g
-- 98 sq in
-- 16x19 String Pattern
-- Graphite Construction
-- 320 mm Balance
+- Weight = 305
+- Balance = 320
+- Head Size = 98
+- String Pattern = 16x19
+- Material = Graphite
 
 ---
 
@@ -173,12 +208,11 @@ ASICS Gel Resolution
 - UK 9
 - UK 10
 
-If colours are stocked independently:
+**Specifications**
 
-- White / UK 9
-- Blue / UK 9
-
-Each combination becomes its own Product Variant.
+- Surface = Clay
+- Weight = 385
+- Heel Drop = 10
 
 ---
 
@@ -195,7 +229,11 @@ Nike Dri-FIT Polo
 - Large
 - Extra Large
 
-Colours become Product Variants only when inventory is managed separately.
+**Specifications**
+
+- Material = Polyester
+- Fit = Athletic
+- Sleeve Length = Short
 
 ---
 
@@ -211,21 +249,28 @@ Luxilon ALU Power
 - 1.25 mm
 - 1.30 mm
 
-If reels and sets are sold independently, they also become Product Variants.
+**Specifications**
+
+- Material = Co-polyester
+- Shape = Round
 
 ---
 
 ## Padel Balls
 
-One Product.
+**Product**
 
-One Product Variant.
+HEAD Padel Pro S
 
-Attributes describe:
+**Variants**
 
-- Ball Type
-- Tournament Approval
-- Pressurised or Pressureless
+- Single Can
+- Pack of 3
+
+**Specifications**
+
+- Pressurised = Yes
+- Tournament Approved = Yes
 
 ---
 
@@ -238,9 +283,9 @@ Supplier catalogues typically provide:
 - Supplier SKU
 - Barcode
 - Cost Price
-- Available Inventory
+- Inventory Availability
 
-Supplier feeds never duplicate Product information.
+Supplier feeds never duplicate Product information or Product Specifications.
 
 ---
 
@@ -266,21 +311,9 @@ Customers browse Products.
 
 Customers purchase Product Variants.
 
-Example:
+Specifications help customers compare Products.
 
-```
-Wilson Blade 98 V9
-
-↓
-
-Select Grip Size 3
-
-↓
-
-Add Product Variant to Cart
-```
-
-This creates a clean shopping experience while maintaining accurate inventory.
+Variants represent purchasing options.
 
 ---
 
@@ -291,7 +324,8 @@ Search indexes:
 - Products
 - Categories
 - Brands
-- Attributes
+- Specification Definitions
+- Product Specifications
 
 Typical filters include:
 
@@ -301,10 +335,10 @@ Typical filters include:
 - Head Size
 - Balance
 - Material
-- String Pattern
+- Surface
 - Player Level
 
-Variant values are presented as purchasing options rather than catalogue filters where appropriate.
+Variants are presented as purchasing choices rather than catalogue filters where appropriate.
 
 ---
 
@@ -313,13 +347,13 @@ Variant values are presented as purchasing options rather than catalogue filters
 PCS Core follows these principles.
 
 - Product is the catalogue entity.
-- Product Variant is the purchasable entity.
-- Attributes describe Products.
-- Variants represent customer purchasing choices.
+- Product Variant is the commercial entity.
+- Specification Definitions are reusable Master Data.
+- Product Specifications describe Products.
 - Inventory belongs to Product Variants.
 - Suppliers reference Product Variants.
 - Orders reference Product Variants.
-- Products reference Category and Brand.
+- Products reference Categories and Brands.
 - Sport is derived through Category.
 
 ---
@@ -330,9 +364,11 @@ Products represent what customers browse.
 
 Product Variants represent what customers purchase.
 
-Attributes describe Products.
+Specification Definitions define reusable product characteristics.
 
-This distinction enables a scalable, supplier-friendly and inventory-aware catalogue architecture suitable for long-term growth across all court sports.
+Product Specifications store product-specific values.
+
+This architecture provides a scalable, supplier-friendly and inventory-aware catalogue suitable for long-term growth across all court sports.
 
 ---
 
@@ -340,5 +376,6 @@ This distinction enables a scalable, supplier-friendly and inventory-aware catal
 
 | Version | Date | Description |
 |----------|------------|-----------------------------------------------------------|
-| 2.0.0 | 2026-06-30 | Updated Product classification. Products now reference Category and Brand. Sport is derived through Category. |
-| 1.0.0 | 2026-06-30 | Initial Variant & Attribute Strategy. |
+| 2.1.0 | 2026-06-30 | Final terminology adopted. Introduced Specification Definition and Product Specification concepts. |
+| 2.0.0 | 2026-06-30 | Updated Product classification hierarchy. |
+| 1.0.0 | 2026-06-29 | Initial Variant & Attribute Strategy. |

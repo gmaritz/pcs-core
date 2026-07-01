@@ -1,15 +1,9 @@
 ---
 title: PCS Core Canonical Domain Model
-version: 2.0.0
-status: Approved
+version: 2.1.0
+status: APPROVED
 author: PCS Core Architecture
 last-updated: 2026-06-30
-related-documents:
-  - entity-catalogue.md
-  - aggregate-roots.md
-  - business-rules.md
-  - product-architecture-review.md
-  - variant-attribute-strategy.md
 ---
 
 # PCS Core Canonical Domain Model
@@ -20,22 +14,22 @@ related-documents:
 
 The Canonical Domain Model defines the core business entities of PCS Core and the relationships between them.
 
-It serves as the single source of truth for:
+It is the authoritative reference for:
 
-- Domain modelling
-- Database design
-- Prisma implementation
-- API design
-- Supplier integrations
-- Business rules
+- Domain Modelling
+- Database Design
+- Prisma Schema
+- API Design
+- Supplier Integration
+- Business Rules
 
-Every implementation within PCS Core must conform to this document.
+All implementation within PCS Core must conform to this document.
 
 ---
 
 # Domain Overview
 
-PCS Core is organised into six primary business domains.
+PCS Core is organised into six business domains.
 
 ```
 Commerce
@@ -51,15 +45,19 @@ Sales
 Content
 ```
 
-Each domain owns its own Aggregate Roots and business responsibilities.
+Each domain owns its own Aggregate Root.
 
 ---
 
 # Commerce Domain
 
-The Commerce Domain configures how the business operates.
+The Commerce Domain defines how the business operates.
 
-It contains:
+Aggregate Root:
+
+- Store
+
+Entities:
 
 - Store
 - Currency
@@ -67,17 +65,43 @@ It contains:
 - Shipping Method
 - Payment Method
 
-The Store is the Aggregate Root.
-
 ---
 
 # Catalog Domain
 
-The Catalog Domain represents the products offered by Pro Court Sports.
+The Catalog Domain manages the canonical product catalogue.
 
-It provides a canonical product catalogue shared by supplier integrations, inventory management, ecommerce, search and content management.
+It is divided into two logical areas.
 
-The Catalog Domain separates product classification from product identity.
+## Catalog Master Data
+
+```
+Sport
+
+Category
+
+Brand
+
+Specification Definition
+```
+
+These entities change infrequently and are managed by administrators.
+
+---
+
+## Catalogue
+
+```
+Product
+
+Product Variant
+
+Product Specification
+
+Media
+```
+
+These entities represent the operational catalogue presented to customers.
 
 ---
 
@@ -87,38 +111,37 @@ The Catalog Domain separates product classification from product identity.
 Sport
 │
 ├── Category
-│       │
-│       ▼
-│    Product
-│
 ├── Brand
-│       │
-│       ▼
-│    Product
-│
-└──────────────────────────────
+└── Specification Definition
 
-Product
+Category
+        │
+        ▼
+     Product
+        │
+Brand   │
+   │    │
+   └────┘
         │
         ▼
 Product Variant
         │
-        ├── Attribute
-        ├── Attribute Value
-        └── Media
+        ▼
+Product Specification
+
+Product
+        │
+        ▼
+Media
 ```
 
 ---
 
-# Classification Model
+# Sport
 
-The Catalog Domain uses three independent classification entities.
+Sport is the highest level of catalogue classification.
 
-## Sport
-
-Represents the highest level of catalogue organisation.
-
-Examples include:
+Examples:
 
 - Tennis
 - Padel
@@ -132,58 +155,79 @@ A Sport owns many Brands.
 
 ---
 
-## Category
+# Category
 
-Represents the product type.
+Categories classify products by type.
 
-Examples include:
+Examples:
 
 - Racquets
 - Shoes
-- Balls
 - Strings
 - Bags
+- Balls
 - Apparel
-- Accessories
 
 Every Category belongs to one Sport.
 
 Products belong to one Category.
 
-Categories classify products by function.
-
 ---
 
-## Brand
+# Brand
 
-Represents the manufacturer.
+Brands represent manufacturers.
 
-Examples include:
+Examples:
 
 - Wilson
 - HEAD
-- Babolat
 - Yonex
+- Babolat
 - Tecnifibre
-- Dunlop
 
 Every Brand belongs to one Sport.
 
 Products belong to one Brand.
 
-A Brand may produce products across many Categories.
+A Brand may manufacture products across multiple Categories.
+
+---
+
+# Specification Definition
+
+A Specification Definition defines a reusable product characteristic.
+
+Examples include:
+
+- Weight
+- Balance
+- Head Size
+- Beam Width
+- Material
+- Flex Rating
+- String Pattern
+
+A Specification Definition describes **what** may be recorded.
+
+It does not store values.
+
+Each Specification Definition includes:
+
+- Name
+- Code
+- Slug
+- Data Type
+- Unit
+- Description
 
 ---
 
 # Product
 
-The Product represents the canonical catalogue entry.
+The Product is the Aggregate Root of the Catalog Domain.
 
-Examples:
-
-- Wilson Blade 98 V9
-- HEAD Speed Pro
-- Babolat Pure Aero
+It represents the canonical catalogue entry.
 
 A Product references:
 
@@ -192,26 +236,23 @@ A Product references:
 
 The Sport is derived through the Category.
 
-The Product is the Aggregate Root of the Catalog Domain.
-
 A Product owns:
 
 - Product Variants
-- Attributes
-- Attribute Values
+- Product Specifications
 - Media
 
-A Product does not own inventory.
+A Product does not own:
 
-A Product does not own supplier information.
-
-A Product does not own pricing.
+- Inventory
+- Pricing
+- Supplier Information
 
 ---
 
 # Product Variant
 
-A Product Variant represents the purchasable item.
+A Product Variant represents a purchasable item.
 
 Examples:
 
@@ -222,42 +263,31 @@ Wilson Blade 98 V9
 - Grip Size 3
 - Grip Size 4
 
-Every Product Variant has its own:
+Each Product Variant owns:
 
 - SKU
 - Barcode
-- Supplier mappings
-- Inventory
 - Pricing
-- Cost price
+- Inventory
+- Supplier Mapping
 
 Customers purchase Product Variants.
 
 ---
 
-# Attributes
+# Product Specification
 
-Attributes describe Products.
+A Product Specification stores the value of a Specification Definition for a Product.
 
-Examples:
+Example:
 
-- Weight
-- Balance
-- Head Size
-- Beam Width
-- Material
-- Flex Rating
-- String Pattern
+| Product | Specification | Value |
+|----------|---------------|------|
+| Wilson Blade 98 | Weight | 305 |
+| Wilson Blade 98 | Balance | 320 |
+| Wilson Blade 98 | Head Size | 98 |
 
-Attributes support:
-
-- Product pages
-- Search
-- Filtering
-- Product comparisons
-- Buying guides
-
-Attributes never create inventory.
+A Product may contain only one value for each Specification Definition.
 
 ---
 
@@ -265,22 +295,24 @@ Attributes never create inventory.
 
 Media belongs to Products.
 
-Examples include:
+Examples:
 
-- Product photography
-- Lifestyle photography
-- Technical diagrams
-- Marketing videos
+- Product Photography
+- Lifestyle Images
+- Videos
+- Technical Diagrams
 
-Variant-specific media may be supported in future without changing the overall architecture.
+Media supports merchandising and customer engagement.
 
 ---
 
 # Supply Chain Domain
 
-The Supply Chain Domain manages supplier integrations.
+Aggregate Root:
 
-It contains:
+- Supplier
+
+Entities:
 
 - Supplier
 - Supplier Feed
@@ -291,37 +323,39 @@ It contains:
 - Inventory Movement
 - Price History
 
-Supplier Product references Product Variant.
+Supplier Products reference Product Variants.
 
-Inventory references Product Variant.
+Inventory references Product Variants.
 
-Price History references Product Variant.
+Price History references Product Variants.
 
 ---
 
 # Customer Domain
 
-The Customer Domain manages customer information.
+Aggregate Root:
 
-It contains:
+- Customer
+
+Planned entities:
 
 - Customer
 - Address
-- Wishlist
 - Shopping Cart
 - Cart Item
+- Wishlist
 
-Customers place Orders.
-
-Customers add Product Variants to their carts.
+Customers purchase Product Variants.
 
 ---
 
 # Sales Domain
 
-The Sales Domain manages commercial transactions.
+Aggregate Root:
 
-It contains:
+- Order
+
+Planned entities:
 
 - Order
 - Order Item
@@ -335,61 +369,59 @@ Order Items reference Product Variants.
 
 # Content Domain
 
-The Content Domain manages merchandising.
+Aggregate Root:
 
-It contains:
+- Page
 
-- Pages
+Planned entities:
+
+- Page
 - Navigation
-- Banners
-- SEO
-- Marketing Content
+- Banner
+- SEO Metadata
 
-Content references Products rather than Product Variants.
+Content references Products.
 
 ---
 
 # Aggregate Roots
 
-The Aggregate Roots of PCS Core are:
+PCS Core defines the following Aggregate Roots.
 
-- Store
-- Product
-- Supplier
-- Customer
-- Order
-- Page
-
-Each Aggregate Root enforces the business rules for its own domain.
+| Domain | Aggregate Root |
+|---------|----------------|
+| Commerce | Store |
+| Catalog | Product |
+| Supply Chain | Supplier |
+| Customers | Customer |
+| Sales | Order |
+| Content | Page |
 
 ---
 
 # Architectural Principles
 
-The Canonical Domain Model follows these principles.
+PCS Core follows these principles.
 
 - Store configures Commerce.
 - Sport classifies Categories and Brands.
-- Categories classify products.
-- Brands identify manufacturers.
 - Products reference Categories and Brands.
-- Sport is derived from the Category.
-- Products are catalogue entities.
-- Product Variants are purchasable entities.
+- Sport is derived from Category.
+- Specification Definitions describe reusable product characteristics.
+- Product Specifications store product values.
+- Product Variants represent purchasable items.
 - Suppliers reference Product Variants.
 - Inventory references Product Variants.
 - Orders reference Product Variants.
 - Content references Products.
-- Attributes describe Products.
-- Media belongs to Products.
 
 ---
 
 # Summary
 
-The PCS Core Canonical Domain Model separates business configuration, catalogue management, supplier integration and commerce into well-defined business domains.
+The PCS Core Domain Model separates configuration, catalogue management, supplier integration and commerce into well-defined business domains.
 
-This architecture minimises data duplication, supports multi-supplier ecommerce and provides a scalable foundation for future sports, suppliers, products and sales channels.
+The architecture is normalised, scalable and designed to support a multi-supplier ecommerce platform capable of expanding beyond racquet sports into all court sports.
 
 ---
 
@@ -397,5 +429,6 @@ This architecture minimises data duplication, supports multi-supplier ecommerce 
 
 | Version | Date | Description |
 |----------|------------|-----------------------------------------------------------|
-| 2.0.0 | 2026-06-30 | Revised Catalog architecture. Brands and Categories are independent Sport classifications. Products reference Category and Brand. Sport is derived from Category. |
-| 1.0.0 | 2026-06-29 | Initial Canonical Domain Model. |
+| 2.1.0 | 2026-06-30 | Finalised Catalog architecture. Introduced Specification Definition and Product Specification. Domain Model frozen for implementation. |
+| 2.0.0 | 2026-06-30 | Revised Catalog hierarchy. |
+| 1.0.0 | 2026-06-29 | Initial Domain Model. |

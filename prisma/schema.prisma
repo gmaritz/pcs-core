@@ -412,7 +412,10 @@ model Sport {
   // ========================================================
 
   name String
+
   code String @unique
+
+  slug String @unique
 
   // ========================================================
   // Business Information
@@ -433,6 +436,7 @@ model Sport {
   // ========================================================
 
   createdAt DateTime @default(now())
+
   updatedAt DateTime @updatedAt
 
   // ========================================================
@@ -440,6 +444,8 @@ model Sport {
   // ========================================================
 
   categories Category[]
+
+  brands Brand[]
 
   // ========================================================
   // Indexes
@@ -472,13 +478,16 @@ model Category {
   // ========================================================
 
   name String
+
   code String @unique
+
+  slug String @unique
 
   // ========================================================
   // Business Information
   // ========================================================
 
-  description  String?
+  description String?
 
   displayOrder Int @default(0)
 
@@ -493,6 +502,7 @@ model Category {
   // ========================================================
 
   createdAt DateTime @default(now())
+
   updatedAt DateTime @updatedAt
 
   // ========================================================
@@ -503,7 +513,7 @@ model Category {
 
   sport Sport @relation(fields: [sportId], references: [id])
 
-  brands Brand[]
+  products Product[]
 
   // ========================================================
   // Indexes
@@ -521,6 +531,244 @@ model Category {
 }
 
 
+// ==========================================================
+// BRAND
+// ==========================================================
+
+model Brand {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Identity
+  // ========================================================
+
+  name String
+
+  code String @unique
+
+  slug String @unique
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  description String?
+
+  website String?
+
+  logoUrl String?
+
+  displayOrder Int @default(0)
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  sportId String
+
+  sport Sport @relation(fields: [sportId], references: [id])
+
+  products Product[]
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([sportId])
+
+  @@index([displayOrder])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("brands")
+}
+
+
+// ==========================================================
+// PRODUCT
+// ==========================================================
+
+model Product {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Identity
+  // ========================================================
+
+  name String
+
+  slug String @unique
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  shortDescription String?
+
+  description String?
+
+  isFeatured Boolean @default(false)
+
+  displayOrder Int @default(0)
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  categoryId String
+
+  category Category @relation(fields: [categoryId], references: [id])
+
+  brandId String
+
+  brand Brand @relation(fields: [brandId], references: [id])
+
+  variants ProductVariant[]
+
+  attributes Attribute[]
+
+  media Media[]
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([categoryId])
+
+  @@index([brandId])
+
+  @@index([displayOrder])
+
+  @@index([name])
+
+  @@index([status])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("products")
+}
+
+
+// ==========================================================
+// PRODUCT VARIANT
+// ==========================================================
+
+model ProductVariant {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Commercial Identity
+  // ========================================================
+
+  sku String @unique
+
+  barcode String? @unique
+
+  // ========================================================
+  // Commercial Information
+  // ========================================================
+
+  costPrice Decimal? @db.Decimal(10,2)
+
+  sellingPrice Decimal? @db.Decimal(10,2)
+
+  isDefault Boolean @default(false)
+
+  // ========================================================
+  // Status
+  // ========================================================
+
+  status RecordStatus @default(ACTIVE)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  productId String
+
+  product Product @relation(fields: [productId], references: [id])
+
+  supplierProducts SupplierProduct[]
+
+  inventory Inventory[]
+
+  priceHistory PriceHistory[]
+
+  cartItems CartItem[]
+
+  orderItems OrderItem[]
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([productId])
+
+  @@index([sku])
+
+  @@index([status])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("product_variants")
+}
 
 
 // ==========================================================

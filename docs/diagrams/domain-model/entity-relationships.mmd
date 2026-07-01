@@ -1,7 +1,7 @@
 ---
 title: PCS Core Entity Relationships
-version: 2.0.0
-status: Approved
+version: 2.1.0
+status: APPROVED
 last-updated: 2026-06-30
 ---
 
@@ -17,19 +17,24 @@ STORE ||--o{ SHIPPING_METHOD : configures
 STORE ||--o{ PAYMENT_METHOD : configures
 
 %% ==========================================================
-%% CATALOG
+%% CATALOG MASTER DATA
 %% ==========================================================
 
 SPORT ||--o{ CATEGORY : contains
 SPORT ||--o{ BRAND : contains
+SPORT ||--o{ SPECIFICATION : defines
+
+%% ==========================================================
+%% CATALOG
+%% ==========================================================
 
 CATEGORY ||--o{ PRODUCT : classifies
 BRAND ||--o{ PRODUCT : manufactures
 
 PRODUCT ||--o{ PRODUCT_VARIANT : offers
 
-PRODUCT ||--o{ ATTRIBUTE : defines
-ATTRIBUTE ||--o{ ATTRIBUTE_VALUE : contains
+PRODUCT ||--o{ PRODUCT_SPECIFICATION : has
+SPECIFICATION ||--o{ PRODUCT_SPECIFICATION : defines
 
 PRODUCT ||--o{ MEDIA : displays
 
