@@ -1,391 +1,401 @@
-# PCS Core Domain Model
+---
+title: PCS Core Canonical Domain Model
+version: 2.0.0
+status: Approved
+author: PCS Core Architecture
+last-updated: 2026-06-30
+related-documents:
+  - entity-catalogue.md
+  - aggregate-roots.md
+  - business-rules.md
+  - product-architecture-review.md
+  - variant-attribute-strategy.md
+---
 
-# Canonical Domain Model
+# PCS Core Canonical Domain Model
 
 ---
 
-**Document Version:** 1.0.0
+# Purpose
 
-**Document Status:** Draft
+The Canonical Domain Model defines the core business entities of PCS Core and the relationships between them.
 
-**Project Codename:** PCS Core
+It serves as the single source of truth for:
 
-**Project Name:** Pro Court Sports
+- Domain modelling
+- Database design
+- Prisma implementation
+- API design
+- Supplier integrations
+- Business rules
 
-**Author:** Pro Court Sports Engineering
-
-**Related Handbook:** Chapter 04 — Domain Model & Database Architecture
-
-**Related Diagrams**
-
-* Business Domains
-* Canonical Domain Model
-* Aggregate Roots
-* Entity Relationships
-* Bounded Contexts
-
-**Last Updated:** 2026-06-29
+Every implementation within PCS Core must conform to this document.
 
 ---
 
-# 1. Purpose
+# Domain Overview
 
-The Canonical Domain Model defines the business concepts that make up the PCS Core commerce platform.
+PCS Core is organised into six primary business domains.
 
-It intentionally describes the business independently of any implementation technology.
-
-This document does not describe PostgreSQL tables, Prisma models, REST APIs or application code.
-
-Instead, it defines the language, entities, domains and relationships that represent the business itself.
-
-All implementation artefacts must remain consistent with this document.
-
----
-
-# 2. Design Principles
-
-The Canonical Domain Model follows the following principles.
-
-## Business Before Technology
-
-Business concepts are defined before implementation.
-
-Technology exists to support the business—not to define it.
-
----
-
-## Single Source of Truth
-
-Each business concept is defined exactly once.
-
-All subsequent documentation references this model.
-
----
-
-## Stable Business Identity
-
-Business entities represent real business concepts.
-
-Their identity should remain stable even if implementation changes.
-
----
-
-## Separation of Concerns
-
-Each business domain owns its own concepts and responsibilities.
-
-Domains communicate through clearly defined relationships rather than shared implementation.
-
----
-
-## Long-Term Evolution
-
-The model should support the long-term growth of Pro Court Sports without requiring fundamental redesign.
-
-Future products, suppliers, sports and services should extend the model rather than replace it.
-
----
-
-# 3. Business Domains
-
-PCS Core is organised around six bounded business domains.
-
-| Domain       | Responsibility                                       |
-| ------------ | ---------------------------------------------------- |
-| Commerce     | Platform-wide configuration and operational settings |
-| Catalog      | Products and product information                     |
-| Supply Chain | Suppliers, inventory and sourcing                    |
-| Customers    | Customer information and shopping experience         |
-| Sales        | Orders, payments and fulfilment                      |
-| Content      | Marketing content and customer engagement            |
-
-Each domain represents an independent business capability.
-
----
-
-# 4. Canonical Business Model
-
-The following diagram represents the high-level business structure of PCS Core.
-
-```text
-                        COMMERCE
-                Store Configuration
-
-                              │
-
-                              ▼
-
-CATALOG -------------------------------- SUPPLY CHAIN
-
-Sport                          Supplier
-
-Category                       Supplier Feed
-
-Brand                          Supplier Product
-
-Product                        Warehouse
-
-Product Variant                Inventory
-
-Attribute                      Price History
-
-Attribute Value                Inventory Movement
-
-Media                          Import Job
-
-
-
-CUSTOMERS ---------------------------- SALES
-
-Customer                       Order
-
-Address                        Order Item
-
-Wishlist                       Payment
-
-Shopping Cart                  Shipment
-
-Cart Item                      Refund
-
-
-
-                    CONTENT
-
-Page
-
-Article
-
-Banner
-
-Hero
-
-Navigation
-
-FAQ
 ```
+Commerce
 
-This diagram represents business concepts only.
-
-It deliberately omits database implementation details.
-
----
-
-# 5. Domain Responsibilities
-
-## Commerce
-
-Responsible for platform-wide operational configuration.
-
-Examples include:
-
-* Store configuration
-* Supported currencies
-* Tax configuration
-* Shipping methods
-* Payment methods
-
-Commerce contains no customer-specific data.
-
----
-
-## Catalog
-
-Responsible for defining the products sold by Pro Court Sports.
-
-The Catalog defines:
-
-* Sports
-* Categories
-* Brands
-* Products
-* Product Variants
-* Product Attributes
-* Product Media
-
-The Catalog does **not** manage inventory or supplier pricing.
-
----
-
-## Supply Chain
-
-Responsible for sourcing products from suppliers.
-
-The Supply Chain owns:
-
-* Suppliers
-* Supplier catalogues
-* Supplier pricing
-* Supplier inventory
-* Warehouses
-* Inventory movements
-* Supplier imports
-
-Inventory always belongs to the Supply Chain.
-
----
-
-## Customers
-
-Responsible for customer identity and shopping activity.
-
-The Customer domain manages:
-
-* Customer profiles
-* Addresses
-* Shopping carts
-* Wishlists
-
-Customers do not own Orders.
-
-Orders belong to the Sales domain.
-
----
-
-## Sales
-
-Responsible for commercial transactions.
-
-Sales owns:
-
-* Orders
-* Order Items
-* Payments
-* Shipments
-* Refunds
-
-Orders become immutable after confirmation.
-
----
-
-## Content
-
-Responsible for customer communication and marketing.
-
-Examples include:
-
-* Articles
-* Landing pages
-* Homepage banners
-* Navigation
-* Frequently Asked Questions
-
-Content should remain independent of the product catalogue wherever practical.
-
----
-
-# 6. Cross-Domain Relationships
-
-The following relationships exist between business domains.
-
-```text
 Catalog
-
-↓
 
 Supply Chain
 
-↓
+Customers
 
 Sales
-
-↓
-
-Customers
-```
-
-Supporting domains:
-
-```text
-Commerce
 
 Content
 ```
 
-Commerce provides configuration to every domain.
-
-Content supports customer engagement across the platform.
+Each domain owns its own Aggregate Roots and business responsibilities.
 
 ---
 
-# 7. Architectural Constraints
+# Commerce Domain
 
-The following constraints apply throughout PCS Core.
+The Commerce Domain configures how the business operates.
 
-### DC-001
+It contains:
 
-Products never own inventory.
+- Store
+- Currency
+- Tax Rate
+- Shipping Method
+- Payment Method
 
----
-
-### DC-002
-
-Supplier Products own supplier pricing.
-
----
-
-### DC-003
-
-Inventory belongs to a supplier or warehouse.
+The Store is the Aggregate Root.
 
 ---
 
-### DC-004
+# Catalog Domain
 
-Orders become immutable after confirmation.
+The Catalog Domain represents the products offered by Pro Court Sports.
 
----
+It provides a canonical product catalogue shared by supplier integrations, inventory management, ecommerce, search and content management.
 
-### DC-005
-
-Business domains remain independently maintainable.
+The Catalog Domain separates product classification from product identity.
 
 ---
 
-### DC-006
+# Catalog Hierarchy
 
-Business concepts should remain independent of implementation technology.
+```
+Sport
+│
+├── Category
+│       │
+│       ▼
+│    Product
+│
+├── Brand
+│       │
+│       ▼
+│    Product
+│
+└──────────────────────────────
 
----
-
-# 8. Relationship to Other Documentation
-
-The Canonical Domain Model serves as the foundation for:
-
-* Aggregate Roots
-* Entity Catalogue
-* Business Rules
-* UML Class Diagrams
-* Entity Relationship Diagrams
-* Prisma Schema
-* API Design
-* Service Design
-
-No implementation document should contradict this model.
-
----
-
-# 9. Future Evolution
-
-The Canonical Domain Model is expected to evolve as Pro Court Sports expands.
-
-Future enhancements should extend existing business concepts wherever possible rather than introducing unnecessary complexity.
-
-Significant structural changes should be documented through an Architecture Decision Record (ADR).
+Product
+        │
+        ▼
+Product Variant
+        │
+        ├── Attribute
+        ├── Attribute Value
+        └── Media
+```
 
 ---
 
-# 10. Summary
+# Classification Model
 
-The Canonical Domain Model defines the business architecture of PCS Core.
+The Catalog Domain uses three independent classification entities.
 
-It provides a technology-independent description of the platform and serves as the authoritative reference for every subsequent architectural and implementation decision.
+## Sport
 
-Every future database table, API endpoint, service, user interface and supplier integration should trace its origin back to the concepts defined within this document.
+Represents the highest level of catalogue organisation.
+
+Examples include:
+
+- Tennis
+- Padel
+- Squash
+- Pickleball
+- Badminton
+
+A Sport owns many Categories.
+
+A Sport owns many Brands.
 
 ---
 
-**End of Canonical Domain Model**
+## Category
 
+Represents the product type.
 
-    A --> C[Entities]
-    A --> D[Value Objects]
+Examples include:
+
+- Racquets
+- Shoes
+- Balls
+- Strings
+- Bags
+- Apparel
+- Accessories
+
+Every Category belongs to one Sport.
+
+Products belong to one Category.
+
+Categories classify products by function.
+
+---
+
+## Brand
+
+Represents the manufacturer.
+
+Examples include:
+
+- Wilson
+- HEAD
+- Babolat
+- Yonex
+- Tecnifibre
+- Dunlop
+
+Every Brand belongs to one Sport.
+
+Products belong to one Brand.
+
+A Brand may produce products across many Categories.
+
+---
+
+# Product
+
+The Product represents the canonical catalogue entry.
+
+Examples:
+
+- Wilson Blade 98 V9
+- HEAD Speed Pro
+- Babolat Pure Aero
+
+A Product references:
+
+- Category
+- Brand
+
+The Sport is derived through the Category.
+
+The Product is the Aggregate Root of the Catalog Domain.
+
+A Product owns:
+
+- Product Variants
+- Attributes
+- Attribute Values
+- Media
+
+A Product does not own inventory.
+
+A Product does not own supplier information.
+
+A Product does not own pricing.
+
+---
+
+# Product Variant
+
+A Product Variant represents the purchasable item.
+
+Examples:
+
+Wilson Blade 98 V9
+
+- Grip Size 1
+- Grip Size 2
+- Grip Size 3
+- Grip Size 4
+
+Every Product Variant has its own:
+
+- SKU
+- Barcode
+- Supplier mappings
+- Inventory
+- Pricing
+- Cost price
+
+Customers purchase Product Variants.
+
+---
+
+# Attributes
+
+Attributes describe Products.
+
+Examples:
+
+- Weight
+- Balance
+- Head Size
+- Beam Width
+- Material
+- Flex Rating
+- String Pattern
+
+Attributes support:
+
+- Product pages
+- Search
+- Filtering
+- Product comparisons
+- Buying guides
+
+Attributes never create inventory.
+
+---
+
+# Media
+
+Media belongs to Products.
+
+Examples include:
+
+- Product photography
+- Lifestyle photography
+- Technical diagrams
+- Marketing videos
+
+Variant-specific media may be supported in future without changing the overall architecture.
+
+---
+
+# Supply Chain Domain
+
+The Supply Chain Domain manages supplier integrations.
+
+It contains:
+
+- Supplier
+- Supplier Feed
+- Import Job
+- Supplier Product
+- Warehouse
+- Inventory
+- Inventory Movement
+- Price History
+
+Supplier Product references Product Variant.
+
+Inventory references Product Variant.
+
+Price History references Product Variant.
+
+---
+
+# Customer Domain
+
+The Customer Domain manages customer information.
+
+It contains:
+
+- Customer
+- Address
+- Wishlist
+- Shopping Cart
+- Cart Item
+
+Customers place Orders.
+
+Customers add Product Variants to their carts.
+
+---
+
+# Sales Domain
+
+The Sales Domain manages commercial transactions.
+
+It contains:
+
+- Order
+- Order Item
+- Shipment
+- Payment
+- Refund
+
+Order Items reference Product Variants.
+
+---
+
+# Content Domain
+
+The Content Domain manages merchandising.
+
+It contains:
+
+- Pages
+- Navigation
+- Banners
+- SEO
+- Marketing Content
+
+Content references Products rather than Product Variants.
+
+---
+
+# Aggregate Roots
+
+The Aggregate Roots of PCS Core are:
+
+- Store
+- Product
+- Supplier
+- Customer
+- Order
+- Page
+
+Each Aggregate Root enforces the business rules for its own domain.
+
+---
+
+# Architectural Principles
+
+The Canonical Domain Model follows these principles.
+
+- Store configures Commerce.
+- Sport classifies Categories and Brands.
+- Categories classify products.
+- Brands identify manufacturers.
+- Products reference Categories and Brands.
+- Sport is derived from the Category.
+- Products are catalogue entities.
+- Product Variants are purchasable entities.
+- Suppliers reference Product Variants.
+- Inventory references Product Variants.
+- Orders reference Product Variants.
+- Content references Products.
+- Attributes describe Products.
+- Media belongs to Products.
+
+---
+
+# Summary
+
+The PCS Core Canonical Domain Model separates business configuration, catalogue management, supplier integration and commerce into well-defined business domains.
+
+This architecture minimises data duplication, supports multi-supplier ecommerce and provides a scalable foundation for future sports, suppliers, products and sales channels.
+
+---
+
+# Revision History
+
+| Version | Date | Description |
+|----------|------------|-----------------------------------------------------------|
+| 2.0.0 | 2026-06-30 | Revised Catalog architecture. Brands and Categories are independent Sport classifications. Products reference Category and Brand. Sport is derived from Category. |
+| 1.0.0 | 2026-06-29 | Initial Canonical Domain Model. |

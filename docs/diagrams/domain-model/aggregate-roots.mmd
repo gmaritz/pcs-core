@@ -1,146 +1,156 @@
-%% ==========================================================
-%% PCS Core
-%%
-%% Diagram:
-%% Aggregate Roots
-%%
-%% Version:
-%% 1.1.0
-%%
-%% Status:
-%% Approved
-%%
-%% Related Document:
-%% docs/domain-model/aggregate-roots.md
-%%
-%% Description:
-%% Defines Aggregate Roots and the entities they own.
-%%
-%% Standard:
-%% PCS Core Mermaid Standard v1.0
-%%
-%% ==========================================================
+---
+title: PCS Core Aggregate Roots
+version: 2.0.0
+status: Approved
+last-updated: 2026-06-30
+---
 
-flowchart LR
+flowchart TB
 
 %% ==========================================================
-%% Commerce Aggregate
+%% COMMERCE
 %% ==========================================================
 
-STORE["AGR-001 Store"]
+subgraph COMMERCE["Commerce Domain"]
 
-STORE --> SETTINGS["Store Settings"]
+Store["Store<br/>(Aggregate Root)"]
 
-STORE --> CURRENCY["Currency"]
+Currency["Currency"]
+TaxRate["Tax Rate"]
+ShippingMethod["Shipping Method"]
+PaymentMethod["Payment Method"]
 
-STORE --> TAX["Tax Rate"]
+Store --> Currency
+Store --> TaxRate
+Store --> ShippingMethod
+Store --> PaymentMethod
 
-STORE --> SHIPPING["Shipping Method"]
-
-STORE --> PAYMENTMETHOD["Payment Method"]
-
-%% ==========================================================
-%% Catalog Aggregate
-%% ==========================================================
-
-PRODUCT["AGR-002 Product"]
-
-PRODUCT --> VARIANT["Product Variant"]
-
-PRODUCT --> ATTRIBUTE["Attribute"]
-
-ATTRIBUTE --> ATTRIBUTEVALUE["Attribute Value"]
-
-PRODUCT --> MEDIA["Media"]
+end
 
 %% ==========================================================
-%% Supply Chain Aggregate
+%% CATALOG
 %% ==========================================================
 
-SUPPLIER["AGR-003 Supplier"]
+subgraph CATALOG["Catalog Domain"]
 
-SUPPLIER --> SUPPLIERFEED["Supplier Feed"]
+Product["Product<br/>(Aggregate Root)"]
 
-SUPPLIER --> IMPORTJOB["Import Job"]
+Sport["Sport"]
+Category["Category"]
+Brand["Brand"]
+Variant["Product Variant"]
+Attribute["Attribute"]
+AttributeValue["Attribute Value"]
+Media["Media"]
 
-SUPPLIER --> SUPPLIERPRODUCT["Supplier Product"]
+Sport --> Category
+Sport --> Brand
 
-SUPPLIER --> WAREHOUSE["Warehouse"]
+Category --> Product
+Brand --> Product
 
-SUPPLIER --> INVENTORY["Inventory"]
+Product --> Variant
+Product --> Attribute
+Attribute --> AttributeValue
+Product --> Media
 
-SUPPLIER --> PRICEHISTORY["Price History"]
-
-SUPPLIER --> INVENTORYMOVEMENT["Inventory Movement"]
-
-%% ==========================================================
-%% Customer Aggregate
-%% ==========================================================
-
-CUSTOMER["AGR-004 Customer"]
-
-CUSTOMER --> ADDRESS["Address"]
-
-CUSTOMER --> SHOPPINGCART["Shopping Cart"]
-
-SHOPPINGCART --> CARTITEM["Cart Item"]
-
-CUSTOMER --> WISHLIST["Wishlist"]
+end
 
 %% ==========================================================
-%% Sales Aggregate
+%% SUPPLY CHAIN
 %% ==========================================================
 
-ORDER["AGR-005 Order"]
+subgraph SUPPLYCHAIN["Supply Chain Domain"]
 
-ORDER --> ORDERITEM["Order Item"]
+Supplier["Supplier<br/>(Aggregate Root)"]
 
-ORDER --> PAYMENT["Payment"]
+SupplierFeed["Supplier Feed"]
+ImportJob["Import Job"]
+SupplierProduct["Supplier Product"]
 
-ORDER --> SHIPMENT["Shipment"]
+Warehouse["Warehouse"]
 
-ORDER --> REFUND["Refund"]
+Inventory["Inventory"]
 
-%% ==========================================================
-%% Content Aggregate
-%% ==========================================================
+InventoryMovement["Inventory Movement"]
 
-PAGE["AGR-006 Page"]
+PriceHistory["Price History"]
 
-PAGE --> HERO["Hero"]
+Supplier --> SupplierFeed
+Supplier --> ImportJob
+Supplier --> SupplierProduct
 
-PAGE --> BANNER["Banner"]
+Variant -. references .-> SupplierProduct
+Variant -. references .-> Inventory
+Variant -. references .-> PriceHistory
 
-PAGE --> NAVIGATION["Navigation"]
+Warehouse --> Inventory
+Inventory --> InventoryMovement
 
-PAGE --> SEO["SEO Metadata"]
-
-%% ==========================================================
-%% Legend
-%%
-%% -->   Ownership
-%% -.->  Reference / Association
-%% ==>   Workflow / Process
-%% ==========================================================
+end
 
 %% ==========================================================
-%% Styles
+%% CUSTOMERS
 %% ==========================================================
 
-classDef aggregate fill:#DCEEFF,stroke:#003366,stroke-width:3px
+subgraph CUSTOMERS["Customer Domain"]
 
-classDef entity fill:#F8F8F8,stroke:#888888,stroke-width:1px
+Customer["Customer<br/>(Aggregate Root)"]
 
-class STORE aggregate
-class PRODUCT aggregate
-class SUPPLIER aggregate
-class CUSTOMER aggregate
-class ORDER aggregate
-class PAGE aggregate
+Address["Address"]
+ShoppingCart["Shopping Cart"]
+CartItem["Cart Item"]
+Wishlist["Wishlist"]
 
-class SETTINGS,CURRENCY,TAX,SHIPPING,PAYMENTMETHOD entity
-class VARIANT,ATTRIBUTE,ATTRIBUTEVALUE,MEDIA entity
-class SUPPLIERFEED,IMPORTJOB,SUPPLIERPRODUCT,WAREHOUSE,INVENTORY,PRICEHISTORY,INVENTORYMOVEMENT entity
-class ADDRESS,SHOPPINGCART,CARTITEM,WISHLIST entity
-class ORDERITEM,PAYMENT,SHIPMENT,REFUND entity
-class HERO,BANNER,NAVIGATION,SEO entity
+Customer --> Address
+Customer --> ShoppingCart
+ShoppingCart --> CartItem
+Customer --> Wishlist
+
+Variant -. references .-> CartItem
+
+end
+
+%% ==========================================================
+%% SALES
+%% ==========================================================
+
+subgraph SALES["Sales Domain"]
+
+Order["Order<br/>(Aggregate Root)"]
+
+OrderItem["Order Item"]
+Shipment["Shipment"]
+Payment["Payment"]
+Refund["Refund"]
+
+Order --> OrderItem
+Order --> Shipment
+Order --> Payment
+Order --> Refund
+
+Variant -. references .-> OrderItem
+
+Customer -. places .-> Order
+
+end
+
+%% ==========================================================
+%% CONTENT
+%% ==========================================================
+
+subgraph CONTENT["Content Domain"]
+
+Page["Page<br/>(Aggregate Root)"]
+
+Navigation["Navigation"]
+Banner["Banner"]
+Seo["SEO Metadata"]
+
+Page --> Navigation
+Page --> Banner
+Page --> Seo
+
+Page -. promotes .-> Product
+
+end

@@ -1,91 +1,136 @@
-%% ==========================================================
-%% PCS Core
-%%
-%% Diagram:
-%% Canonical Domain Model
-%%
-%% Version:
-%% 1.0.0
-%%
-%% Status:
-%% Draft
-%%
-%% Related Document:
-%% docs/domain-model/canonical-domain-model.md
-%%
-%% Description:
-%% High-level business architecture showing the six
-%% bounded domains of PCS Core and their relationships.
-%%
-%% Standard:
-%% PCS Core Mermaid Standard v1.0
-%%
-%% ==========================================================
+---
+title: PCS Core Canonical Domain Model
+version: 2.0.0
+status: Approved
+related-document: docs/domain-model/canonical-domain-model.md
+last-updated: 2026-06-30
+---
 
-flowchart LR
+classDiagram
+direction TB
 
 %% ==========================================================
-%% Business Domains
+%% COMMERCE
 %% ==========================================================
 
-COMMERCE["DOM-001
-Commerce"]
+class Store
+class Currency
+class TaxRate
+class ShippingMethod
+class PaymentMethod
 
-CATALOG["DOM-002
-Catalog"]
-
-SUPPLY["DOM-003
-Supply Chain"]
-
-CUSTOMERS["DOM-004
-Customers"]
-
-SALES["DOM-005
-Sales"]
-
-CONTENT["DOM-006
-Content"]
+Store "1" --> "*" Currency
+Store "1" --> "*" TaxRate
+Store "1" --> "*" ShippingMethod
+Store "1" --> "*" PaymentMethod
 
 %% ==========================================================
-%% Business Relationships
+%% CATALOG
 %% ==========================================================
 
-COMMERCE -. Configures .-> CATALOG
+class Sport
+class Category
+class Brand
+class Product
+class ProductVariant
+class Attribute
+class AttributeValue
+class Media
 
-COMMERCE -. Configures .-> SUPPLY
+Sport "1" --> "*" Category
+Sport "1" --> "*" Brand
 
-COMMERCE -. Configures .-> CUSTOMERS
+Category "1" --> "*" Product
+Brand "1" --> "*" Product
 
-COMMERCE -. Configures .-> SALES
-
-COMMERCE -. Configures .-> CONTENT
-
-CATALOG --> SUPPLY
-
-SUPPLY --> SALES
-
-CUSTOMERS --> SALES
-
-CONTENT -. Promotes .-> CATALOG
-
-CONTENT -. Engages .-> CUSTOMERS
-
-%% ==========================================================
-%% Legend
-%%
-%% -->   Business Dependency
-%% -.->  Business Support / Association
-%% ==>   Process Flow (reserved for workflow diagrams)
-%% ==========================================================
+Product "1" --> "*" ProductVariant
+Product "1" --> "*" Attribute
+Attribute "1" --> "*" AttributeValue
+Product "1" --> "*" Media
 
 %% ==========================================================
-%% Styles
+%% SUPPLY CHAIN
 %% ==========================================================
 
-classDef core fill:#DCEEFF,stroke:#003366,stroke-width:3px
+class Supplier
+class SupplierFeed
+class ImportJob
+class SupplierProduct
+class Warehouse
+class Inventory
+class InventoryMovement
+class PriceHistory
 
-classDef support fill:#F8F8F8,stroke:#888888,stroke-width:1px
+Supplier "1" --> "*" SupplierFeed
+Supplier "1" --> "*" SupplierProduct
+Supplier "1" --> "*" ImportJob
 
-class CATALOG,SUPPLY,CUSTOMERS,SALES core
+Warehouse "1" --> "*" Inventory
 
-class COMMERCE,CONTENT support
+ProductVariant "1" --> "*" SupplierProduct
+ProductVariant "1" --> "*" Inventory
+ProductVariant "1" --> "*" PriceHistory
+
+Inventory "1" --> "*" InventoryMovement
+
+%% ==========================================================
+%% CUSTOMERS
+%% ==========================================================
+
+class Customer
+class Address
+class Wishlist
+class ShoppingCart
+class CartItem
+
+Customer "1" --> "*" Address
+Customer "1" --> "1" ShoppingCart
+ShoppingCart "1" --> "*" CartItem
+Customer "1" --> "*" Wishlist
+
+ProductVariant "1" --> "*" CartItem
+
+%% ==========================================================
+%% SALES
+%% ==========================================================
+
+class Order
+class OrderItem
+class Shipment
+class Payment
+class Refund
+
+Customer "1" --> "*" Order
+
+Order "1" --> "*" OrderItem
+Order "1" --> "*" Shipment
+Order "1" --> "*" Payment
+Order "1" --> "*" Refund
+
+ProductVariant "1" --> "*" OrderItem
+
+%% ==========================================================
+%% CONTENT
+%% ==========================================================
+
+class Page
+class Navigation
+class Banner
+class SeoMetadata
+
+Page "1" --> "*" Navigation
+Page "1" --> "*" Banner
+Page "1" --> "*" SeoMetadata
+
+Page ..> Product : promotes
+
+%% ==========================================================
+%% AGGREGATE ROOTS
+%% ==========================================================
+
+<<AggregateRoot>> Store
+<<AggregateRoot>> Product
+<<AggregateRoot>> Supplier
+<<AggregateRoot>> Customer
+<<AggregateRoot>> Order
+<<AggregateRoot>> Page

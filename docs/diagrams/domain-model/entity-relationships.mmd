@@ -1,97 +1,84 @@
-%% ==========================================================
-%% PCS Core
-%%
-%% Diagram:
-%% Catalog Entity Relationships
-%%
-%% Version:
-%% 1.1.0
-%%
-%% Status:
-%% Approved
-%%
-%% Related Document:
-%% docs/domain-model/entity-catalogue/catalog/
-%%
-%% Description:
-%% Defines business relationships within the
-%% Catalog Domain only.
-%%
-%% Standard:
-%% PCS Core Mermaid Standard v1.0
-%%
-%% ==========================================================
+---
+title: PCS Core Entity Relationships
+version: 2.0.0
+status: Approved
+last-updated: 2026-06-30
+---
 
-flowchart LR
+erDiagram
 
 %% ==========================================================
-%% Catalog Entities
+%% COMMERCE
 %% ==========================================================
 
-SPORT["ENT-100 Sport"]
-
-CATEGORY["ENT-101 Category"]
-
-BRAND["ENT-102 Brand"]
-
-PRODUCT["ENT-103 Product"]
-
-VARIANT["ENT-104 Product Variant"]
-
-ATTRIBUTE["ENT-105 Attribute"]
-
-ATTRIBUTEVALUE["ENT-106 Attribute Value"]
-
-MEDIA["ENT-107 Media"]
+STORE ||--o{ CURRENCY : configures
+STORE ||--o{ TAX_RATE : configures
+STORE ||--o{ SHIPPING_METHOD : configures
+STORE ||--o{ PAYMENT_METHOD : configures
 
 %% ==========================================================
-%% Ownership Relationships
+%% CATALOG
 %% ==========================================================
 
-PRODUCT --> VARIANT
+SPORT ||--o{ CATEGORY : contains
+SPORT ||--o{ BRAND : contains
 
-PRODUCT --> ATTRIBUTE
+CATEGORY ||--o{ PRODUCT : classifies
+BRAND ||--o{ PRODUCT : manufactures
 
-ATTRIBUTE --> ATTRIBUTEVALUE
+PRODUCT ||--o{ PRODUCT_VARIANT : offers
 
-PRODUCT --> MEDIA
+PRODUCT ||--o{ ATTRIBUTE : defines
+ATTRIBUTE ||--o{ ATTRIBUTE_VALUE : contains
 
-%% ==========================================================
-%% Reference Relationships
-%% ==========================================================
-
-SPORT -. Classifies .-> PRODUCT
-
-CATEGORY -. Categorises .-> PRODUCT
-
-BRAND -. Brands .-> PRODUCT
-
-ATTRIBUTEVALUE -. Describes .-> VARIANT
-
-MEDIA -. Illustrates .-> VARIANT
+PRODUCT ||--o{ MEDIA : displays
 
 %% ==========================================================
-%% Legend
-%%
-%% -->   Ownership
-%% -.->  Reference / Association
-%% ==>   Workflow / Process
+%% SUPPLY CHAIN
 %% ==========================================================
 
+SUPPLIER ||--o{ SUPPLIER_FEED : owns
+SUPPLIER ||--o{ IMPORT_JOB : executes
+SUPPLIER ||--o{ SUPPLIER_PRODUCT : supplies
+
+WAREHOUSE ||--o{ INVENTORY : stores
+
+PRODUCT_VARIANT ||--o{ SUPPLIER_PRODUCT : mapped_to
+PRODUCT_VARIANT ||--o{ INVENTORY : stocked_as
+PRODUCT_VARIANT ||--o{ PRICE_HISTORY : priced_as
+
+INVENTORY ||--o{ INVENTORY_MOVEMENT : records
+
 %% ==========================================================
-%% Styles
+%% CUSTOMERS
 %% ==========================================================
 
-classDef aggregate fill:#DCEEFF,stroke:#003366,stroke-width:3px
+CUSTOMER ||--o{ ADDRESS : has
+CUSTOMER ||--|| SHOPPING_CART : owns
+SHOPPING_CART ||--o{ CART_ITEM : contains
+CUSTOMER ||--o{ WISHLIST : owns
 
-classDef entity fill:#F8F8F8,stroke:#888888,stroke-width:1px
+PRODUCT_VARIANT ||--o{ CART_ITEM : selected_as
 
-class PRODUCT aggregate
+%% ==========================================================
+%% SALES
+%% ==========================================================
 
-class SPORT entity
-class CATEGORY entity
-class BRAND entity
-class VARIANT entity
-class ATTRIBUTE entity
-class ATTRIBUTEVALUE entity
-class MEDIA entity
+CUSTOMER ||--o{ ORDER : places
+
+ORDER ||--o{ ORDER_ITEM : contains
+ORDER ||--o{ PAYMENT : receives
+ORDER ||--o{ SHIPMENT : creates
+ORDER ||--o{ REFUND : issues
+
+PRODUCT_VARIANT ||--o{ ORDER_ITEM : purchased_as
+
+%% ==========================================================
+%% CONTENT
+%% ==========================================================
+
+PAGE ||--o{ NAVIGATION : contains
+PAGE ||--o{ BANNER : displays
+PAGE ||--o{ SEO_METADATA : optimizes
+
+PAGE }o--o{ PRODUCT : promotes
