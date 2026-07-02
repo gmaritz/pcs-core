@@ -2,25 +2,25 @@
 // Imports
 // ==========================================================
 
-import { Brand, Prisma } from '@prisma/client';
+import { Prisma, Specification } from '@prisma/client';
 
 import { BaseService } from '../../shared/services/BaseService';
 
 // ==========================================================
-// Brand Service
+// Specification Service
 // ==========================================================
 
-export class BrandService extends BaseService {
+export class SpecificationService extends BaseService {
 
   // ========================================================
   // Queries
   // ========================================================
 
   /**
-   * Retrieve a single brand by its unique identifier.
+   * Retrieve a single specification by its unique identifier.
    */
-  async getBrand(id: string): Promise<Brand | null> {
-    return this.db.brand.findUnique({
+  async getSpecification(id: string): Promise<Specification | null> {
+    return this.db.specification.findUnique({
       where: {
         id,
       },
@@ -28,10 +28,10 @@ export class BrandService extends BaseService {
   }
 
   /**
-   * Retrieve all brands ordered alphabetically.
+   * Retrieve all specifications ordered alphabetically.
    */
-  async getBrands(): Promise<Brand[]> {
-    return this.db.brand.findMany({
+  async getSpecifications(): Promise<Specification[]> {
+    return this.db.specification.findMany({
       orderBy: {
         name: 'asc',
       },
@@ -43,24 +43,24 @@ export class BrandService extends BaseService {
   // ========================================================
 
   /**
-   * Create a new brand.
+   * Create a new specification.
    */
-  async createBrand(
-    data: Prisma.BrandCreateInput,
-  ): Promise<Brand> {
-    return this.db.brand.create({
+  async createSpecification(
+    data: Prisma.SpecificationCreateInput,
+  ): Promise<Specification> {
+    return this.db.specification.create({
       data,
     });
   }
 
   /**
-   * Update an existing brand.
+   * Update an existing specification.
    */
-  async updateBrand(
+  async updateSpecification(
     id: string,
-    data: Prisma.BrandUpdateInput,
-  ): Promise<Brand> {
-    return this.db.brand.update({
+    data: Prisma.SpecificationUpdateInput,
+  ): Promise<Specification> {
+    return this.db.specification.update({
       where: {
         id,
       },
@@ -69,10 +69,10 @@ export class BrandService extends BaseService {
   }
 
   /**
-   * Delete a brand.
+   * Delete a specification.
    */
-  async deleteBrand(id: string): Promise<Brand> {
-    return this.db.brand.delete({
+  async deleteSpecification(id: string): Promise<Specification> {
+    return this.db.specification.delete({
       where: {
         id,
       },
@@ -85,4 +85,4 @@ export class BrandService extends BaseService {
 // Service Instance
 // ==========================================================
 
-export const brandService = new BrandService();
+export const specificationService = new SpecificationService();

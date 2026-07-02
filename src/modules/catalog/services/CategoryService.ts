@@ -2,25 +2,25 @@
 // Imports
 // ==========================================================
 
-import { Brand, Prisma } from '@prisma/client';
+import { Category, Prisma } from '@prisma/client';
 
 import { BaseService } from '../../shared/services/BaseService';
 
 // ==========================================================
-// Brand Service
+// Category Service
 // ==========================================================
 
-export class BrandService extends BaseService {
+export class CategoryService extends BaseService {
 
   // ========================================================
   // Queries
   // ========================================================
 
   /**
-   * Retrieve a single brand by its unique identifier.
+   * Retrieve a single category by its unique identifier.
    */
-  async getBrand(id: string): Promise<Brand | null> {
-    return this.db.brand.findUnique({
+  async getCategory(id: string): Promise<Category | null> {
+    return this.db.category.findUnique({
       where: {
         id,
       },
@@ -28,10 +28,10 @@ export class BrandService extends BaseService {
   }
 
   /**
-   * Retrieve all brands ordered alphabetically.
+   * Retrieve all categories ordered alphabetically.
    */
-  async getBrands(): Promise<Brand[]> {
-    return this.db.brand.findMany({
+  async getCategories(): Promise<Category[]> {
+    return this.db.category.findMany({
       orderBy: {
         name: 'asc',
       },
@@ -43,24 +43,24 @@ export class BrandService extends BaseService {
   // ========================================================
 
   /**
-   * Create a new brand.
+   * Create a new category.
    */
-  async createBrand(
-    data: Prisma.BrandCreateInput,
-  ): Promise<Brand> {
-    return this.db.brand.create({
+  async createCategory(
+    data: Prisma.CategoryCreateInput,
+  ): Promise<Category> {
+    return this.db.category.create({
       data,
     });
   }
 
   /**
-   * Update an existing brand.
+   * Update an existing category.
    */
-  async updateBrand(
+  async updateCategory(
     id: string,
-    data: Prisma.BrandUpdateInput,
-  ): Promise<Brand> {
-    return this.db.brand.update({
+    data: Prisma.CategoryUpdateInput,
+  ): Promise<Category> {
+    return this.db.category.update({
       where: {
         id,
       },
@@ -69,10 +69,10 @@ export class BrandService extends BaseService {
   }
 
   /**
-   * Delete a brand.
+   * Delete a category.
    */
-  async deleteBrand(id: string): Promise<Brand> {
-    return this.db.brand.delete({
+  async deleteCategory(id: string): Promise<Category> {
+    return this.db.category.delete({
       where: {
         id,
       },
@@ -85,4 +85,4 @@ export class BrandService extends BaseService {
 // Service Instance
 // ==========================================================
 
-export const brandService = new BrandService();
+export const categoryService = new CategoryService();

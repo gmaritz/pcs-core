@@ -2,25 +2,25 @@
 // Imports
 // ==========================================================
 
-import { Brand, Prisma } from '@prisma/client';
+import { Prisma, Sport } from '@prisma/client';
 
 import { BaseService } from '../../shared/services/BaseService';
 
 // ==========================================================
-// Brand Service
+// Sport Service
 // ==========================================================
 
-export class BrandService extends BaseService {
+export class SportService extends BaseService {
 
   // ========================================================
   // Queries
   // ========================================================
 
   /**
-   * Retrieve a single brand by its unique identifier.
+   * Retrieve a single sport by its unique identifier.
    */
-  async getBrand(id: string): Promise<Brand | null> {
-    return this.db.brand.findUnique({
+  async getSport(id: string): Promise<Sport | null> {
+    return this.db.sport.findUnique({
       where: {
         id,
       },
@@ -28,10 +28,10 @@ export class BrandService extends BaseService {
   }
 
   /**
-   * Retrieve all brands ordered alphabetically.
+   * Retrieve all sports ordered alphabetically.
    */
-  async getBrands(): Promise<Brand[]> {
-    return this.db.brand.findMany({
+  async getSports(): Promise<Sport[]> {
+    return this.db.sport.findMany({
       orderBy: {
         name: 'asc',
       },
@@ -43,24 +43,24 @@ export class BrandService extends BaseService {
   // ========================================================
 
   /**
-   * Create a new brand.
+   * Create a new sport.
    */
-  async createBrand(
-    data: Prisma.BrandCreateInput,
-  ): Promise<Brand> {
-    return this.db.brand.create({
+  async createSport(
+    data: Prisma.SportCreateInput,
+  ): Promise<Sport> {
+    return this.db.sport.create({
       data,
     });
   }
 
   /**
-   * Update an existing brand.
+   * Update an existing sport.
    */
-  async updateBrand(
+  async updateSport(
     id: string,
-    data: Prisma.BrandUpdateInput,
-  ): Promise<Brand> {
-    return this.db.brand.update({
+    data: Prisma.SportUpdateInput,
+  ): Promise<Sport> {
+    return this.db.sport.update({
       where: {
         id,
       },
@@ -69,10 +69,10 @@ export class BrandService extends BaseService {
   }
 
   /**
-   * Delete a brand.
+   * Delete a sport.
    */
-  async deleteBrand(id: string): Promise<Brand> {
-    return this.db.brand.delete({
+  async deleteSport(id: string): Promise<Sport> {
+    return this.db.sport.delete({
       where: {
         id,
       },
@@ -85,4 +85,4 @@ export class BrandService extends BaseService {
 // Service Instance
 // ==========================================================
 
-export const brandService = new BrandService();
+export const sportService = new SportService();
