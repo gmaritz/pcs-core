@@ -1,0 +1,57 @@
+%% PCS Core Architecture
+%% Document: entity-relationships.mmd
+%% Version: 3.0
+%% Status: Approved
+
+graph TD
+
+%% Catalog
+Product --> ProductVariant
+Product --> ProductSpecification
+Product --> Media
+Specification --> ProductSpecification
+Brand --> Product
+Category --> Product
+Sport --> Category
+
+%% Supply Chain
+Supplier --> SupplierFeed
+Supplier --> ImportJob
+Supplier --> SupplierProduct
+Warehouse --> Inventory
+Inventory --> InventoryMovement
+ProductVariant --> SupplierProduct
+ProductVariant --> Inventory
+ProductVariant --> PriceHistory
+
+%% Customer
+Customer --> Address
+Customer --> ShoppingCart
+ShoppingCart --> CartItem
+Customer --> Wishlist
+CartItem --> ProductVariant
+Wishlist --> ProductVariant
+
+%% Sales
+Customer --> Order
+Order --> OrderItem
+Order --> Payment
+Order --> Shipment
+Order --> Refund
+OrderItem --> ProductVariant
+
+%% Content
+Page --> Banner
+Page --> Navigation
+Article -. references .-> Product
+
+%% Cross-domain emphasis
+ProductVariant:::core
+Order:::sales
+Customer:::cust
+Article:::content
+
+classDef core fill:#d8ecff,stroke:#1d4ed8,stroke-width:2;
+classDef sales fill:#e8ffe8,stroke:#15803d,stroke-width:2;
+classDef cust fill:#fff4d6,stroke:#b45309,stroke-width:2;
+classDef content fill:#f3e8ff,stroke:#7e22ce,stroke-width:2;

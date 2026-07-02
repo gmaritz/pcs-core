@@ -1,0 +1,72 @@
+
+%% PCS Core Architecture
+%% Document: canonical-domain-model.mmd
+%% Version: 3.0
+%% Status: Approved
+
+graph TD
+
+PCS["PCS Core"]
+
+PCS --> Commerce
+PCS --> Catalog
+PCS --> SupplyChain
+PCS --> Customer
+PCS --> Sales
+PCS --> Content
+
+%% Commerce
+Commerce --> Store
+Commerce --> Currency
+Commerce --> TaxRate
+Commerce --> ShippingMethod
+Commerce --> PaymentMethod
+
+%% Catalog
+Catalog --> Sport
+Catalog --> Category
+Catalog --> Brand
+Catalog --> Product
+Product --> ProductVariant
+Catalog --> Specification
+Product --> ProductSpecification
+Product --> Media
+
+%% Supply Chain
+SupplyChain --> Supplier
+Supplier --> SupplierFeed
+Supplier --> ImportJob
+Supplier --> SupplierProduct
+SupplyChain --> Warehouse
+Warehouse --> Inventory
+Inventory --> InventoryMovement
+ProductVariant -.-> SupplierProduct
+ProductVariant -.-> Inventory
+ProductVariant -.-> PriceHistory
+
+%% Customer
+Customer --> CustomerAccount["Customer"]
+CustomerAccount --> Address
+CustomerAccount --> ShoppingCart
+ShoppingCart --> CartItem
+CustomerAccount --> Wishlist
+CartItem -.-> ProductVariant
+Wishlist -.-> ProductVariant
+
+%% Sales
+Sales --> Order
+Order --> OrderItem
+Order --> Payment
+Order --> Shipment
+Order --> Refund
+OrderItem -.-> ProductVariant
+CustomerAccount -.-> Order
+
+%% Content
+Content --> Page
+Content --> Article
+Content --> Banner
+Content --> Navigation
+Article -. references .-> Product
+Page --> Banner
+Page --> Navigation

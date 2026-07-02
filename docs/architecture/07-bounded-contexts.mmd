@@ -1,0 +1,72 @@
+%% PCS Core Architecture
+%% Document: bounded-contexts.mmd
+%% Version: 3.0
+%% Status: Approved
+
+flowchart LR
+
+subgraph Commerce["Commerce Context"]
+Store
+Currency
+TaxRate
+ShippingMethod
+PaymentMethod
+end
+
+subgraph Catalog["Catalog Context"]
+Sport
+Category
+Brand
+Product
+ProductVariant
+Specification
+ProductSpecification
+Media
+end
+
+subgraph Supply["Supply Chain Context"]
+Supplier
+SupplierFeed
+ImportJob
+SupplierProduct
+Warehouse
+Inventory
+InventoryMovement
+PriceHistory
+end
+
+subgraph Customer["Customer Context"]
+CustomerEntity["Customer"]
+Address
+ShoppingCart
+CartItem
+Wishlist
+end
+
+subgraph Sales["Sales Context"]
+Order
+OrderItem
+Payment
+Shipment
+Refund
+end
+
+subgraph Content["Content Context"]
+Page
+Article
+Banner
+Navigation
+end
+
+Commerce --> Catalog
+Catalog --> Supply
+Catalog --> Customer
+Catalog --> Sales
+Customer --> Sales
+Content -.-> Catalog
+Content -.-> Customer
+
+ProductVariant -. Shared Model .-> SupplierProduct
+ProductVariant -. Shared Model .-> CartItem
+ProductVariant -. Shared Model .-> Wishlist
+ProductVariant -. Shared Model .-> OrderItem

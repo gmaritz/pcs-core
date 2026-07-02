@@ -1,0 +1,57 @@
+%% PCS Core Architecture
+%% Document: aggregate-roots.mmd
+%% Version: 3.0
+%% Status: Approved
+
+graph TD
+
+AR["Aggregate Roots"]
+
+AR --> Commerce
+AR --> Catalog
+AR --> SupplyChain
+AR --> Customer
+AR --> Sales
+AR --> Content
+
+Commerce --> Store
+
+Catalog --> Sport
+Catalog --> Category
+Catalog --> Brand
+Catalog --> Product
+Catalog --> Specification
+
+SupplyChain --> Supplier
+SupplyChain --> Warehouse
+
+Customer --> CustomerAccount["Customer"]
+Customer --> ShoppingCart
+
+Sales --> Order
+
+Content --> Page
+Content --> Article
+Content --> Banner
+Content --> Navigation
+
+%% Ownership
+Product --> ProductVariant
+Product --> ProductSpecification
+Product --> Media
+
+Supplier --> SupplierFeed
+Supplier --> ImportJob
+Supplier --> SupplierProduct
+
+Warehouse --> Inventory
+Inventory --> InventoryMovement
+
+CustomerAccount --> Address
+CustomerAccount --> Wishlist
+ShoppingCart --> CartItem
+
+Order --> OrderItem
+Order --> Payment
+Order --> Shipment
+Order --> Refund
