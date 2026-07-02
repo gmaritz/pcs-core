@@ -102,6 +102,11 @@ enum SpecificationDataType {
   DATE
 }
 
+
+// ==========================================================
+// ARTICLE TYPE
+// ==========================================================
+
 enum ArticleType {
   BUYING_GUIDE
   REVIEW
@@ -112,6 +117,11 @@ enum ArticleType {
   TOURNAMENT
   GENERAL
 }
+
+
+// ==========================================================
+// ARTICLE STATUS
+// ==========================================================
 
 enum ArticleStatus {
   DRAFT
@@ -2165,11 +2175,6 @@ model Refund {
 
 
 // ==========================================================
-// CONTENT
-// ==========================================================
-
-
-// ==========================================================
 // PAGE
 // ==========================================================
 
@@ -2190,12 +2195,26 @@ model Page {
   slug String @unique
 
   // ========================================================
-  // Content Information
+  // Content
   // ========================================================
 
   content String?
 
   isHomePage Boolean @default(false)
+
+  // ========================================================
+  // SEO
+  // ========================================================
+
+  metaTitle String?
+
+  metaDescription String?
+
+  metaKeywords String?
+
+  canonicalUrl String?
+
+  robots String?
 
   // ========================================================
   // Status
@@ -2215,11 +2234,9 @@ model Page {
   // Relationships
   // ========================================================
 
-  navigation Navigation[]
-
   banners Banner[]
 
-  seoMetadata SeoMetadata?
+  navigation Navigation[]
 
   // ========================================================
   // Indexes
@@ -2234,14 +2251,15 @@ model Page {
   // ========================================================
 
   @@map("pages")
+
 }
 
 
 // ==========================================================
-// NAVIGATION
+// BANNER
 // ==========================================================
 
-model Navigation {
+model Banner {
 
   // ========================================================
   // Primary Key
@@ -2250,20 +2268,28 @@ model Navigation {
   id String @id @default(uuid())
 
   // ========================================================
-  // Navigation Information
+  // Business Identity
   // ========================================================
 
   title String
 
-  url String
+  // ========================================================
+  // Banner Content
+  // ========================================================
+
+  imageUrl String
+
+  linkUrl String?
+
+  headline String?
+
+  subHeadline String?
+
+  buttonText String?
 
   displayOrder Int @default(0)
 
-  // ========================================================
-  // Status
-  // ========================================================
-
-  status RecordStatus @default(ACTIVE)
+  isActive Boolean @default(true)
 
   // ========================================================
   // Auditing
@@ -2289,11 +2315,193 @@ model Navigation {
 
   @@index([displayOrder])
 
+  @@index([isActive])
+
   // ========================================================
   // Database Mapping
   // ========================================================
 
-  @@map("navigation")
+  @@map("banners")
+
 }
+
+
+// ==========================================================
+// NAVIGATION LOCATION
+// ==========================================================
+
+enum NavigationLocation {
+
+  MAIN
+
+  FOOTER
+
+  MOBILE
+
+}
+
+// ==========================================================
+// NAVIGATION
+// ==========================================================
+
+model Navigation {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Navigation Information
+  // ========================================================
+
+  title String
+
+  url String
+
+  location NavigationLocation
+
+  displayOrder Int @default(0)
+
+  // ========================================================
+  // Hierarchy
+  // ========================================================
+
+  parentId String?
+
+  parent Navigation? @relation("NavigationHierarchy", fields: [parentId], references: [id])
+
+  children Navigation[] @relation("NavigationHierarchy")
+
+  // ========================================================
+  // Visibility
+  // ========================================================
+
+  isActive Boolean @default(true)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  pageId String?
+
+  page Page? @relation(fields: [pageId], references: [id])
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([location])
+
+  @@index([displayOrder])
+
+  @@index([parentId])
+
+  @@index([pageId])
+
+  @@map("navigation")
+
+}
+
+
+// ==========================================================
+// ARTICLE
+// ==========================================================
+
+model Article {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Identity
+  // ========================================================
+
+  title String
+
+  slug String @unique
+
+  // ========================================================
+  // Editorial Content
+  // ========================================================
+
+  excerpt String?
+
+  content String?
+
+  featuredImage String?
+
+  // ========================================================
+  // Classification
+  // ========================================================
+
+  type ArticleType @default(GENERAL)
+
+  status ArticleStatus @default(DRAFT)
+
+  // ========================================================
+  // Publishing
+  // ========================================================
+
+  publishedAt DateTime?
+
+  isFeatured Boolean @default(false)
+
+  // ========================================================
+  // SEO
+  // ========================================================
+
+  metaTitle String?
+
+  metaDescription String?
+
+  metaKeywords String?
+
+  canonicalUrl String?
+
+  robots String?
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@index([slug])
+
+  @@index([type])
+
+  @@index([status])
+
+  @@index([publishedAt])
+
+  @@index([isFeatured])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("articles")
+
+}
+
 
 
