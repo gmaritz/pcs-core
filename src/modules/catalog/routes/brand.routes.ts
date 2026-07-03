@@ -24,6 +24,14 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    await brandController.getBrand(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // ==========================================================
 // Exports
 // ==========================================================
