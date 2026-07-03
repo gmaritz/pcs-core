@@ -28,15 +28,18 @@ export class SpecificationService extends BaseService {
   }
 
   /**
-   * Retrieve all specifications ordered alphabetically.
-   */
-  async getSpecifications(): Promise<Specification[]> {
-    return this.db.specification.findMany({
-      orderBy: {
-        name: 'asc',
-      },
-    });
-  }
+ * Retrieve specifications.
+ *
+ * Supports filtering, pagination, sorting,
+ * includes and field selection through Prisma.
+ */
+async getSpecifications(
+  options?: Prisma.SpecificationFindManyArgs,
+): Promise<Specification[]> {
+
+  return this.db.specification.findMany(options);
+
+}
 
   // ========================================================
   // Commands

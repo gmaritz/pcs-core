@@ -28,15 +28,18 @@ export class ProductService extends BaseService {
   }
 
   /**
-   * Retrieve all products ordered alphabetically.
-   */
-  async getProducts(): Promise<Product[]> {
-    return this.db.product.findMany({
-      orderBy: {
-        name: 'asc',
-      },
-    });
-  }
+ * Retrieve products.
+ *
+ * Supports filtering, pagination, sorting,
+ * includes and field selection through Prisma.
+ */
+async getProducts(
+  options?: Prisma.ProductFindManyArgs,
+): Promise<Product[]> {
+
+  return this.db.product.findMany(options);
+
+}
 
   // ========================================================
   // Commands

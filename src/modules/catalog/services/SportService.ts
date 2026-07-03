@@ -28,15 +28,18 @@ export class SportService extends BaseService {
   }
 
   /**
-   * Retrieve all sports ordered alphabetically.
-   */
-  async getSports(): Promise<Sport[]> {
-    return this.db.sport.findMany({
-      orderBy: {
-        name: 'asc',
-      },
-    });
-  }
+ * Retrieve sports.
+ *
+ * Supports filtering, pagination, sorting,
+ * includes and field selection through Prisma.
+ */
+async getSports(
+  options?: Prisma.SportFindManyArgs,
+): Promise<Sport[]> {
+
+  return this.db.sport.findMany(options);
+
+}
 
   // ========================================================
   // Commands

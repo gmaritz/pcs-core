@@ -1,5 +1,7 @@
 ﻿import express, { type Express } from 'express';
 
+import { brandRoutes } from './modules/catalog/routes';
+
 const app: Express = express();
 
 // ==========================================================
@@ -22,5 +24,11 @@ app.get('/health', (_req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+// ==========================================================
+// API
+// ==========================================================
+
+app.use('/api/v1/brands', brandRoutes);
 
 export default app;

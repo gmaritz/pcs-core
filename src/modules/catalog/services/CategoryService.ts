@@ -28,15 +28,18 @@ export class CategoryService extends BaseService {
   }
 
   /**
-   * Retrieve all categories ordered alphabetically.
-   */
-  async getCategories(): Promise<Category[]> {
-    return this.db.category.findMany({
-      orderBy: {
-        name: 'asc',
-      },
-    });
-  }
+ * Retrieve categories.
+ *
+ * Supports filtering, pagination, sorting,
+ * includes and field selection through Prisma.
+ */
+async getCategories(
+  options?: Prisma.CategoryFindManyArgs,
+): Promise<Category[]> {
+
+  return this.db.category.findMany(options);
+
+}
 
   // ========================================================
   // Commands

@@ -28,15 +28,18 @@ export class ProductVariantService extends BaseService {
   }
 
   /**
-   * Retrieve all product variants ordered by SKU.
-   */
-  async getProductVariants(): Promise<ProductVariant[]> {
-    return this.db.productVariant.findMany({
-      orderBy: {
-        sku: 'asc',
-      },
-    });
-  }
+ * Retrieve product variants.
+ *
+ * Supports filtering, pagination, sorting,
+ * includes and field selection through Prisma.
+ */
+async getProductVariants(
+  options?: Prisma.ProductVariantFindManyArgs,
+): Promise<ProductVariant[]> {
+
+  return this.db.productVariant.findMany(options);
+
+}
 
   // ========================================================
   // Commands
