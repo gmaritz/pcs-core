@@ -32,6 +32,14 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+router.post('/', async (req, res, next) => {
+  try {
+    await brandController.createBrand(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // ==========================================================
 // Exports
 // ==========================================================
