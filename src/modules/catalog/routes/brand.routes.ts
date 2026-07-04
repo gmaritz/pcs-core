@@ -40,6 +40,14 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+router.put('/:id', async (req, res, next) => {
+  try {
+    await brandController.updateBrand(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // ==========================================================
 // Exports
 // ==========================================================

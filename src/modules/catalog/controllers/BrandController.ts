@@ -88,6 +88,8 @@ export class BrandController {
     res: Response,
   ): Promise<void> {
 
+    console.log('PUT Body:', req.body);
+
     validateUpdateBrand(req.body);
 
     const brand = await brandService.updateBrand(
