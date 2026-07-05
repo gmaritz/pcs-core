@@ -48,6 +48,14 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
+router.delete('/:id', async (req, res, next) => {
+  try {
+    await brandController.deleteBrand(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // ==========================================================
 // Exports
 // ==========================================================

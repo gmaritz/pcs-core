@@ -8,59 +8,63 @@ import { IdParams } from '../../shared/types';
 import { ApiResponse } from '../../shared/responses';
 
 import {
-  CreateBrandDto,
-  UpdateBrandDto,
-} from '../types/brand.dto';
+  CreateSportDto,
+  UpdateSportDto,
+} from '../types/sport.dto';
 
-import { brandService } from '../services';
+import { sportService } from '../services';
 
 import {
-  validateCreateBrand,
-  validateUpdateBrand,
-} from '../validation/brand.validation';
+  validateCreateSport,
+  validateUpdateSport,
+} from '../validation/sport.validation';
 
 // ==========================================================
-// Brand Controller
+// Sport Controller
 // ==========================================================
 
-export class BrandController {
+export class SportController {
 
   // ========================================================
   // Queries
   // ========================================================
 
   /**
-   * Retrieve all brands.
+   * Retrieve all sports.
    */
-  async getBrands(
+  async getSports(
     _req: Request,
     res: Response,
   ): Promise<void> {
 
-    const brands = await brandService.getBrands();
+    const sports =
+      await sportService.getSports();
 
     ApiResponse.success(
       res,
-      brands,
+      sports,
     );
 
   }
 
   /**
-   * Retrieve a single brand.
+   * Retrieve a single sport.
    */
-  async getBrand(
+  async getSport(
     req: Request<IdParams>,
     res: Response,
   ): Promise<void> {
 
-    const brand = await brandService.getBrand(req.params.id);
+    const sport =
+      await sportService.getSport(
+        req.params.id,
+      );
 
-    if (!brand) {
+    if (!sport) {
 
       ApiResponse.notFound(
         res,
-        'Brand not found.',
+        'Sport not found.',
       );
 
       return;
@@ -69,7 +73,7 @@ export class BrandController {
 
     ApiResponse.success(
       res,
-      brand,
+      sport,
     );
 
   }
@@ -78,56 +82,63 @@ export class BrandController {
   // Commands
   // ========================================================
 
-  /**
-   * Create a new brand.
-   */
-  async createBrand(
-    req: Request<unknown, unknown, CreateBrandDto>,
+  async createSport(
+    req: Request<
+      unknown,
+      unknown,
+      CreateSportDto
+    >,
     res: Response,
   ): Promise<void> {
 
-    validateCreateBrand(req.body);
-
-    const brand = await brandService.createBrand(req.body);
-
-    ApiResponse.created(
-      res,
-      brand,
-    );
-
-  }
-
-  /**
-   * Update an existing brand.
-   */
-  async updateBrand(
-    req: Request<IdParams, unknown, UpdateBrandDto>,
-    res: Response,
-  ): Promise<void> {
-
-    validateUpdateBrand(req.body);
-
-    const brand = await brandService.updateBrand(
-      req.params.id,
+    validateCreateSport(
       req.body,
     );
 
-    ApiResponse.success(
+    const sport =
+      await sportService.createSport(
+        req.body,
+      );
+
+    ApiResponse.created(
       res,
-      brand,
+      sport,
     );
 
   }
 
-  /**
-   * Delete a brand.
-   */
-  async deleteBrand(
+  async updateSport(
+    req: Request<
+      IdParams,
+      unknown,
+      UpdateSportDto
+    >,
+    res: Response,
+  ): Promise<void> {
+
+    validateUpdateSport(
+      req.body,
+    );
+
+    const sport =
+      await sportService.updateSport(
+        req.params.id,
+        req.body,
+      );
+
+    ApiResponse.success(
+      res,
+      sport,
+    );
+
+  }
+
+  async deleteSport(
     req: Request<IdParams>,
     res: Response,
   ): Promise<void> {
 
-    await brandService.deleteBrand(
+    await sportService.deleteSport(
       req.params.id,
     );
 
@@ -143,4 +154,5 @@ export class BrandController {
 // Controller Instance
 // ==========================================================
 
-export const brandController = new BrandController();
+export const sportController =
+  new SportController();

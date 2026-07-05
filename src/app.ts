@@ -1,6 +1,7 @@
 ﻿import express, { type Express } from 'express';
 
 import { brandRoutes } from './modules/catalog/routes';
+import { errorHandler } from './middleware/error-handler';
 
 const app: Express = express();
 
@@ -30,5 +31,11 @@ app.get('/health', (_req, res) => {
 // ==========================================================
 
 app.use('/api/v1/brands', brandRoutes);
+
+// ==========================================================
+// Error Handler
+// ==========================================================
+
+app.use(errorHandler);
 
 export default app;
