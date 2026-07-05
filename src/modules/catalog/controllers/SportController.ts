@@ -91,6 +91,8 @@ export class SportController {
     res: Response,
   ): Promise<void> {
 
+    console.log('POST Sport Body:', req.body);
+
     validateCreateSport(
       req.body,
     );
