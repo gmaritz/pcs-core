@@ -18,3 +18,4 @@ __exportStar(require("./brand.dto"), exports);
 __exportStar(require("./sport.dto"), exports);
 __exportStar(require("./category.dto"), exports);
 __exportStar(require("./product.dto"), exports);
+__exportStar(require("./product-variant.dto"), exports);

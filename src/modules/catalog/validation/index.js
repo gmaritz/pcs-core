@@ -18,3 +18,4 @@ __exportStar(require("./brand.validation"), exports);
 __exportStar(require("./sport.validation"), exports);
 __exportStar(require("./category.validation"), exports);
 __exportStar(require("./product.validation"), exports);
+__exportStar(require("./product-variant.validation"), exports);

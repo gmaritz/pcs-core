@@ -752,10 +752,26 @@ model ProductVariant {
   id String @id @default(uuid())
 
   // ========================================================
-  // Commercial Identity
+  // Business Identity
   // ========================================================
 
+  name String
+
   sku String @unique
+
+  slug String @unique
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  description String?
+
+  displayOrder Int @default(0)
+
+  // ========================================================
+  // Commercial Identity
+  // ========================================================
 
   barcode String? @unique
 
@@ -810,6 +826,8 @@ model ProductVariant {
   // ========================================================
 
   @@index([productId])
+
+  @@index([displayOrder])
 
   @@index([sku])
 

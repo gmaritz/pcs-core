@@ -18,3 +18,4 @@ __exportStar(require("./BrandController"), exports);
 __exportStar(require("./SportController"), exports);
 __exportStar(require("./CategoryController"), exports);
 __exportStar(require("./ProductController"), exports);
+__exportStar(require("./ProductVariantController"), exports);

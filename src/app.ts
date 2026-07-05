@@ -4,6 +4,7 @@ import {
   brandRoutes,
   categoryRoutes,
   productRoutes,
+  productVariantRoutes,
   sportRoutes,
 } from './modules/catalog/routes';
 
@@ -48,6 +49,8 @@ app.use('/api/v1/brands', brandRoutes);
 app.use('/api/v1/categories', categoryRoutes);
 
 app.use('/api/v1/products', productRoutes);
+
+app.use('/api/v1/product-variants', productVariantRoutes);
 
 app.use('/api/v1/sports', sportRoutes);
 
