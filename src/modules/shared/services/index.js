@@ -17,4 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./BaseService"), exports);
 __exportStar(require("./BrandCodeService"), exports);
 __exportStar(require("./CategoryCodeService"), exports);
+__exportStar(require("./ProductCodeService"), exports);
 __exportStar(require("./SlugService"), exports);

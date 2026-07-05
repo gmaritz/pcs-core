@@ -483,6 +483,8 @@ model Sport {
 
   brands Brand[]
 
+  products Product[]
+
   specifications Specification[]
 
   // ========================================================
@@ -661,6 +663,8 @@ model Product {
 
   name String
 
+  code String @unique
+
   slug String @unique
 
   // ========================================================
@@ -693,6 +697,10 @@ model Product {
   // Relationships
   // ========================================================
 
+  sportId String
+
+  sport Sport @relation(fields: [sportId], references: [id])
+
   categoryId String
 
   category Category @relation(fields: [categoryId], references: [id])
@@ -710,6 +718,8 @@ model Product {
   // ========================================================
   // Indexes
   // ========================================================
+
+  @@index([sportId])
 
   @@index([categoryId])
 

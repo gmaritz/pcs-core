@@ -28,6 +28,7 @@ app.get('/health', (_req, res) => {
 // ==========================================================
 app.use('/api/v1/brands', routes_1.brandRoutes);
 app.use('/api/v1/categories', routes_1.categoryRoutes);
+app.use('/api/v1/products', routes_1.productRoutes);
 app.use('/api/v1/sports', routes_1.sportRoutes);
 // ==========================================================
 // Error Handler

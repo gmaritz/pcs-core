@@ -3,6 +3,7 @@
 import {
   brandRoutes,
   categoryRoutes,
+  productRoutes,
   sportRoutes,
 } from './modules/catalog/routes';
 
@@ -45,6 +46,8 @@ app.get('/health', (_req, res) => {
 app.use('/api/v1/brands', brandRoutes);
 
 app.use('/api/v1/categories', categoryRoutes);
+
+app.use('/api/v1/products', productRoutes);
 
 app.use('/api/v1/sports', sportRoutes);
 

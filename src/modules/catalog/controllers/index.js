@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./BrandController"), exports);
 __exportStar(require("./SportController"), exports);
 __exportStar(require("./CategoryController"), exports);
+__exportStar(require("./ProductController"), exports);

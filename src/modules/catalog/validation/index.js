@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./brand.validation"), exports);
 __exportStar(require("./sport.validation"), exports);
 __exportStar(require("./category.validation"), exports);
+__exportStar(require("./product.validation"), exports);
