@@ -1,6 +1,10 @@
 ﻿import express, { type Express } from 'express';
 
-import { brandRoutes } from './modules/catalog/routes';
+import {
+  brandRoutes,
+  sportRoutes,
+} from './modules/catalog/routes';
+
 import { errorHandler } from './middleware/error-handler';
 
 const app: Express = express();
@@ -18,19 +22,28 @@ app.use(express.urlencoded({ extended: true }));
 // ==========================================================
 
 app.get('/health', (_req, res) => {
+
   res.status(200).json({
+
     status: 'ok',
+
     application: 'PCS Core',
+
     version: '1.0.0',
+
     timestamp: new Date().toISOString(),
+
   });
+
 });
 
 // ==========================================================
-// API
+// API v1
 // ==========================================================
 
 app.use('/api/v1/brands', brandRoutes);
+
+app.use('/api/v1/sports', sportRoutes);
 
 // ==========================================================
 // Error Handler
