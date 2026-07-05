@@ -5,6 +5,14 @@
 import { Category, Prisma } from '@prisma/client';
 
 import { BaseService } from '../../shared/services/BaseService';
+import {
+  categoryCodeService,
+  slugService,
+} from '../../shared/services';
+import {
+  CreateCategoryDto,
+  UpdateCategoryDto,
+} from '../types/category.dto';
 
 // ==========================================================
 // Category Service
@@ -19,12 +27,16 @@ export class CategoryService extends BaseService {
   /**
    * Retrieve a single category by its unique identifier.
    */
-  async getCategory(id: string): Promise<Category | null> {
+  async getCategory(
+    id: string,
+  ): Promise<Category | null> {
+
     return this.db.category.findUnique({
-      where: {
-        id,
-      },
+
+      where: { id },
+
     });
+
   }
 
   /**
@@ -33,13 +45,13 @@ export class CategoryService extends BaseService {
  * Supports filtering, pagination, sorting,
  * includes and field selection through Prisma.
  */
-async getCategories(
-  options?: Prisma.CategoryFindManyArgs,
-): Promise<Category[]> {
+  async getCategories(
+    options?: Prisma.CategoryFindManyArgs,
+  ): Promise<Category[]> {
 
-  return this.db.category.findMany(options);
+    return this.db.category.findMany(options);
 
-}
+  }
 
   // ========================================================
   // Commands
@@ -49,11 +61,42 @@ async getCategories(
    * Create a new category.
    */
   async createCategory(
-    data: Prisma.CategoryCreateInput,
+    dto: CreateCategoryDto,
   ): Promise<Category> {
+
+    const slug = slugService.generate(
+      dto.name,
+    );
+
+    const code = categoryCodeService.generate(
+      dto.name,
+    );
+
+    const data: Prisma.CategoryCreateInput = {
+
+      name: dto.name,
+
+      code,
+
+      slug,
+
+      description: dto.description,
+
+      displayOrder:
+        dto.displayOrder ?? 0,
+
+      sport: {
+        connect: {
+          id: dto.sportId,
+        },
+      },
+
+    };
+
     return this.db.category.create({
       data,
     });
+
   }
 
   /**
@@ -61,14 +104,47 @@ async getCategories(
    */
   async updateCategory(
     id: string,
-    data: Prisma.CategoryUpdateInput,
+    dto: UpdateCategoryDto,
   ): Promise<Category> {
+
+    const data: Prisma.CategoryUpdateInput = {};
+
+    if (dto.name !== undefined) {
+
+      data.name = dto.name;
+
+      data.slug = slugService.generate(
+        dto.name,
+      );
+
+    }
+
+    if (dto.description !== undefined) {
+      data.description = dto.description;
+    }
+
+    if (dto.displayOrder !== undefined) {
+      data.displayOrder = dto.displayOrder;
+    }
+
+    if (dto.sportId !== undefined) {
+
+      data.sport = {
+        connect: {
+          id: dto.sportId,
+        },
+      };
+
+    }
+
     return this.db.category.update({
-      where: {
-        id,
-      },
+
+      where: { id },
+
       data,
+
     });
+
   }
 
   /**
@@ -76,9 +152,9 @@ async getCategories(
    */
   async deleteCategory(id: string): Promise<Category> {
     return this.db.category.delete({
-      where: {
-        id,
-      },
+
+      where: { id },
+
     });
   }
 
