@@ -1430,7 +1430,7 @@ model Inventory {
 
   quantityReserved Int @default(0)
 
-  reorderLevel Int?
+  reorderLevel Int @default(0)
 
   // ========================================================
   // Status
@@ -1450,9 +1450,9 @@ model Inventory {
   // Relationships
   // ========================================================
 
-  warehouseId String
+  warehouseId String?
 
-  warehouse Warehouse @relation(fields: [warehouseId], references: [id])
+  warehouse Warehouse? @relation(fields: [warehouseId], references: [id])
 
   productVariantId String
 
@@ -1470,7 +1470,7 @@ model Inventory {
 
   @@index([status])
 
-  @@unique([warehouseId, productVariantId])
+  @@unique([productVariantId])
 
   // ========================================================
   // Database Mapping
