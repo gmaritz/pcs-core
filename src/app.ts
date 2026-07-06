@@ -7,6 +7,7 @@ import {
   productVariantRoutes,
   sportRoutes,
 } from './modules/catalog/routes';
+import { supplierRoutes } from './modules/suppliers/routes';
 
 import { errorHandler } from './middleware/error-handler';
 
@@ -51,6 +52,8 @@ app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/products', productRoutes);
 
 app.use('/api/v1/product-variants', productVariantRoutes);
+
+app.use('/api/v1/suppliers', supplierRoutes);
 
 app.use('/api/v1/sports', sportRoutes);
 

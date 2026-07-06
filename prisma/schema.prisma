@@ -1066,6 +1066,8 @@ model Supplier {
 
   code String @unique
 
+  slug String @unique
+
   // ========================================================
   // Business Information
   // ========================================================
@@ -1074,7 +1076,7 @@ model Supplier {
 
   email String?
 
-  phone String?
+  telephone String?
 
   description String?
 
