@@ -1150,11 +1150,33 @@ model Warehouse {
 
   code String @unique
 
+  slug String @unique
+
   // ========================================================
   // Business Information
   // ========================================================
 
   description String?
+
+  addressLine1 String?
+
+  addressLine2 String?
+
+  suburb String?
+
+  city String?
+
+  province String?
+
+  postalCode String?
+
+  country String?
+
+  contactName String?
+
+  contactEmail String?
+
+  contactPhone String?
 
   displayOrder Int @default(0)
 
