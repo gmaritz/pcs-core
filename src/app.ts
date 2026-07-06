@@ -12,7 +12,10 @@ import {
   inventoryRoutes,
   warehouseRoutes,
 } from './modules/inventory/routes';
-import { supplierRoutes } from './modules/suppliers/routes';
+import {
+  supplierProductRoutes,
+  supplierRoutes,
+} from './modules/suppliers/routes';
 
 import { errorHandler } from './middleware/error-handler';
 
@@ -31,7 +34,6 @@ app.use(express.urlencoded({ extended: true }));
 // ==========================================================
 
 app.get('/health', (_req, res) => {
-
   res.status(200).json({
 
     status: 'ok',
@@ -65,6 +67,8 @@ app.use('/api/v1/inventory-movements', inventoryMovementRoutes);
 app.use('/api/v1/warehouses', warehouseRoutes);
 
 app.use('/api/v1/suppliers', supplierRoutes);
+
+app.use('/api/v1/supplier-products', supplierProductRoutes);
 
 app.use('/api/v1/sports', sportRoutes);
 

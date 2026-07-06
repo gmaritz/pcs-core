@@ -36,6 +36,7 @@ app.use('/api/v1/inventory', routes_2.inventoryRoutes);
 app.use('/api/v1/inventory-movements', routes_2.inventoryMovementRoutes);
 app.use('/api/v1/warehouses', routes_2.warehouseRoutes);
 app.use('/api/v1/suppliers', routes_3.supplierRoutes);
+app.use('/api/v1/supplier-products', routes_3.supplierProductRoutes);
 app.use('/api/v1/sports', routes_1.sportRoutes);
 // ==========================================================
 // Error Handler

@@ -6,6 +6,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.supplierRoutes = void 0;
+exports.supplierProductRoutes = exports.supplierRoutes = void 0;
 var supplier_routes_1 = require("./supplier.routes");
 Object.defineProperty(exports, "supplierRoutes", { enumerable: true, get: function () { return __importDefault(supplier_routes_1).default; } });
+var supplier_product_routes_1 = require("./supplier-product.routes");
+Object.defineProperty(exports, "supplierProductRoutes", { enumerable: true, get: function () { return __importDefault(supplier_product_routes_1).default; } });
