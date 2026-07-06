@@ -94,6 +94,12 @@ enum InventoryStatus {
   DISCONTINUED
 }
 
+enum InventoryMovementType {
+  STOCK_IN
+  STOCK_OUT
+  ADJUSTMENT
+}
+
 enum SpecificationDataType {
   TEXT
   INTEGER
@@ -1458,7 +1464,7 @@ model Inventory {
 
   productVariant ProductVariant @relation(fields: [productVariantId], references: [id])
 
-  inventoryMovements InventoryMovement[]
+  movements InventoryMovement[]
 
   // ========================================================
   // Indexes
@@ -1496,9 +1502,11 @@ model InventoryMovement {
   // Movement Information
   // ========================================================
 
+  movementType InventoryMovementType
+
   quantity Int
 
-  reason String
+  reason String?
 
   reference String?
 
@@ -1507,8 +1515,6 @@ model InventoryMovement {
   // ========================================================
 
   createdAt DateTime @default(now())
-
-  updatedAt DateTime @updatedAt
 
   // ========================================================
   // Relationships
@@ -1524,7 +1530,7 @@ model InventoryMovement {
 
   @@index([inventoryId])
 
-  @@index([createdAt])
+  @@index([movementType])
 
   // ========================================================
   // Database Mapping
