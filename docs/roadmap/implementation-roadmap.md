@@ -501,3 +501,95 @@ It serves as the single source of truth for implementation progress throughout t
 ---
 
 **End of Implementation Roadmap**
+
+Based on the architecture we've been building together and keeping our focus strictly on the PCS Core MVP, this is what I see remaining.
+
+✅ Catalog Domain (Complete)
+Module	Status
+Sport	✅
+Brand	✅
+Category	✅
+Product	✅
+Product Variant	✅
+✅ Supplier Domain (Complete)
+Module	Status
+Supplier	✅
+Supplier Product	✅
+✅ Inventory Domain (Complete)
+Module	Status
+Inventory	✅
+Inventory Movement	✅
+Warehouse	✅
+Commerce Domain (Remaining)
+
+These are, in my opinion, the remaining CRUD modules required before we can call the core ecommerce MVP complete.
+
+Spec	Module	Priority
+SPEC-011	Customer	⭐⭐⭐⭐⭐
+SPEC-012	Address	⭐⭐⭐⭐
+SPEC-013	Cart	⭐⭐⭐⭐⭐
+SPEC-014	Cart Item	⭐⭐⭐⭐⭐
+SPEC-015	Order	⭐⭐⭐⭐⭐
+SPEC-016	Order Item	⭐⭐⭐⭐⭐
+SPEC-017	Payment	⭐⭐⭐⭐
+Content Domain
+Spec	Module	Priority
+SPEC-018	Media	⭐⭐⭐
+SPEC-019	Product Media	⭐⭐⭐
+SPEC-020	SEO Metadata	⭐⭐
+Administration Domain
+Spec	Module	Priority
+SPEC-021	User	⭐⭐⭐⭐
+SPEC-022	Role	⭐⭐⭐
+SPEC-023	Permission	⭐⭐
+
+For a single-store MVP, we could even postpone Role and Permission until after launch if authentication is initially simple.
+
+Integration Domain
+
+These are not CRUD-first modules. They are workflow modules.
+
+Spec	Module
+SPEC-024	Supplier Feed
+SPEC-025	Import Job
+SPEC-026	Price Synchronisation
+SPEC-027	Inventory Synchronisation
+
+These become important once we start integrating suppliers.
+
+Workflows (Not CRUD)
+Spec	Workflow
+SPEC-028	Checkout
+SPEC-029	Order Processing
+SPEC-030	Purchase Order
+SPEC-031	Stock Adjustment
+SPEC-032	Inventory Transfer
+What I Recommend
+
+For the MVP, I'd concentrate on the Commerce Domain next.
+
+That gives us:
+
+Catalog
+    ✓
+
+Supply Chain
+    ✓
+
+Commerce
+    ← Next
+
+Content
+
+Integrations
+
+Once Commerce is complete, PCS Core will be capable of:
+
+Browsing products
+Managing inventory
+Managing suppliers
+Adding products to a cart
+Placing orders
+Recording payments
+
+At that point, we can begin integrating supplier APIs and building the customer-facing storefront.

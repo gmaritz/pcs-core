@@ -100,6 +100,11 @@ enum InventoryMovementType {
   ADJUSTMENT
 }
 
+enum AddressType {
+  SHIPPING
+  BILLING
+}
+
 enum SpecificationDataType {
   TEXT
   INTEGER
@@ -1634,7 +1639,9 @@ model Customer {
   // Customer Information
   // ========================================================
 
-  phone String?
+  telephone String?
+
+  company String?
 
   // ========================================================
   // Status
@@ -1694,6 +1701,8 @@ model Address {
   // Address Information
   // ========================================================
 
+  type AddressType
+
   line1 String
 
   line2 String?
@@ -1702,13 +1711,17 @@ model Address {
 
   city String
 
-  province String?
+  province String
 
   postalCode String
 
   country String
 
-  isDefault Boolean @default(false)
+  contactName String?
+
+  contactPhone String?
+
+  company String?
 
   // ========================================================
   // Auditing

@@ -13,6 +13,10 @@ import {
   warehouseRoutes,
 } from './modules/inventory/routes';
 import {
+  addressRoutes,
+  customerRoutes,
+} from './modules/customers/routes';
+import {
   supplierProductRoutes,
   supplierRoutes,
 } from './modules/suppliers/routes';
@@ -65,6 +69,10 @@ app.use('/api/v1/inventory', inventoryRoutes);
 app.use('/api/v1/inventory-movements', inventoryMovementRoutes);
 
 app.use('/api/v1/warehouses', warehouseRoutes);
+
+app.use('/api/v1/customers', customerRoutes);
+
+app.use('/api/v1/addresses', addressRoutes);
 
 app.use('/api/v1/suppliers', supplierRoutes);
 
