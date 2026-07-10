@@ -111,6 +111,15 @@ enum CartStatus {
   ABANDONED
 }
 
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  COMPLETED
+  CANCELLED
+}
+
 enum SpecificationDataType {
   TEXT
   INTEGER
@@ -1745,6 +1754,10 @@ model Address {
 
   customer Customer @relation(fields: [customerId], references: [id])
 
+  billingOrders Order[] @relation("BillingAddress")
+
+  shippingOrders Order[] @relation("ShippingAddress")
+
   // ========================================================
   // Indexes
   // ========================================================
@@ -1943,21 +1956,13 @@ model Order {
   // Order Information
   // ========================================================
 
-  subtotal Decimal @db.Decimal(10,2)
-
-  tax Decimal @db.Decimal(10,2)
-
-  shipping Decimal @db.Decimal(10,2)
-
-  total Decimal @db.Decimal(10,2)
-
-  placedAt DateTime?
+  notes String?
 
   // ========================================================
   // Status
   // ========================================================
 
-  status RecordStatus @default(ACTIVE)
+  status OrderStatus @default(PENDING)
 
   // ========================================================
   // Auditing
@@ -1975,6 +1980,14 @@ model Order {
 
   customer Customer @relation(fields: [customerId], references: [id])
 
+  billingAddressId String?
+
+  billingAddress Address? @relation("BillingAddress", fields: [billingAddressId], references: [id])
+
+  shippingAddressId String?
+
+  shippingAddress Address? @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
+
   orderItems OrderItem[]
 
   payments Payment[]
@@ -1988,6 +2001,10 @@ model Order {
   // ========================================================
 
   @@index([customerId])
+
+  @@index([billingAddressId])
+
+  @@index([shippingAddressId])
 
   @@index([status])
 

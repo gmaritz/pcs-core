@@ -7,8 +7,9 @@ const express_1 = __importDefault(require("express"));
 const routes_1 = require("./modules/catalog/routes");
 const routes_2 = require("./modules/inventory/routes");
 const routes_3 = require("./modules/commerce/routes");
-const routes_4 = require("./modules/customers/routes");
-const routes_5 = require("./modules/suppliers/routes");
+const routes_4 = require("./modules/orders/routes");
+const routes_5 = require("./modules/customers/routes");
+const routes_6 = require("./modules/suppliers/routes");
 const error_handler_1 = require("./middleware/error-handler");
 const app = (0, express_1.default)();
 // ==========================================================
@@ -39,10 +40,11 @@ app.use('/api/v1/inventory-movements', routes_2.inventoryMovementRoutes);
 app.use('/api/v1/warehouses', routes_2.warehouseRoutes);
 app.use('/api/v1/carts', routes_3.cartRoutes);
 app.use('/api/v1/cart-items', routes_3.cartItemRoutes);
-app.use('/api/v1/customers', routes_4.customerRoutes);
-app.use('/api/v1/addresses', routes_4.addressRoutes);
-app.use('/api/v1/suppliers', routes_5.supplierRoutes);
-app.use('/api/v1/supplier-products', routes_5.supplierProductRoutes);
+app.use('/api/v1/orders', routes_4.orderRoutes);
+app.use('/api/v1/customers', routes_5.customerRoutes);
+app.use('/api/v1/addresses', routes_5.addressRoutes);
+app.use('/api/v1/suppliers', routes_6.supplierRoutes);
+app.use('/api/v1/supplier-products', routes_6.supplierProductRoutes);
 app.use('/api/v1/sports', routes_1.sportRoutes);
 // ==========================================================
 // Error Handler

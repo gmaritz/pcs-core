@@ -17,6 +17,9 @@ import {
   cartRoutes,
 } from './modules/commerce/routes';
 import {
+  orderRoutes,
+} from './modules/orders/routes';
+import {
   addressRoutes,
   customerRoutes,
 } from './modules/customers/routes';
@@ -77,6 +80,8 @@ app.use('/api/v1/warehouses', warehouseRoutes);
 app.use('/api/v1/carts', cartRoutes);
 
 app.use('/api/v1/cart-items', cartItemRoutes);
+
+app.use('/api/v1/orders', orderRoutes);
 
 app.use('/api/v1/customers', customerRoutes);
 
