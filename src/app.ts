@@ -13,6 +13,9 @@ import {
   warehouseRoutes,
 } from './modules/inventory/routes';
 import {
+  cartRoutes,
+} from './modules/commerce/routes';
+import {
   addressRoutes,
   customerRoutes,
 } from './modules/customers/routes';
@@ -69,6 +72,8 @@ app.use('/api/v1/inventory', inventoryRoutes);
 app.use('/api/v1/inventory-movements', inventoryMovementRoutes);
 
 app.use('/api/v1/warehouses', warehouseRoutes);
+
+app.use('/api/v1/carts', cartRoutes);
 
 app.use('/api/v1/customers', customerRoutes);
 

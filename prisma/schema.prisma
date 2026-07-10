@@ -105,6 +105,12 @@ enum AddressType {
   BILLING
 }
 
+enum CartStatus {
+  ACTIVE
+  CHECKED_OUT
+  ABANDONED
+}
+
 enum SpecificationDataType {
   TEXT
   INTEGER
@@ -1663,7 +1669,7 @@ model Customer {
 
   addresses Address[]
 
-  shoppingCart ShoppingCart?
+  cart Cart?
 
   wishlists Wishlist[]
 
@@ -1754,10 +1760,10 @@ model Address {
 
 
 // ==========================================================
-// SHOPPING CART
+// CART
 // ==========================================================
 
-model ShoppingCart {
+model Cart {
 
   // ========================================================
   // Primary Key
@@ -1769,7 +1775,7 @@ model ShoppingCart {
   // Status
   // ========================================================
 
-  status RecordStatus @default(ACTIVE)
+  status CartStatus @default(ACTIVE)
 
   // ========================================================
   // Auditing
@@ -1787,7 +1793,7 @@ model ShoppingCart {
 
   customer Customer @relation(fields: [customerId], references: [id])
 
-  cartItems CartItem[]
+  items CartItem[]
 
   // ========================================================
   // Indexes
@@ -1799,7 +1805,7 @@ model ShoppingCart {
   // Database Mapping
   // ========================================================
 
-  @@map("shopping_carts")
+  @@map("carts")
 }
 
 
@@ -1833,9 +1839,9 @@ model CartItem {
   // Relationships
   // ========================================================
 
-  shoppingCartId String
+  cartId String
 
-  shoppingCart ShoppingCart @relation(fields: [shoppingCartId], references: [id])
+  cart Cart @relation(fields: [cartId], references: [id])
 
   productVariantId String
 
@@ -1845,11 +1851,11 @@ model CartItem {
   // Indexes
   // ========================================================
 
-  @@index([shoppingCartId])
+  @@index([cartId])
 
   @@index([productVariantId])
 
-  @@unique([shoppingCartId, productVariantId])
+  @@unique([cartId, productVariantId])
 
   // ========================================================
   // Database Mapping
