@@ -38,6 +38,7 @@ app.use('/api/v1/inventory', routes_2.inventoryRoutes);
 app.use('/api/v1/inventory-movements', routes_2.inventoryMovementRoutes);
 app.use('/api/v1/warehouses', routes_2.warehouseRoutes);
 app.use('/api/v1/carts', routes_3.cartRoutes);
+app.use('/api/v1/cart-items', routes_3.cartItemRoutes);
 app.use('/api/v1/customers', routes_4.customerRoutes);
 app.use('/api/v1/addresses', routes_4.addressRoutes);
 app.use('/api/v1/suppliers', routes_5.supplierRoutes);
