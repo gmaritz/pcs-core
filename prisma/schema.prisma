@@ -120,6 +120,26 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum PaymentChannel {
+  EFT
+  CREDIT_CARD
+  DEBIT_CARD
+  CASH
+  PAYFAST
+  PAYGATE
+  YOCO
+  OZOW
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
 enum SpecificationDataType {
   TEXT
   INTEGER
@@ -2090,17 +2110,23 @@ model Payment {
   // Payment Information
   // ========================================================
 
+  paymentReference String @unique
+
   amount Decimal @db.Decimal(10,2)
 
-  reference String?
+  currency String @default("ZAR")
 
-  paidAt DateTime?
+  method PaymentChannel
+
+  transactionReference String?
+
+  notes String?
 
   // ========================================================
   // Status
   // ========================================================
 
-  status RecordStatus @default(ACTIVE)
+  status PaymentStatus @default(PENDING)
 
   // ========================================================
   // Auditing
