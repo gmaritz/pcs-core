@@ -41,6 +41,7 @@ app.use('/api/v1/warehouses', routes_2.warehouseRoutes);
 app.use('/api/v1/carts', routes_3.cartRoutes);
 app.use('/api/v1/cart-items', routes_3.cartItemRoutes);
 app.use('/api/v1/orders', routes_4.orderRoutes);
+app.use('/api/v1/order-items', routes_4.orderItemRoutes);
 app.use('/api/v1/customers', routes_5.customerRoutes);
 app.use('/api/v1/addresses', routes_5.addressRoutes);
 app.use('/api/v1/suppliers', routes_6.supplierRoutes);

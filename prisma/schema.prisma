@@ -1988,7 +1988,7 @@ model Order {
 
   shippingAddress Address? @relation("ShippingAddress", fields: [shippingAddressId], references: [id])
 
-  orderItems OrderItem[]
+  items OrderItem[]
 
   payments Payment[]
 
@@ -2034,9 +2034,9 @@ model OrderItem {
 
   quantity Int
 
-  unitPrice Decimal @db.Decimal(10,2)
+  unitPrice Decimal? @db.Decimal(10,2)
 
-  lineTotal Decimal @db.Decimal(10,2)
+  totalPrice Decimal? @db.Decimal(10,2)
 
   // ========================================================
   // Auditing
@@ -2051,10 +2051,6 @@ model OrderItem {
   // ========================================================
 
   orderId String
-
-  productName String
-
-  sku String
 
   order Order @relation(fields: [orderId], references: [id])
 
