@@ -51,6 +51,7 @@ app.use('/api/v1/suppliers', routes_7.supplierRoutes);
 app.use('/api/v1/supplier-products', routes_7.supplierProductRoutes);
 app.use('/api/v1/sports', routes_1.sportRoutes);
 app.use('/api/v1/media', routes_8.mediaRoutes);
+app.use('/api/v1/product-media', routes_8.productMediaRoutes);
 // ==========================================================
 // Error Handler
 // ==========================================================

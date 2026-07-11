@@ -148,6 +148,13 @@ enum SpecificationDataType {
   DATE
 }
 
+enum MediaRole {
+  PRIMARY
+  GALLERY
+  THUMBNAIL
+  HERO
+}
+
 
 // ==========================================================
 // ARTICLE TYPE
@@ -759,6 +766,8 @@ model Product {
 
   productSpecifications ProductSpecification[]
 
+  media ProductMedia[]
+
   // ========================================================
   // Indexes
   // ========================================================
@@ -1078,6 +1087,12 @@ model Media {
   updatedAt DateTime @updatedAt
 
   // ========================================================
+  // Relationships
+  // ========================================================
+
+  products ProductMedia[]
+
+  // ========================================================
   // Indexes
   // ========================================================
 
@@ -1090,6 +1105,66 @@ model Media {
   // ========================================================
 
   @@map("media")
+}
+
+
+// ==========================================================
+// PRODUCT MEDIA
+// ==========================================================
+
+model ProductMedia {
+
+  // ========================================================
+  // Primary Key
+  // ========================================================
+
+  id String @id @default(uuid())
+
+  // ========================================================
+  // Business Information
+  // ========================================================
+
+  mediaRole MediaRole @default(GALLERY)
+
+  displayOrder Int @default(0)
+
+  isPrimary Boolean @default(false)
+
+  // ========================================================
+  // Auditing
+  // ========================================================
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  // ========================================================
+  // Relationships
+  // ========================================================
+
+  productId String
+
+  product Product @relation(fields: [productId], references: [id])
+
+  mediaId String
+
+  media Media @relation(fields: [mediaId], references: [id])
+
+  // ========================================================
+  // Indexes
+  // ========================================================
+
+  @@unique([productId, mediaId])
+
+  @@index([productId])
+
+  @@index([mediaId])
+
+  // ========================================================
+  // Database Mapping
+  // ========================================================
+
+  @@map("product_media")
 }
 
 

@@ -32,6 +32,7 @@ import {
   supplierRoutes,
 } from './modules/suppliers/routes';
 import {
+  productMediaRoutes,
   mediaRoutes,
 } from './modules/content/routes';
 
@@ -105,6 +106,8 @@ app.use('/api/v1/supplier-products', supplierProductRoutes);
 app.use('/api/v1/sports', sportRoutes);
 
 app.use('/api/v1/media', mediaRoutes);
+
+app.use('/api/v1/product-media', productMediaRoutes);
 
 // ==========================================================
 // Error Handler
