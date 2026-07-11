@@ -11,6 +11,7 @@ const routes_4 = require("./modules/orders/routes");
 const routes_5 = require("./modules/payments/routes");
 const routes_6 = require("./modules/customers/routes");
 const routes_7 = require("./modules/suppliers/routes");
+const routes_8 = require("./modules/content/routes");
 const error_handler_1 = require("./middleware/error-handler");
 const app = (0, express_1.default)();
 // ==========================================================
@@ -49,6 +50,7 @@ app.use('/api/v1/addresses', routes_6.addressRoutes);
 app.use('/api/v1/suppliers', routes_7.supplierRoutes);
 app.use('/api/v1/supplier-products', routes_7.supplierProductRoutes);
 app.use('/api/v1/sports', routes_1.sportRoutes);
+app.use('/api/v1/media', routes_8.mediaRoutes);
 // ==========================================================
 // Error Handler
 // ==========================================================

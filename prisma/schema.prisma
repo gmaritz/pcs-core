@@ -759,8 +759,6 @@ model Product {
 
   productSpecifications ProductSpecification[]
 
-  media Media[]
-
   // ========================================================
   // Indexes
   // ========================================================
@@ -1034,16 +1032,36 @@ model Media {
   id String @id @default(uuid())
 
   // ========================================================
+  // Business Identity
+  // ========================================================
+
+  filename String
+
+  // ========================================================
   // Business Information
   // ========================================================
+
+  originalFilename String?
+
+  mimeType String
+
+  extension String
 
   url String
 
   altText String?
 
-  displayOrder Int @default(0)
+  title String?
 
-  isPrimary Boolean @default(false)
+  description String?
+
+  width Int?
+
+  height Int?
+
+  fileSize Int?
+
+  displayOrder Int @default(0)
 
   // ========================================================
   // Status
@@ -1060,22 +1078,12 @@ model Media {
   updatedAt DateTime @updatedAt
 
   // ========================================================
-  // Relationships
-  // ========================================================
-
-  productId String
-
-  product Product @relation(fields: [productId], references: [id])
-
-  // ========================================================
   // Indexes
   // ========================================================
 
-  @@index([productId])
-
   @@index([displayOrder])
 
-  @@index([status])
+  @@index([filename])
 
   // ========================================================
   // Database Mapping

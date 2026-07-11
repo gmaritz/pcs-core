@@ -6,77 +6,85 @@
 
 **Project Codename:** PCS Core
 
-**Document Version:** 1.0.0
+**Document Version:** 2.0.0
 
 **Document Status:** Living Document
 
-**Last Updated:** 2026-06-29
+**Last Updated:** 2026-07-10
 
 ---
 
 # Overall Progress
 
-```
+```text
 Architecture      ████████████████████ 100%
 
-Persistence       ██████░░░░░░░░░░░░░░ 30%
+Persistence       ████████████████████ 100%
 
-Backend           ░░░░░░░░░░░░░░░░░░░░ 0%
+Backend           ████████████████░░░░ 80%
 
 Frontend          ░░░░░░░░░░░░░░░░░░░░ 0%
 
-Testing           ░░░░░░░░░░░░░░░░░░░░ 0%
+Testing           ████████████░░░░░░░░ 60%
 
 Deployment        ░░░░░░░░░░░░░░░░░░░░ 0%
 ```
 
 ---
 
-**Overall Project Progress**
+## Overall Project Progress
 
-**≈ 35% Complete**
+**≈ 72% Complete**
 
 ---
 
-**Current Version**
+## Current Version
 
-```
-v0.5.0
-```
-
-**Current Milestone**
-
-```
-M06 — Commerce Aggregate
+```text
+v0.8.0
 ```
 
-**Current Activity**
+---
 
-```
-Catalog Aggregate
+## Current Milestone
 
-Overall Progress
-
-≈ 40%
+```text
+M11 — Content Domain
 ```
 
-**Next Milestone**
+---
 
+## Current Activity
+
+```text
+Engineering Specifications
+
+Completed:
+SPEC-001 → SPEC-017
+
+Next:
+SPEC-018 — Media CRUD
 ```
-M06 — Commerce Aggregate
+
+---
+
+## Next Milestone
+
+```text
+M11 — Content Domain
 ```
 
 ---
 
 # Purpose
 
-This roadmap serves as the master implementation plan for PCS Core.
+This roadmap is the master implementation plan for PCS Core.
 
-It tracks project progress from architecture through implementation, testing and production deployment.
+It tracks implementation progress from architecture through production.
 
-Unlike the Architecture Handbook, which documents *how the platform is designed*, this roadmap documents *how the platform will be built*.
+Unlike the Architecture Handbook, this document reflects the **actual implementation state** of the project.
 
-This document is updated continuously throughout the life of the project.
+It is updated after every completed Engineering Specification.
 
 ---
 
@@ -88,508 +96,243 @@ This document is updated continuously throughout the life of the project.
 | Architecture | ✅ Complete |
 | Domain Model | ✅ Complete |
 | Database Architecture | ✅ Complete |
-| Implementation | 🚧 In Progress |
-| Testing | ⏳ Planned |
-| Production | ⏳ Planned |
+| Backend Implementation | 🚧 In Progress |
+| Testing | 🚧 In Progress |
+| Frontend | ⏳ Planned |
+| Production Deployment | ⏳ Planned |
 
 ---
 
 # Version Roadmap
 
 | Version | Milestone | Status |
-|-----------|-----------|:------:|
+|---------|-----------|:------:|
 | v0.1.0 | Project Foundation | ✅ |
 | v0.2.0 | Architecture Handbook | ✅ |
 | v0.3.0 | Domain Model | ✅ |
 | v0.4.0 | Database Architecture | ✅ |
-| v0.5.0 | Prisma & Persistence Layer | ⏳ |
-| v0.6.0 | Backend Core | ⏳ |
-| v0.7.0 | Public REST API | ⏳ |
-| v0.8.0 | Supplier Integrations | ⏳ |
-| v0.9.0 | Ecommerce MVP | ⏳ |
-| v1.0.0 | Production Release | ⏳ |
+| v0.5.0 | Persistence Layer | ✅ |
+| v0.6.0 | Catalog Domain | ✅ |
+| v0.7.0 | Supply Chain Domain | ✅ |
+| v0.8.0 | Commerce Domain | 🚧 |
+| v0.9.0 | Content Domain | ⏳ |
+| v1.0.0 | MVP Release | ⏳ |
 
 ---
 
-# Milestone Roadmap
+# Engineering Specification Progress
+
+| Specification | Module | Status |
+|--------------|--------|:------:|
+| SPEC-001 | Brand CRUD | ✅ |
+| SPEC-002 | Sport CRUD | ✅ |
+| SPEC-003 | Category CRUD | ✅ |
+| SPEC-004 | Product CRUD | ✅ |
+| SPEC-005 | Product Variant CRUD | ✅ |
+| SPEC-006 | Supplier CRUD | ✅ |
+| SPEC-007 | Inventory CRUD | ✅ |
+| SPEC-008 | Inventory Movement CRUD | ✅ |
+| SPEC-009 | Warehouse CRUD | ✅ |
+| SPEC-010 | Supplier Product CRUD | ✅ |
+| SPEC-011 | Customer CRUD | ✅ |
+| SPEC-012 | Address CRUD | ✅ |
+| SPEC-013 | Cart CRUD | ✅ |
+| SPEC-014 | Cart Item CRUD | ✅ |
+| SPEC-015 | Order CRUD | ✅ |
+| SPEC-016 | Order Item CRUD | ✅ |
+| SPEC-017 | Payment CRUD | ✅ |
+| SPEC-018 | Media CRUD | ⏳ |
+| SPEC-019 | Product Media CRUD | ⏳ |
+| SPEC-020 | SEO Metadata CRUD | ⏳ |
 
 ---
 
-## M01 — Project Foundation
+# Domain Progress
 
-**Status:** ✅ Complete
+## Catalog
 
-### Deliverables
+| Module | Status |
+|---------|:------:|
+| Sport | ✅ |
+| Brand | ✅ |
+| Category | ✅ |
+| Product | ✅ |
+| Product Variant | ✅ |
 
-- Repository created
-- Project structure
-- TypeScript
-- Express
-- EJS
+**Progress:** 100%
+
+---
+
+## Supply Chain
+
+| Module | Status |
+|---------|:------:|
+| Supplier | ✅ |
+| Supplier Product | ✅ |
+| Inventory | ✅ |
+| Inventory Movement | ✅ |
+| Warehouse | ✅ |
+
+**Progress:** 100%
+
+---
+
+## Commerce
+
+| Module | Status |
+|---------|:------:|
+| Customer | ✅ |
+| Address | ✅ |
+| Cart | ✅ |
+| Cart Item | ✅ |
+| Order | ✅ |
+| Order Item | ✅ |
+| Payment | ✅ |
+
+**Progress:** 100%
+
+---
+
+## Content
+
+| Module | Status |
+|---------|:------:|
+| Media | ⏳ |
+| Product Media | ⏳ |
+| SEO Metadata | ⏳ |
+
+**Progress:** 0%
+
+---
+
+## Administration
+
+| Module | Status |
+|---------|:------:|
+| User | ⏳ |
+| Role | ⏳ |
+| Permission | ⏳ |
+
+---
+
+## Integration
+
+| Module | Status |
+|---------|:------:|
+| Supplier Feed | ⏳ |
+| Import Job | ⏳ |
+| Price Synchronisation | ⏳ |
+| Inventory Synchronisation | ⏳ |
+
+---
+
+# Current MVP Status
+
+## Completed
+
+- Project Foundation
+- Architecture
 - Prisma
-- PostgreSQL
-- Documentation structure
-- Git repository
-
----
-
-## M02 — Domain Model
-
-**Status:** ✅ Complete
-
-### Deliverables
-
-- Domain Model
-- Aggregate Roots
-- Entity Catalogue
-- Business Rules
-- Mermaid diagrams
+- Shared Infrastructure
 - Catalog Domain
-
----
-
-## M03 — Supply Chain Domain
-
-**Status:** ✅ Complete
-
-### Deliverables
-
-- Supplier
-- Supplier Feed
-- Import Job
-- Supplier Product
-- Warehouse
-- Inventory
-- Inventory Movement
-- Price History
-- Supply Chain diagrams
-- Workflow diagrams
-
----
-
-## M04 — Database Architecture
-
-**Status:** ✅ Complete
-
-### Deliverables
-
-- Database Architecture
-- Prisma Standards
-- Schema Overview
-- Persistence Strategy
-- Handbook Chapter 6
-
----
-
-## M05 — Prisma Foundation
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- schema.prisma
-- Generator
-- Datasource
-- Base enums
-- Naming conventions
-- UUID strategy
-- Timestamp strategy
-
----
-
-## M06 — Commerce Aggregate
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Store
-- Currency
-- Tax Rate
-- Shipping Method
-- Payment Method
-
----
-
-## M07 — Catalog Models
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Sport
-- Category
-- Brand
-- Product
-- Product Variant
-- Attribute
-- Attribute Value
-- Media
-
----
-
-## M08 — Supply Chain Models
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Supplier
-- Supplier Feed
-- Import Job
-- Supplier Product
-- Warehouse
-- Inventory
-- Inventory Movement
-- Price History
-
----
-
-## M09 — Customer Models
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Customer
-- Address
-- Shopping Cart
-- Cart Item
-- Wishlist
-
----
-
-## M10 — Sales Models
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Order
-- Order Item
-- Payment
-- Shipment
-- Refund
-
----
-
-## M11 — Content Models
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Page
-- Hero
-- Banner
-- Navigation
-- SEO Metadata
-
----
-
-## M12 — Repository Layer
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Repository interfaces
-- Prisma repositories
-- Base repository
-- Transaction support
-
----
-
-## M13 — Service Layer
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Business services
-- Validation
-- Domain logic
-- Unit testing
-
----
-
-## M14 — Authentication & Security
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Authentication
-- Authorization
-- Sessions
-- Roles
-- Permissions
-
----
-
-## M15 — REST API
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- API architecture
+- Supply Chain Domain
+- Commerce Domain
+- REST API
+- CRUD Services
 - Controllers
-- Routes
 - Validation
-- Error handling
+- DTOs
+- Routing
+- Prisma Migrations
 
 ---
 
-## M16 — Admin Portal
+## Remaining for MVP
 
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Dashboard
-- Product Management
-- Supplier Management
-- Inventory Management
-- Customer Management
-
----
-
-## M17 — Public Website
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Homepage
-- Product Catalogue
-- Search
-- Product Pages
-- Shopping Cart
+- Content Domain
+- Authentication
+- Product Search
+- Checkout Workflow
+- Order Processing
+- Supplier Feed Import
+- Public Storefront
+- Administration UI
+- Testing
+- Deployment
 
 ---
 
-## M18 — Customer Portal
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Registration
-- Login
-- Orders
-- Wishlist
-- Addresses
-
----
-
-## M19 — Supplier Integrations
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Supplier API Framework
-- Synchronisation Engine
-- Scheduling
-- Monitoring
-
----
-
-## M20 — Payments & Shipping
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Payment Gateway
-- Shipping Integration
-- Tax Calculation
-
----
-
-## M21 — Testing
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Unit Testing
-- Integration Testing
-- End-to-End Testing
-- Performance Testing
-
----
-
-## M22 — Deployment
-
-**Status:** ⏳ Planned
-
-### Deliverables
-
-- Production Deployment
-- CI/CD
-- Monitoring
-- Backups
-- Logging
-
----
-
-# Guiding Principles
-
-Every milestone follows the same engineering workflow.
+# Development Workflow
 
 ```text
-Architecture
+Engineering Specification
 
-↓
+        ↓
 
-Documentation
+GitHub Copilot
 
-↓
+        ↓
 
-Domain Model
+Prisma Migration
 
-↓
+        ↓
 
-Database
+Prisma Generate
 
-↓
+        ↓
 
-Implementation
+TypeScript Build
 
-↓
+        ↓
 
-Testing
+Manual Verification
 
-↓
+        ↓
 
 Git Commit
 
-↓
+        ↓
 
-Review
+Update Roadmap
 
-↓
+        ↓
 
-Next Milestone
+Next Specification
 ```
-
-Implementation never precedes architecture.
 
 ---
 
-# Success Criteria
+# Definition of MVP
 
-PCS Core will be considered ready for production when:
+PCS Core MVP will be complete when:
 
-- All milestones are complete.
-- Documentation is current.
-- All tests pass.
-- Supplier integrations are operational.
-- The platform supports end-to-end ecommerce transactions.
-- Deployment and monitoring are in place.
+- Core domains implemented
+- REST API complete
+- Product catalogue operational
+- Inventory operational
+- Customer ordering operational
+- Supplier integration operational
+- Checkout operational
+- Storefront operational
+- Production deployment completed
+
+---
+
+# Immediate Next Steps
+
+1. SPEC-018 — Media CRUD
+2. SPEC-019 — Product Media CRUD
+3. SPEC-020 — SEO Metadata CRUD
+4. Authentication
+5. Checkout Workflow
+6. Supplier Feed Import
+7. Storefront
+8. Production Deployment
 
 ---
 
 # Notes
 
-This roadmap is a living document and should be updated as milestones are completed, new requirements emerge, or project priorities evolve.
+This roadmap reflects the actual implementation status of PCS Core.
 
-It serves as the single source of truth for implementation progress throughout the lifecycle of PCS Core.
-
----
-
-**End of Implementation Roadmap**
-
-Based on the architecture we've been building together and keeping our focus strictly on the PCS Core MVP, this is what I see remaining.
-
-✅ Catalog Domain (Complete)
-Module	Status
-Sport	✅
-Brand	✅
-Category	✅
-Product	✅
-Product Variant	✅
-✅ Supplier Domain (Complete)
-Module	Status
-Supplier	✅
-Supplier Product	✅
-✅ Inventory Domain (Complete)
-Module	Status
-Inventory	✅
-Inventory Movement	✅
-Warehouse	✅
-Commerce Domain (Remaining)
-
-These are, in my opinion, the remaining CRUD modules required before we can call the core ecommerce MVP complete.
-
-Spec	Module	Priority
-SPEC-011	Customer	⭐⭐⭐⭐⭐
-SPEC-012	Address	⭐⭐⭐⭐
-SPEC-013	Cart	⭐⭐⭐⭐⭐
-SPEC-014	Cart Item	⭐⭐⭐⭐⭐
-SPEC-015	Order	⭐⭐⭐⭐⭐
-SPEC-016	Order Item	⭐⭐⭐⭐⭐
-SPEC-017	Payment	⭐⭐⭐⭐
-Content Domain
-Spec	Module	Priority
-SPEC-018	Media	⭐⭐⭐
-SPEC-019	Product Media	⭐⭐⭐
-SPEC-020	SEO Metadata	⭐⭐
-Administration Domain
-Spec	Module	Priority
-SPEC-021	User	⭐⭐⭐⭐
-SPEC-022	Role	⭐⭐⭐
-SPEC-023	Permission	⭐⭐
-
-For a single-store MVP, we could even postpone Role and Permission until after launch if authentication is initially simple.
-
-Integration Domain
-
-These are not CRUD-first modules. They are workflow modules.
-
-Spec	Module
-SPEC-024	Supplier Feed
-SPEC-025	Import Job
-SPEC-026	Price Synchronisation
-SPEC-027	Inventory Synchronisation
-
-These become important once we start integrating suppliers.
-
-Workflows (Not CRUD)
-Spec	Workflow
-SPEC-028	Checkout
-SPEC-029	Order Processing
-SPEC-030	Purchase Order
-SPEC-031	Stock Adjustment
-SPEC-032	Inventory Transfer
-What I Recommend
-
-For the MVP, I'd concentrate on the Commerce Domain next.
-
-That gives us:
-
-Catalog
-    ✓
-
-Supply Chain
-    ✓
-
-Commerce
-    ← Next
-
-Content
-
-Integrations
-
-Once Commerce is complete, PCS Core will be capable of:
-
-Browsing products
-Managing inventory
-Managing suppliers
-Adding products to a cart
-Placing orders
-Recording payments
-
-At that point, we can begin integrating supplier APIs and building the customer-facing storefront.
+It is updated after every completed Engineering Specification and serves as the authoritative implementation progress document for the project.

@@ -31,6 +31,9 @@ import {
   supplierProductRoutes,
   supplierRoutes,
 } from './modules/suppliers/routes';
+import {
+  mediaRoutes,
+} from './modules/content/routes';
 
 import { errorHandler } from './middleware/error-handler';
 
@@ -100,6 +103,8 @@ app.use('/api/v1/suppliers', supplierRoutes);
 app.use('/api/v1/supplier-products', supplierProductRoutes);
 
 app.use('/api/v1/sports', sportRoutes);
+
+app.use('/api/v1/media', mediaRoutes);
 
 // ==========================================================
 // Error Handler
