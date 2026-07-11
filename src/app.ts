@@ -34,6 +34,7 @@ import {
 import {
   productMediaRoutes,
   mediaRoutes,
+  seoMetadataRoutes,
 } from './modules/content/routes';
 
 import { errorHandler } from './middleware/error-handler';
@@ -108,6 +109,8 @@ app.use('/api/v1/sports', sportRoutes);
 app.use('/api/v1/media', mediaRoutes);
 
 app.use('/api/v1/product-media', productMediaRoutes);
+
+app.use('/api/v1/seo-metadata', seoMetadataRoutes);
 
 // ==========================================================
 // Error Handler
