@@ -36,6 +36,9 @@ import {
   mediaRoutes,
   seoMetadataRoutes,
 } from './modules/content/routes';
+import {
+  authRoutes,
+} from './modules/auth/routes';
 
 import { errorHandler } from './middleware/error-handler';
 
@@ -111,6 +114,8 @@ app.use('/api/v1/media', mediaRoutes);
 app.use('/api/v1/product-media', productMediaRoutes);
 
 app.use('/api/v1/seo-metadata', seoMetadataRoutes);
+
+app.use('/api/v1/auth', authRoutes);
 
 // ==========================================================
 // Error Handler

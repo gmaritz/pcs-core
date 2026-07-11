@@ -6,11 +6,11 @@
 
 **Project Codename:** PCS Core
 
-**Document Version:** 2.0.0
+**Document Version:** 3.0.0
 
 **Document Status:** Living Document
 
-**Last Updated:** 2026-07-10
+**Last Updated:** 2026-07-11
 
 ---
 
@@ -21,57 +21,65 @@ Architecture      ████████████████████ 1
 
 Persistence       ████████████████████ 100%
 
-Backend           ████████████████░░░░ 80%
+Backend           ████████████████████ 100%
+
+CRUD Layer        ████████████████████ 100%
+
+Workflow Engine   ███░░░░░░░░░░░░░░░░░ 15%
 
 Frontend          ░░░░░░░░░░░░░░░░░░░░ 0%
 
-Testing           ████████████░░░░░░░░ 60%
+Testing           ███████████████░░░░░ 75%
 
 Deployment        ░░░░░░░░░░░░░░░░░░░░ 0%
 ```
 
 ---
 
-## Overall Project Progress
+# Overall Project Progress
 
-**≈ 72% Complete**
+**≈ 82% Complete**
 
 ---
 
-## Current Version
+# Current Version
 
 ```text
-v0.8.0
+v0.9.0
 ```
 
 ---
 
-## Current Milestone
+# Current Milestone
 
 ```text
-M11 — Content Domain
+M12 — Workflow & Integration
 ```
 
 ---
 
-## Current Activity
+# Current Activity
 
 ```text
-Engineering Specifications
+CRUD Engineering Specifications
 
-Completed:
-SPEC-001 → SPEC-017
+Completed
 
-Next:
-SPEC-018 — Media CRUD
-```
+SPEC-001 → SPEC-020
 
----
+CRUD Foundation Complete
 
-## Next Milestone
+Current Focus
 
-```text
-M11 — Content Domain
+Workflow Specifications (WF)
+
+Next
+
+WF-001 Authentication
+
+WF-002 Authorization
+
+WF-003 Checkout Workflow
 ```
 
 ---
@@ -80,11 +88,11 @@ M11 — Content Domain
 
 This roadmap is the master implementation plan for PCS Core.
 
-It tracks implementation progress from architecture through production.
+It reflects the actual implementation status of the project.
 
-Unlike the Architecture Handbook, this document reflects the **actual implementation state** of the project.
+Unlike the Architecture Handbook, this document tracks implementation progress from project inception through production deployment.
 
-It is updated after every completed Engineering Specification.
+It is updated after every completed Engineering Specification and Workflow Specification.
 
 ---
 
@@ -96,7 +104,8 @@ It is updated after every completed Engineering Specification.
 | Architecture | ✅ Complete |
 | Domain Model | ✅ Complete |
 | Database Architecture | ✅ Complete |
-| Backend Implementation | 🚧 In Progress |
+| CRUD Implementation | ✅ Complete |
+| Workflow Engine | 🚧 In Progress |
 | Testing | 🚧 In Progress |
 | Frontend | ⏳ Planned |
 | Production Deployment | ⏳ Planned |
@@ -107,16 +116,16 @@ It is updated after every completed Engineering Specification.
 
 | Version | Milestone | Status |
 |---------|-----------|:------:|
-| v0.1.0 | Project Foundation | ✅ |
-| v0.2.0 | Architecture Handbook | ✅ |
+| v0.1.0 | Foundation | ✅ |
+| v0.2.0 | Architecture | ✅ |
 | v0.3.0 | Domain Model | ✅ |
-| v0.4.0 | Database Architecture | ✅ |
-| v0.5.0 | Persistence Layer | ✅ |
+| v0.4.0 | Database | ✅ |
+| v0.5.0 | Persistence | ✅ |
 | v0.6.0 | Catalog Domain | ✅ |
 | v0.7.0 | Supply Chain Domain | ✅ |
-| v0.8.0 | Commerce Domain | 🚧 |
-| v0.9.0 | Content Domain | ⏳ |
-| v1.0.0 | MVP Release | ⏳ |
+| v0.8.0 | Commerce Domain | ✅ |
+| v0.9.0 | Content Domain | ✅ |
+| v1.0.0 | MVP Release | 🚧 |
 
 ---
 
@@ -141,9 +150,28 @@ It is updated after every completed Engineering Specification.
 | SPEC-015 | Order CRUD | ✅ |
 | SPEC-016 | Order Item CRUD | ✅ |
 | SPEC-017 | Payment CRUD | ✅ |
-| SPEC-018 | Media CRUD | ⏳ |
-| SPEC-019 | Product Media CRUD | ⏳ |
-| SPEC-020 | SEO Metadata CRUD | ⏳ |
+| SPEC-018 | Media CRUD | ✅ |
+| SPEC-019 | Product Media CRUD | ✅ |
+| SPEC-020 | SEO Metadata CRUD | ✅ |
+
+---
+
+# Workflow Specification Progress
+
+| Workflow | Description | Status |
+|-----------|-------------|:------:|
+| WF-001 | Authentication | ⏳ |
+| WF-002 | Authorization | ⏳ |
+| WF-003 | Checkout Workflow | ⏳ |
+| WF-004 | Order Processing | ⏳ |
+| WF-005 | Supplier Feed Import | ⏳ |
+| WF-006 | Product Import Pipeline | ⏳ |
+| WF-007 | Inventory Synchronisation | ⏳ |
+| WF-008 | Price Synchronisation | ⏳ |
+| WF-009 | Product Search | ⏳ |
+| WF-010 | Public Storefront | ⏳ |
+| WF-011 | Administration Dashboard | ⏳ |
+| WF-012 | Production Deployment | ⏳ |
 
 ---
 
@@ -197,11 +225,11 @@ It is updated after every completed Engineering Specification.
 
 | Module | Status |
 |---------|:------:|
-| Media | ⏳ |
-| Product Media | ⏳ |
-| SEO Metadata | ⏳ |
+| Media | ✅ |
+| Product Media | ✅ |
+| SEO Metadata | ✅ |
 
-**Progress:** 0%
+**Progress:** 100%
 
 ---
 
@@ -209,20 +237,59 @@ It is updated after every completed Engineering Specification.
 
 | Module | Status |
 |---------|:------:|
-| User | ⏳ |
-| Role | ⏳ |
-| Permission | ⏳ |
+| User Management | ⏳ |
+| Roles | ⏳ |
+| Permissions | ⏳ |
 
 ---
 
-## Integration
+## Workflow
+
+| Workflow | Status |
+|----------|:------:|
+| Authentication | ⏳ |
+| Authorization | ⏳ |
+| Checkout | ⏳ |
+| Order Processing | ⏳ |
+
+---
+
+## Integrations
 
 | Module | Status |
 |---------|:------:|
 | Supplier Feed | ⏳ |
-| Import Job | ⏳ |
-| Price Synchronisation | ⏳ |
-| Inventory Synchronisation | ⏳ |
+| Product Import | ⏳ |
+| Inventory Sync | ⏳ |
+| Price Sync | ⏳ |
+
+---
+
+# CRUD Foundation Status
+
+```text
+Catalog Domain             COMPLETE
+
+Supply Chain Domain        COMPLETE
+
+Commerce Domain            COMPLETE
+
+Content Domain             COMPLETE
+
+REST API                   COMPLETE
+
+Prisma Schema              COMPLETE
+
+DTO Layer                  COMPLETE
+
+Validation Layer           COMPLETE
+
+Service Layer              COMPLETE
+
+Controller Layer           COMPLETE
+
+Routing Layer              COMPLETE
+```
 
 ---
 
@@ -232,11 +299,13 @@ It is updated after every completed Engineering Specification.
 
 - Project Foundation
 - Architecture
-- Prisma
+- Domain Model
+- Database Design
 - Shared Infrastructure
-- Catalog Domain
-- Supply Chain Domain
-- Commerce Domain
+- Complete Catalog Domain
+- Complete Supply Chain Domain
+- Complete Commerce Domain
+- Complete Content Domain
 - REST API
 - CRUD Services
 - Controllers
@@ -244,28 +313,31 @@ It is updated after every completed Engineering Specification.
 - DTOs
 - Routing
 - Prisma Migrations
+- End-to-End CRUD Verification
 
 ---
 
 ## Remaining for MVP
 
-- Content Domain
 - Authentication
-- Product Search
+- Authorization
 - Checkout Workflow
 - Order Processing
-- Supplier Feed Import
+- Supplier Feed Integration
+- Product Import Pipeline
+- Inventory Synchronisation
+- Price Synchronisation
+- Product Search
 - Public Storefront
-- Administration UI
-- Testing
-- Deployment
+- Administration Dashboard
+- Production Deployment
 
 ---
 
 # Development Workflow
 
 ```text
-Engineering Specification
+Workflow Specification
 
         ↓
 
@@ -273,7 +345,11 @@ GitHub Copilot
 
         ↓
 
-Prisma Migration
+Implementation
+
+        ↓
+
+Prisma Migration (if required)
 
         ↓
 
@@ -297,7 +373,7 @@ Update Roadmap
 
         ↓
 
-Next Specification
+Next Workflow
 ```
 
 ---
@@ -306,33 +382,41 @@ Next Specification
 
 PCS Core MVP will be complete when:
 
-- Core domains implemented
-- REST API complete
-- Product catalogue operational
-- Inventory operational
-- Customer ordering operational
-- Supplier integration operational
+- All CRUD modules are complete
+- Authentication implemented
+- Authorization implemented
 - Checkout operational
+- Orders processed automatically
+- Supplier imports operational
+- Inventory synchronisation operational
+- Product search implemented
 - Storefront operational
+- Administration dashboard operational
 - Production deployment completed
 
 ---
 
 # Immediate Next Steps
 
-1. SPEC-018 — Media CRUD
-2. SPEC-019 — Product Media CRUD
-3. SPEC-020 — SEO Metadata CRUD
-4. Authentication
-5. Checkout Workflow
-6. Supplier Feed Import
-7. Storefront
-8. Production Deployment
+1. WF-001 Authentication
+2. WF-002 Authorization
+3. WF-003 Checkout Workflow
+4. WF-004 Order Processing
+5. WF-005 Supplier Feed Import
+6. WF-006 Product Import Pipeline
+7. WF-007 Inventory Synchronisation
+8. WF-008 Price Synchronisation
+9. WF-009 Product Search
+10. WF-010 Public Storefront
+11. WF-011 Administration Dashboard
+12. WF-012 Production Deployment
 
 ---
 
 # Notes
 
-This roadmap reflects the actual implementation status of PCS Core.
+PCS Core has successfully completed the CRUD implementation phase.
 
-It is updated after every completed Engineering Specification and serves as the authoritative implementation progress document for the project.
+Future development is centred on workflow orchestration, supplier integrations and delivering a production-ready ecommerce platform.
+
+This roadmap is the authoritative implementation progress document for PCS Core and is updated after every completed Engineering Specification and Workflow Specification.
