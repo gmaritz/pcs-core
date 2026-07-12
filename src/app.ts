@@ -39,10 +39,81 @@ import {
 import {
   authRoutes,
 } from './modules/auth/routes';
+import {
+  authenticate,
+} from './modules/auth/middleware/jwt.middleware';
+import {
+  authorize,
+} from './modules/auth/middleware/authorization.middleware';
+import {
+  authorizationService,
+  Permissions,
+} from './modules/auth';
 
 import { errorHandler } from './middleware/error-handler';
 
 const app: Express = express();
+
+void authorizationService.seedAuthorizationData();
+
+function resolveWritePermission(
+  path: string,
+) {
+
+  const normalizedPath =
+    path.toLowerCase();
+
+  if (
+    normalizedPath.startsWith('/brands') ||
+    normalizedPath.startsWith('/categories') ||
+    normalizedPath.startsWith('/products') ||
+    normalizedPath.startsWith('/product-variants') ||
+    normalizedPath.startsWith('/sports') ||
+    normalizedPath.startsWith('/media') ||
+    normalizedPath.startsWith('/product-media') ||
+    normalizedPath.startsWith('/seo-metadata')
+  ) {
+    return Permissions.PRODUCTS_WRITE;
+  }
+
+  if (
+    normalizedPath.startsWith('/inventory') ||
+    normalizedPath.startsWith('/inventory-movements') ||
+    normalizedPath.startsWith('/warehouses')
+  ) {
+    return Permissions.INVENTORY_WRITE;
+  }
+
+  if (
+    normalizedPath.startsWith('/orders') ||
+    normalizedPath.startsWith('/order-items') ||
+    normalizedPath.startsWith('/carts') ||
+    normalizedPath.startsWith('/cart-items')
+  ) {
+    return Permissions.ORDERS_WRITE;
+  }
+
+  if (
+    normalizedPath.startsWith('/customers') ||
+    normalizedPath.startsWith('/addresses')
+  ) {
+    return Permissions.CUSTOMERS_WRITE;
+  }
+
+  if (
+    normalizedPath.startsWith('/suppliers') ||
+    normalizedPath.startsWith('/supplier-products')
+  ) {
+    return Permissions.SUPPLIERS_WRITE;
+  }
+
+  if (normalizedPath.startsWith('/payments')) {
+    return Permissions.PAYMENTS_WRITE;
+  }
+
+  return null;
+
+}
 
 // ==========================================================
 // Global Middleware
@@ -74,6 +145,38 @@ app.get('/health', (_req, res) => {
 // ==========================================================
 // API v1
 // ==========================================================
+
+app.use('/api/v1/auth', authRoutes);
+
+app.use('/api/v1', authenticate);
+
+app.use('/api/v1', async (req, res, next) => {
+
+  if (req.method === 'GET') {
+
+    next();
+
+    return;
+
+  }
+
+  const permission = resolveWritePermission(
+    req.path,
+  );
+
+  if (!permission) {
+
+    res.status(403).json({
+      message: 'Forbidden.',
+    });
+
+    return;
+
+  }
+
+  await authorize(permission)(req, res, next);
+
+});
 
 app.use('/api/v1/brands', brandRoutes);
 
@@ -114,8 +217,6 @@ app.use('/api/v1/media', mediaRoutes);
 app.use('/api/v1/product-media', productMediaRoutes);
 
 app.use('/api/v1/seo-metadata', seoMetadataRoutes);
-
-app.use('/api/v1/auth', authRoutes);
 
 // ==========================================================
 // Error Handler

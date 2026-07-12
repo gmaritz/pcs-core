@@ -13,8 +13,48 @@ const routes_6 = require("./modules/customers/routes");
 const routes_7 = require("./modules/suppliers/routes");
 const routes_8 = require("./modules/content/routes");
 const routes_9 = require("./modules/auth/routes");
+const jwt_middleware_1 = require("./modules/auth/middleware/jwt.middleware");
+const authorization_middleware_1 = require("./modules/auth/middleware/authorization.middleware");
+const auth_1 = require("./modules/auth");
 const error_handler_1 = require("./middleware/error-handler");
 const app = (0, express_1.default)();
+void auth_1.authorizationService.seedAuthorizationData();
+function resolveWritePermission(path) {
+    const normalizedPath = path.toLowerCase();
+    if (normalizedPath.startsWith('/brands') ||
+        normalizedPath.startsWith('/categories') ||
+        normalizedPath.startsWith('/products') ||
+        normalizedPath.startsWith('/product-variants') ||
+        normalizedPath.startsWith('/sports') ||
+        normalizedPath.startsWith('/media') ||
+        normalizedPath.startsWith('/product-media') ||
+        normalizedPath.startsWith('/seo-metadata')) {
+        return auth_1.Permissions.PRODUCTS_WRITE;
+    }
+    if (normalizedPath.startsWith('/inventory') ||
+        normalizedPath.startsWith('/inventory-movements') ||
+        normalizedPath.startsWith('/warehouses')) {
+        return auth_1.Permissions.INVENTORY_WRITE;
+    }
+    if (normalizedPath.startsWith('/orders') ||
+        normalizedPath.startsWith('/order-items') ||
+        normalizedPath.startsWith('/carts') ||
+        normalizedPath.startsWith('/cart-items')) {
+        return auth_1.Permissions.ORDERS_WRITE;
+    }
+    if (normalizedPath.startsWith('/customers') ||
+        normalizedPath.startsWith('/addresses')) {
+        return auth_1.Permissions.CUSTOMERS_WRITE;
+    }
+    if (normalizedPath.startsWith('/suppliers') ||
+        normalizedPath.startsWith('/supplier-products')) {
+        return auth_1.Permissions.SUPPLIERS_WRITE;
+    }
+    if (normalizedPath.startsWith('/payments')) {
+        return auth_1.Permissions.PAYMENTS_WRITE;
+    }
+    return null;
+}
 // ==========================================================
 // Global Middleware
 // ==========================================================
@@ -34,6 +74,22 @@ app.get('/health', (_req, res) => {
 // ==========================================================
 // API v1
 // ==========================================================
+app.use('/api/v1/auth', routes_9.authRoutes);
+app.use('/api/v1', jwt_middleware_1.authenticate);
+app.use('/api/v1', async (req, res, next) => {
+    if (req.method === 'GET') {
+        next();
+        return;
+    }
+    const permission = resolveWritePermission(req.path);
+    if (!permission) {
+        res.status(403).json({
+            message: 'Forbidden.',
+        });
+        return;
+    }
+    await (0, authorization_middleware_1.authorize)(permission)(req, res, next);
+});
 app.use('/api/v1/brands', routes_1.brandRoutes);
 app.use('/api/v1/categories', routes_1.categoryRoutes);
 app.use('/api/v1/products', routes_1.productRoutes);
@@ -54,7 +110,6 @@ app.use('/api/v1/sports', routes_1.sportRoutes);
 app.use('/api/v1/media', routes_8.mediaRoutes);
 app.use('/api/v1/product-media', routes_8.productMediaRoutes);
 app.use('/api/v1/seo-metadata', routes_8.seoMetadataRoutes);
-app.use('/api/v1/auth', routes_9.authRoutes);
 // ==========================================================
 // Error Handler
 // ==========================================================

@@ -1248,6 +1248,10 @@ model User {
 
   passwordHash String
 
+  roleId String?
+
+  role Role? @relation(fields: [roleId], references: [id])
+
   // ========================================================
   // Status
   // ========================================================
@@ -1267,6 +1271,74 @@ model User {
   // ========================================================
 
   @@map("users")
+}
+
+
+// ==========================================================
+// ROLE
+// ==========================================================
+
+model Role {
+
+  id String @id @default(uuid())
+
+  name String @unique
+
+  description String?
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  users User[]
+
+  permissions RolePermission[]
+
+  @@map("roles")
+}
+
+
+// ==========================================================
+// PERMISSION
+// ==========================================================
+
+model Permission {
+
+  id String @id @default(uuid())
+
+  code String @unique
+
+  name String
+
+  description String?
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  roles RolePermission[]
+
+  @@map("permissions")
+}
+
+
+// ==========================================================
+// ROLE PERMISSION
+// ==========================================================
+
+model RolePermission {
+
+  roleId String
+
+  permissionId String
+
+  role Role @relation(fields: [roleId], references: [id])
+
+  permission Permission @relation(fields: [permissionId], references: [id])
+
+  @@id([roleId, permissionId])
+
+  @@map("role_permissions")
 }
 
 
