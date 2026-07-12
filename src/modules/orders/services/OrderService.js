@@ -9,6 +9,10 @@ const BaseService_1 = require("../../shared/services/BaseService");
 // Order Service
 // ==========================================================
 class OrderService extends BaseService_1.BaseService {
+    constructor() {
+        super(...arguments);
+        this.defaultDbClient = this.db;
+    }
     // ========================================================
     // Queries
     // ========================================================
@@ -35,8 +39,9 @@ class OrderService extends BaseService_1.BaseService {
     /**
      * Create a new order.
      */
-    async createOrder(dto) {
-        const orderNumber = await this.generateOrderNumber();
+    async createOrder(dto, dbClient) {
+        const client = dbClient ?? this.defaultDbClient;
+        const orderNumber = await this.generateOrderNumber(client);
         const data = {
             orderNumber,
             notes: dto.notes,
@@ -60,7 +65,7 @@ class OrderService extends BaseService_1.BaseService {
                 },
             };
         }
-        return this.db.order.create({
+        return client.order.create({
             data,
         });
     }
@@ -113,8 +118,9 @@ class OrderService extends BaseService_1.BaseService {
     // ========================================================
     // Private Helpers
     // ========================================================
-    async generateOrderNumber() {
-        const latestOrder = await this.db.order.findFirst({
+    async generateOrderNumber(dbClient) {
+        const client = dbClient ?? this.defaultDbClient;
+        const latestOrder = await client.order.findFirst({
             select: {
                 orderNumber: true,
             },

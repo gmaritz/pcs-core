@@ -9,6 +9,10 @@ const BaseService_1 = require("../../shared/services/BaseService");
 // Payment Service
 // ==========================================================
 class PaymentService extends BaseService_1.BaseService {
+    constructor() {
+        super(...arguments);
+        this.defaultDbClient = this.db;
+    }
     // ========================================================
     // Queries
     // ========================================================
@@ -35,8 +39,9 @@ class PaymentService extends BaseService_1.BaseService {
     /**
      * Create a new payment.
      */
-    async createPayment(dto) {
-        const paymentReference = await this.generatePaymentReference();
+    async createPayment(dto, dbClient) {
+        const client = dbClient ?? this.defaultDbClient;
+        const paymentReference = await this.generatePaymentReference(client);
         const data = {
             paymentReference,
             amount: dto.amount,
@@ -50,7 +55,7 @@ class PaymentService extends BaseService_1.BaseService {
                 },
             },
         };
-        return this.db.payment.create({
+        return client.payment.create({
             data,
         });
     }
@@ -84,8 +89,9 @@ class PaymentService extends BaseService_1.BaseService {
     // ========================================================
     // Private Helpers
     // ========================================================
-    async generatePaymentReference() {
-        const latestPayment = await this.db.payment.findFirst({
+    async generatePaymentReference(dbClient) {
+        const client = dbClient ?? this.defaultDbClient;
+        const latestPayment = await client.payment.findFirst({
             select: {
                 paymentReference: true,
             },

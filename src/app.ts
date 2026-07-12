@@ -37,6 +37,9 @@ import {
   seoMetadataRoutes,
 } from './modules/content/routes';
 import {
+  checkoutRoutes,
+} from './modules/workflows/checkout/routes';
+import {
   authRoutes,
 } from './modules/auth/routes';
 import {
@@ -87,6 +90,7 @@ function resolveWritePermission(
   if (
     normalizedPath.startsWith('/orders') ||
     normalizedPath.startsWith('/order-items') ||
+    normalizedPath.startsWith('/checkout') ||
     normalizedPath.startsWith('/carts') ||
     normalizedPath.startsWith('/cart-items')
   ) {
@@ -217,6 +221,8 @@ app.use('/api/v1/media', mediaRoutes);
 app.use('/api/v1/product-media', productMediaRoutes);
 
 app.use('/api/v1/seo-metadata', seoMetadataRoutes);
+
+app.use('/api/v1/checkout', checkoutRoutes);
 
 // ==========================================================
 // Error Handler

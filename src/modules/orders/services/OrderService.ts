@@ -2,7 +2,11 @@
 // Imports
 // ==========================================================
 
-import { Order, Prisma } from '@prisma/client';
+import {
+  Order,
+  Prisma,
+  PrismaClient,
+} from '@prisma/client';
 
 import { BaseService } from '../../shared/services/BaseService';
 
@@ -16,6 +20,8 @@ import {
 // ==========================================================
 
 export class OrderService extends BaseService {
+
+  private readonly defaultDbClient: PrismaClient = this.db;
 
   // ========================================================
   // Queries
@@ -59,9 +65,14 @@ export class OrderService extends BaseService {
    */
   async createOrder(
     dto: CreateOrderDto,
+    dbClient?: Prisma.TransactionClient,
   ): Promise<Order> {
 
-    const orderNumber = await this.generateOrderNumber();
+    const client = dbClient ?? this.defaultDbClient;
+
+    const orderNumber = await this.generateOrderNumber(
+      client,
+    );
 
     const data: Prisma.OrderCreateInput = {
 
@@ -97,7 +108,7 @@ export class OrderService extends BaseService {
 
     }
 
-    return this.db.order.create({
+    return client.order.create({
 
       data,
 
@@ -180,9 +191,13 @@ export class OrderService extends BaseService {
   // Private Helpers
   // ========================================================
 
-  private async generateOrderNumber(): Promise<string> {
+  async generateOrderNumber(
+    dbClient?: Prisma.TransactionClient,
+  ): Promise<string> {
 
-    const latestOrder = await this.db.order.findFirst({
+    const client = dbClient ?? this.defaultDbClient;
+
+    const latestOrder = await client.order.findFirst({
 
       select: {
         orderNumber: true,

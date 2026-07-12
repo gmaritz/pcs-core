@@ -2,7 +2,11 @@
 // Imports
 // ==========================================================
 
-import { Payment, Prisma } from '@prisma/client';
+import {
+  Payment,
+  Prisma,
+  PrismaClient,
+} from '@prisma/client';
 
 import { BaseService } from '../../shared/services/BaseService';
 
@@ -16,6 +20,8 @@ import {
 // ==========================================================
 
 export class PaymentService extends BaseService {
+
+  private readonly defaultDbClient: PrismaClient = this.db;
 
   // ========================================================
   // Queries
@@ -59,9 +65,14 @@ export class PaymentService extends BaseService {
    */
   async createPayment(
     dto: CreatePaymentDto,
+    dbClient?: Prisma.TransactionClient,
   ): Promise<Payment> {
 
-    const paymentReference = await this.generatePaymentReference();
+    const client = dbClient ?? this.defaultDbClient;
+
+    const paymentReference = await this.generatePaymentReference(
+      client,
+    );
 
     const data: Prisma.PaymentCreateInput = {
 
@@ -85,7 +96,7 @@ export class PaymentService extends BaseService {
 
     };
 
-    return this.db.payment.create({
+    return client.payment.create({
 
       data,
 
@@ -144,9 +155,13 @@ export class PaymentService extends BaseService {
   // Private Helpers
   // ========================================================
 
-  private async generatePaymentReference(): Promise<string> {
+  async generatePaymentReference(
+    dbClient?: Prisma.TransactionClient,
+  ): Promise<string> {
 
-    const latestPayment = await this.db.payment.findFirst({
+    const client = dbClient ?? this.defaultDbClient;
+
+    const latestPayment = await client.payment.findFirst({
 
       select: {
         paymentReference: true,
