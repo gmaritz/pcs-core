@@ -3,107 +3,56 @@
 // ==========================================================
 
 import {
-  ImportReferenceData,
-  SupplierImportRecord,
-} from '../types';
+  SupplierValidator,
+  ValidationResult,
+  NormalizedSupplierProduct,
+} from '../../../../shared/import';
 
-function normalizeName(
-  value: string,
-): string {
+export class SupplierImportValidator
+  implements SupplierValidator {
 
-  return value.trim().toLowerCase();
-
-}
-
-export class SupplierImportValidator {
-
-  validate(
-    records: SupplierImportRecord[],
-    references: ImportReferenceData,
-  ): string[] {
+  async validate(
+    product: NormalizedSupplierProduct,
+  ): Promise<ValidationResult> {
 
     const errors: string[] = [];
-    const supplierSkus = new Set<string>();
 
-    for (const [index, record] of records.entries()) {
-
-      const row = index + 1;
-
-      if (!record.supplierSku) {
-        errors.push(`Row ${row}: Missing SKU.`);
-      }
-
-      if (!record.name) {
-        errors.push(`Row ${row}: Missing name.`);
-      }
-
-      if (!record.brand) {
-        errors.push(`Row ${row}: Missing brand.`);
-      }
-
-      if (!record.category) {
-        errors.push(`Row ${row}: Missing category.`);
-      }
-
-      if (!record.sport) {
-        errors.push(`Row ${row}: Missing sport.`);
-      }
-
-      if (Number.isNaN(record.price)) {
-        errors.push(`Row ${row}: Invalid price.`);
-      } else if (record.price < 0) {
-        errors.push(`Row ${row}: Negative price.`);
-      }
-
-      if (Number.isNaN(record.quantity)) {
-        errors.push(`Row ${row}: Invalid quantity.`);
-      } else if (record.quantity < 0) {
-        errors.push(`Row ${row}: Negative quantity.`);
-      }
-
-      const normalizedSupplierSku =
-        normalizeName(record.supplierSku);
-
-      if (normalizedSupplierSku) {
-
-        if (supplierSkus.has(normalizedSupplierSku)) {
-          errors.push(`Row ${row}: Duplicate supplier SKU in import payload.`);
-        }
-
-        supplierSkus.add(normalizedSupplierSku);
-
-      }
-
-      if (
-        record.brand &&
-        !references.brandsByName.has(
-          normalizeName(record.brand),
-        )
-      ) {
-        errors.push(`Row ${row}: Unknown brand \"${record.brand}\".`);
-      }
-
-      if (
-        record.category &&
-        !references.categoriesByName.has(
-          normalizeName(record.category),
-        )
-      ) {
-        errors.push(`Row ${row}: Unknown category \"${record.category}\".`);
-      }
-
-      if (
-        record.sport &&
-        !references.sportsByName.has(
-          normalizeName(record.sport),
-        )
-      ) {
-        errors.push(`Row ${row}: Unknown sport \"${record.sport}\".`);
-      }
-
+    if (!product.supplierSku) {
+      errors.push('Missing SKU.');
     }
 
-    return errors;
+    if (!product.name) {
+      errors.push('Missing name.');
+    }
+
+    if (!product.brand) {
+      errors.push('Missing brand.');
+    }
+
+    if (!product.category) {
+      errors.push('Missing category.');
+    }
+
+    if (!product.sport) {
+      errors.push('Missing sport.');
+    }
+
+    if (Number.isNaN(product.price)) {
+      errors.push('Invalid price.');
+    } else if (product.price < 0) {
+      errors.push('Negative price.');
+    }
+
+    if (Number.isNaN(product.quantity)) {
+      errors.push('Invalid quantity.');
+    } else if (product.quantity < 0) {
+      errors.push('Negative quantity.');
+    }
+
+    return {
+      valid: errors.length === 0,
+      errors,
+    };
 
   }
 

@@ -9,9 +9,13 @@ import {
 } from '@prisma/client';
 
 import {
+  ImportSummary,
+  NormalizedSupplierProduct,
+  SupplierImporter,
+} from '../../../../shared/import';
+
+import {
   ImportReferenceData,
-  SupplierImportRecord,
-  SupplierImportSummaryDraft,
 } from '../types';
 
 function normalizeName(
@@ -22,7 +26,8 @@ function normalizeName(
 
 }
 
-export class SupplierProductImporter {
+export class SupplierProductImporter
+  implements SupplierImporter {
 
   constructor(
     private readonly tx: Prisma.TransactionClient,
@@ -30,32 +35,35 @@ export class SupplierProductImporter {
     private readonly references: ImportReferenceData,
   ) {}
 
-  async importRecords(
-    records: SupplierImportRecord[],
-  ): Promise<SupplierImportSummaryDraft> {
+  async import(
+    products: NormalizedSupplierProduct[],
+  ): Promise<ImportSummary> {
 
-    const summary: SupplierImportSummaryDraft = {
+    const summary: ImportSummary = {
+      processed: products.length,
       createdProducts: 0,
       updatedProducts: 0,
       createdVariants: 0,
       updatedVariants: 0,
       createdInventory: 0,
       updatedInventory: 0,
+      skipped: 0,
+      errors: [],
     };
 
     const forceFailureAfterFirstRecord =
       process.env.WF005_FORCE_EXCEPTION_AFTER_FIRST_RECORD === 'true';
 
-    for (const [index, record] of records.entries()) {
+    for (const [index, productInput] of products.entries()) {
 
       const brand = this.references.brandsByName.get(
-        normalizeName(record.brand),
+        normalizeName(productInput.brand),
       );
       const category = this.references.categoriesByName.get(
-        normalizeName(record.category),
+        normalizeName(productInput.category),
       );
       const sport = this.references.sportsByName.get(
-        normalizeName(record.sport),
+        normalizeName(productInput.sport),
       );
 
       if (!brand || !category || !sport) {
@@ -66,7 +74,7 @@ export class SupplierProductImporter {
 
         where: {
           supplierId: this.supplierId,
-          supplierSku: record.supplierSku,
+          supplierSku: productInput.supplierSku,
         },
 
         include: {
@@ -89,7 +97,7 @@ export class SupplierProductImporter {
 
         const productUpdated = await this.updateProductIfNeeded(
           product,
-          record,
+          productInput,
           brand.id,
           category.id,
           sport.id,
@@ -101,7 +109,7 @@ export class SupplierProductImporter {
 
         const variantUpdated = await this.updateVariantIfNeeded(
           variant,
-          record,
+          productInput,
         );
 
         if (variantUpdated) {
@@ -115,8 +123,8 @@ export class SupplierProductImporter {
           },
 
           data: {
-            supplierProductName: record.name,
-            supplierPrice: new Prisma.Decimal(record.price),
+            supplierProductName: productInput.name,
+            supplierPrice: new Prisma.Decimal(productInput.price),
             active: true,
           },
 
@@ -125,7 +133,7 @@ export class SupplierProductImporter {
       } else {
 
         const productResult = await this.resolveProduct(
-          record,
+          productInput,
           brand.id,
           category.id,
           sport.id,
@@ -141,7 +149,7 @@ export class SupplierProductImporter {
 
         const variantResult = await this.resolveVariant(
           product.id,
-          record,
+          productInput,
         );
 
         variant = variantResult.variant;
@@ -156,9 +164,9 @@ export class SupplierProductImporter {
 
           data: {
             supplierId: this.supplierId,
-            supplierSku: record.supplierSku,
-            supplierProductName: record.name,
-            supplierPrice: new Prisma.Decimal(record.price),
+            supplierSku: productInput.supplierSku,
+            supplierProductName: productInput.name,
+            supplierPrice: new Prisma.Decimal(productInput.price),
             active: true,
             productVariantId: variant.id,
           },
@@ -181,7 +189,7 @@ export class SupplierProductImporter {
 
           data: {
             productVariantId: variant.id,
-            quantityOnHand: record.quantity,
+            quantityOnHand: productInput.quantity,
           },
 
         });
@@ -197,7 +205,7 @@ export class SupplierProductImporter {
           },
 
           data: {
-            quantityOnHand: record.quantity,
+            quantityOnHand: productInput.quantity,
           },
 
         });
@@ -219,8 +227,16 @@ export class SupplierProductImporter {
 
   }
 
+  async importRecords(
+    records: NormalizedSupplierProduct[],
+  ): Promise<ImportSummary> {
+
+    return this.import(records);
+
+  }
+
   private async resolveProduct(
-    record: SupplierImportRecord,
+    productInput: NormalizedSupplierProduct,
     brandId: string,
     categoryId: string,
     sportId: string,
@@ -229,7 +245,7 @@ export class SupplierProductImporter {
     const existingProduct = await this.tx.product.findFirst({
 
       where: {
-        name: record.name,
+        name: productInput.name,
         brandId,
         categoryId,
         sportId,
@@ -247,17 +263,17 @@ export class SupplierProductImporter {
     }
 
     const code = await this.generateUniqueProductCode(
-      record.name,
+      productInput.name,
     );
 
     const slug = await this.generateUniqueProductSlug(
-      record.name,
+      productInput.name,
     );
 
     const product = await this.tx.product.create({
 
       data: {
-        name: record.name,
+        name: productInput.name,
         code,
         slug,
         brandId,
@@ -276,13 +292,13 @@ export class SupplierProductImporter {
 
   private async resolveVariant(
     productId: string,
-    record: SupplierImportRecord,
+    productInput: NormalizedSupplierProduct,
   ): Promise<{ variant: ProductVariant; created: boolean }> {
 
     const existingVariant = await this.tx.productVariant.findUnique({
 
       where: {
-        sku: record.supplierSku,
+        sku: productInput.supplierSku,
       },
 
     });
@@ -291,7 +307,7 @@ export class SupplierProductImporter {
 
       const variantUpdated = await this.updateVariantIfNeeded(
         existingVariant,
-        record,
+        productInput,
       );
 
       return {
@@ -308,16 +324,16 @@ export class SupplierProductImporter {
     }
 
     const slug = await this.generateUniqueVariantSlug(
-      record.name,
-      record.supplierSku,
+      productInput.name,
+      productInput.supplierSku,
     );
 
     const variant = await this.tx.productVariant.create({
 
       data: {
         productId,
-        name: record.name,
-        sku: record.supplierSku,
+        name: productInput.name,
+        sku: productInput.supplierSku,
         slug,
       },
 
@@ -332,14 +348,14 @@ export class SupplierProductImporter {
 
   private async updateProductIfNeeded(
     product: Product,
-    record: SupplierImportRecord,
+    productInput: NormalizedSupplierProduct,
     brandId: string,
     categoryId: string,
     sportId: string,
   ): Promise<boolean> {
 
     if (
-      product.name === record.name &&
+      product.name === productInput.name &&
       product.brandId === brandId &&
       product.categoryId === categoryId &&
       product.sportId === sportId
@@ -354,7 +370,7 @@ export class SupplierProductImporter {
       },
 
       data: {
-        name: record.name,
+        name: productInput.name,
         brandId,
         categoryId,
         sportId,
@@ -368,15 +384,15 @@ export class SupplierProductImporter {
 
   private async updateVariantIfNeeded(
     variant: ProductVariant,
-    record: SupplierImportRecord,
+    productInput: NormalizedSupplierProduct,
   ): Promise<boolean> {
 
-    if (variant.name === record.name) {
+    if (variant.name === productInput.name) {
       return false;
     }
 
     const slug = await this.generateUniqueVariantSlug(
-      record.name,
+      productInput.name,
       variant.sku,
       variant.id,
     );
@@ -388,7 +404,7 @@ export class SupplierProductImporter {
       },
 
       data: {
-        name: record.name,
+        name: productInput.name,
         slug,
       },
 

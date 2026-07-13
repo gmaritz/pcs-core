@@ -46,6 +46,9 @@ import {
   supplierImportRoutes,
 } from './modules/workflows/supplier-feed-import/routes';
 import {
+  supplierAdapterRoutes,
+} from './modules/workflows/supplier-adapters/routes';
+import {
   authRoutes,
 } from './modules/auth/routes';
 import {
@@ -235,6 +238,8 @@ app.use('/api/v1/checkout', checkoutRoutes);
 app.use('/api/v1/order-processing', orderProcessingRoutes);
 
 app.use('/api/v1/imports', supplierImportRoutes);
+
+app.use('/api/v1/imports', supplierAdapterRoutes);
 
 // ==========================================================
 // Error Handler

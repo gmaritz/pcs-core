@@ -3,14 +3,22 @@
 // ==========================================================
 
 import {
+  SupplierImportParser,
+  NormalizedSupplierProduct,
+} from '../../../../shared/import';
+import {
   SupplierImportRawRecord,
 } from '../types';
+import {
+  supplierProductNormalizer,
+} from '../normalizers';
 
-export class SupplierJsonParser {
+export class SupplierJsonParser
+  implements SupplierImportParser<string> {
 
-  parse(
+  async parse(
     input: string,
-  ): SupplierImportRawRecord[] {
+  ): Promise<NormalizedSupplierProduct[]> {
 
     const parsed = JSON.parse(input) as unknown;
 
@@ -18,7 +26,11 @@ export class SupplierJsonParser {
       throw new Error('Invalid JSON import payload. Expected an array.');
     }
 
-    return parsed as SupplierImportRawRecord[];
+    const records = parsed as SupplierImportRawRecord[];
+
+    return Promise.all(records.map((record) =>
+      supplierProductNormalizer.normalize(record),
+    ));
 
   }
 

@@ -7,6 +7,14 @@ import {
   Category,
   Sport,
 } from '@prisma/client';
+import {
+  ImportError,
+  ImportSummary,
+  NormalizedSupplierProduct,
+} from '../../../../shared/import';
+import {
+  ValidationResult,
+} from '../../../../shared/import';
 
 export interface ImportProductsDto {
 
@@ -32,61 +40,27 @@ export interface SupplierImportRawRecord {
 
   quantity?: unknown;
 
-}
+  description?: unknown;
 
-export interface SupplierImportRecord {
+  variant?: unknown;
 
-  supplierSku: string;
+  barcode?: unknown;
 
-  name: string;
+  currency?: unknown;
 
-  brand: string;
-
-  category: string;
-
-  sport: string;
-
-  price: number;
-
-  quantity: number;
+  images?: unknown;
 
 }
 
-export interface SupplierImportSummary {
+export type SupplierImportRecord = NormalizedSupplierProduct;
 
-  processed: number;
+export type SupplierImportSummary = ImportSummary;
 
-  createdProducts: number;
+export type SupplierImportSummaryDraft = Omit<ImportSummary, 'processed' | 'skipped' | 'errors'>;
 
-  updatedProducts: number;
+export type SupplierImportValidationResult = ValidationResult;
 
-  createdVariants: number;
-
-  updatedVariants: number;
-
-  createdInventory: number;
-
-  updatedInventory: number;
-
-  errors: string[];
-
-}
-
-export interface SupplierImportSummaryDraft {
-
-  createdProducts: number;
-
-  updatedProducts: number;
-
-  createdVariants: number;
-
-  updatedVariants: number;
-
-  createdInventory: number;
-
-  updatedInventory: number;
-
-}
+export type SupplierImportIssue = ImportError;
 
 export interface ImportReferenceData {
 

@@ -3,8 +3,11 @@
 // ==========================================================
 
 import {
+  SupplierNormalizer,
+  NormalizedSupplierProduct,
+} from '../../../../shared/import';
+import {
   SupplierImportRawRecord,
-  SupplierImportRecord,
 } from '../types';
 
 function normalizeText(
@@ -19,17 +22,22 @@ function normalizeText(
 
 }
 
-export class SupplierProductNormalizer {
+export class SupplierProductNormalizer
+  implements SupplierNormalizer<SupplierImportRawRecord> {
 
-  normalize(
-    records: SupplierImportRawRecord[],
-  ): SupplierImportRecord[] {
+  async normalize(
+    record: SupplierImportRawRecord,
+  ): Promise<NormalizedSupplierProduct> {
 
-    return records.map((record) => ({
+    return {
 
       supplierSku: normalizeText(record.supplierSku),
 
       name: normalizeText(record.name),
+
+      description: typeof record.description === 'string'
+        ? record.description.trim()
+        : undefined,
 
       brand: normalizeText(record.brand),
 
@@ -37,11 +45,29 @@ export class SupplierProductNormalizer {
 
       sport: normalizeText(record.sport),
 
+      variant: typeof record.variant === 'string'
+        ? record.variant.trim()
+        : undefined,
+
+      barcode: typeof record.barcode === 'string'
+        ? record.barcode.trim()
+        : undefined,
+
       price: Number(record.price),
 
       quantity: Number(record.quantity),
 
-    }));
+      currency: typeof record.currency === 'string'
+        ? record.currency.trim()
+        : undefined,
+
+      images: Array.isArray(record.images)
+        ? record.images
+          .filter((image): image is string => typeof image === 'string')
+          .map((image) => image.trim())
+        : undefined,
+
+    };
 
   }
 

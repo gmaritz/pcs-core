@@ -14,27 +14,30 @@ class SupplierProductImporter {
         this.supplierId = supplierId;
         this.references = references;
     }
-    async importRecords(records) {
+    async import(products) {
         const summary = {
+            processed: products.length,
             createdProducts: 0,
             updatedProducts: 0,
             createdVariants: 0,
             updatedVariants: 0,
             createdInventory: 0,
             updatedInventory: 0,
+            skipped: 0,
+            errors: [],
         };
         const forceFailureAfterFirstRecord = process.env.WF005_FORCE_EXCEPTION_AFTER_FIRST_RECORD === 'true';
-        for (const [index, record] of records.entries()) {
-            const brand = this.references.brandsByName.get(normalizeName(record.brand));
-            const category = this.references.categoriesByName.get(normalizeName(record.category));
-            const sport = this.references.sportsByName.get(normalizeName(record.sport));
+        for (const [index, productInput] of products.entries()) {
+            const brand = this.references.brandsByName.get(normalizeName(productInput.brand));
+            const category = this.references.categoriesByName.get(normalizeName(productInput.category));
+            const sport = this.references.sportsByName.get(normalizeName(productInput.sport));
             if (!brand || !category || !sport) {
                 throw new Error('Validation references missing during import.');
             }
             const supplierProduct = await this.tx.supplierProduct.findFirst({
                 where: {
                     supplierId: this.supplierId,
-                    supplierSku: record.supplierSku,
+                    supplierSku: productInput.supplierSku,
                 },
                 include: {
                     productVariant: {
@@ -49,11 +52,11 @@ class SupplierProductImporter {
             if (supplierProduct) {
                 product = supplierProduct.productVariant.product;
                 variant = supplierProduct.productVariant;
-                const productUpdated = await this.updateProductIfNeeded(product, record, brand.id, category.id, sport.id);
+                const productUpdated = await this.updateProductIfNeeded(product, productInput, brand.id, category.id, sport.id);
                 if (productUpdated) {
                     summary.updatedProducts += 1;
                 }
-                const variantUpdated = await this.updateVariantIfNeeded(variant, record);
+                const variantUpdated = await this.updateVariantIfNeeded(variant, productInput);
                 if (variantUpdated) {
                     summary.updatedVariants += 1;
                 }
@@ -62,14 +65,14 @@ class SupplierProductImporter {
                         id: supplierProduct.id,
                     },
                     data: {
-                        supplierProductName: record.name,
-                        supplierPrice: new client_1.Prisma.Decimal(record.price),
+                        supplierProductName: productInput.name,
+                        supplierPrice: new client_1.Prisma.Decimal(productInput.price),
                         active: true,
                     },
                 });
             }
             else {
-                const productResult = await this.resolveProduct(record, brand.id, category.id, sport.id);
+                const productResult = await this.resolveProduct(productInput, brand.id, category.id, sport.id);
                 product = productResult.product;
                 if (productResult.created) {
                     summary.createdProducts += 1;
@@ -77,7 +80,7 @@ class SupplierProductImporter {
                 else {
                     summary.updatedProducts += 1;
                 }
-                const variantResult = await this.resolveVariant(product.id, record);
+                const variantResult = await this.resolveVariant(product.id, productInput);
                 variant = variantResult.variant;
                 if (variantResult.created) {
                     summary.createdVariants += 1;
@@ -88,9 +91,9 @@ class SupplierProductImporter {
                 await this.tx.supplierProduct.create({
                     data: {
                         supplierId: this.supplierId,
-                        supplierSku: record.supplierSku,
-                        supplierProductName: record.name,
-                        supplierPrice: new client_1.Prisma.Decimal(record.price),
+                        supplierSku: productInput.supplierSku,
+                        supplierProductName: productInput.name,
+                        supplierPrice: new client_1.Prisma.Decimal(productInput.price),
                         active: true,
                         productVariantId: variant.id,
                     },
@@ -105,7 +108,7 @@ class SupplierProductImporter {
                 await this.tx.inventory.create({
                     data: {
                         productVariantId: variant.id,
-                        quantityOnHand: record.quantity,
+                        quantityOnHand: productInput.quantity,
                     },
                 });
                 summary.createdInventory += 1;
@@ -116,7 +119,7 @@ class SupplierProductImporter {
                         id: inventory.id,
                     },
                     data: {
-                        quantityOnHand: record.quantity,
+                        quantityOnHand: productInput.quantity,
                     },
                 });
                 summary.updatedInventory += 1;
@@ -128,10 +131,13 @@ class SupplierProductImporter {
         }
         return summary;
     }
-    async resolveProduct(record, brandId, categoryId, sportId) {
+    async importRecords(records) {
+        return this.import(records);
+    }
+    async resolveProduct(productInput, brandId, categoryId, sportId) {
         const existingProduct = await this.tx.product.findFirst({
             where: {
-                name: record.name,
+                name: productInput.name,
                 brandId,
                 categoryId,
                 sportId,
@@ -143,11 +149,11 @@ class SupplierProductImporter {
                 created: false,
             };
         }
-        const code = await this.generateUniqueProductCode(record.name);
-        const slug = await this.generateUniqueProductSlug(record.name);
+        const code = await this.generateUniqueProductCode(productInput.name);
+        const slug = await this.generateUniqueProductSlug(productInput.name);
         const product = await this.tx.product.create({
             data: {
-                name: record.name,
+                name: productInput.name,
                 code,
                 slug,
                 brandId,
@@ -160,14 +166,14 @@ class SupplierProductImporter {
             created: true,
         };
     }
-    async resolveVariant(productId, record) {
+    async resolveVariant(productId, productInput) {
         const existingVariant = await this.tx.productVariant.findUnique({
             where: {
-                sku: record.supplierSku,
+                sku: productInput.supplierSku,
             },
         });
         if (existingVariant) {
-            const variantUpdated = await this.updateVariantIfNeeded(existingVariant, record);
+            const variantUpdated = await this.updateVariantIfNeeded(existingVariant, productInput);
             return {
                 variant: variantUpdated
                     ? await this.tx.productVariant.findUniqueOrThrow({
@@ -179,12 +185,12 @@ class SupplierProductImporter {
                 created: false,
             };
         }
-        const slug = await this.generateUniqueVariantSlug(record.name, record.supplierSku);
+        const slug = await this.generateUniqueVariantSlug(productInput.name, productInput.supplierSku);
         const variant = await this.tx.productVariant.create({
             data: {
                 productId,
-                name: record.name,
-                sku: record.supplierSku,
+                name: productInput.name,
+                sku: productInput.supplierSku,
                 slug,
             },
         });
@@ -193,8 +199,8 @@ class SupplierProductImporter {
             created: true,
         };
     }
-    async updateProductIfNeeded(product, record, brandId, categoryId, sportId) {
-        if (product.name === record.name &&
+    async updateProductIfNeeded(product, productInput, brandId, categoryId, sportId) {
+        if (product.name === productInput.name &&
             product.brandId === brandId &&
             product.categoryId === categoryId &&
             product.sportId === sportId) {
@@ -205,7 +211,7 @@ class SupplierProductImporter {
                 id: product.id,
             },
             data: {
-                name: record.name,
+                name: productInput.name,
                 brandId,
                 categoryId,
                 sportId,
@@ -213,17 +219,17 @@ class SupplierProductImporter {
         });
         return true;
     }
-    async updateVariantIfNeeded(variant, record) {
-        if (variant.name === record.name) {
+    async updateVariantIfNeeded(variant, productInput) {
+        if (variant.name === productInput.name) {
             return false;
         }
-        const slug = await this.generateUniqueVariantSlug(record.name, variant.sku, variant.id);
+        const slug = await this.generateUniqueVariantSlug(productInput.name, variant.sku, variant.id);
         await this.tx.productVariant.update({
             where: {
                 id: variant.id,
             },
             data: {
-                name: record.name,
+                name: productInput.name,
                 slug,
             },
         });

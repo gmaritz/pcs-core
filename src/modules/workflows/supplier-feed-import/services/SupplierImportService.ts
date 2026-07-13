@@ -8,29 +8,24 @@ import {
 import path from 'node:path';
 
 import {
-} from '@prisma/client';
-
+  ImportSummary,
+  NormalizedSupplierProduct,
+} from '../../../../shared/import';
 import { BaseService } from '../../../shared/services/BaseService';
 
 import {
   supplierJsonParser,
 } from '../parsers';
 import {
-  supplierProductNormalizer,
-} from '../normalizers';
-import {
-  supplierImportValidator,
-} from '../validators';
-import {
   SupplierProductImporter,
 } from '../importers';
 import {
   ImportProductsDto,
   ImportReferenceData,
-  SupplierImportRawRecord,
-  SupplierImportRecord,
-  SupplierImportSummary,
 } from '../types';
+import {
+  supplierImportValidator,
+} from '../validators';
 
 // ==========================================================
 // Errors
@@ -68,12 +63,32 @@ export class SupplierImportService extends BaseService {
 
   async importProducts(
     dto: ImportProductsDto,
-  ): Promise<SupplierImportSummary> {
+  ): Promise<ImportSummary> {
+
+    const sample = await this.loadSample(
+      dto.file,
+    );
+
+    const products = await this.parse(
+      sample,
+    );
+
+    return this.importNormalizedProducts(
+      dto.supplierId,
+      products,
+    );
+
+  }
+
+  async importNormalizedProducts(
+    supplierId: string,
+    products: NormalizedSupplierProduct[],
+  ): Promise<ImportSummary> {
 
     const supplier = await this.db.supplier.findUnique({
 
       where: {
-        id: dto.supplierId,
+        id: supplierId,
       },
 
     });
@@ -82,28 +97,15 @@ export class SupplierImportService extends BaseService {
       throw new SupplierImportServiceError('Supplier not found.', 404);
     }
 
-    const sample = await this.loadSample(
-      dto.file,
-    );
-
-    const parsed = this.parse(
-      sample,
-    );
-
-    const normalized = this.normalize(
-      parsed,
-    );
-
     const references = await this.loadReferenceData();
 
-    this.validate(
-      normalized,
-      references,
+    await this.validate(
+      products,
     );
 
     return this.import(
-      dto.supplierId,
-      normalized,
+      supplierId,
+      products,
       references,
     );
 
@@ -136,13 +138,13 @@ export class SupplierImportService extends BaseService {
 
   }
 
-  parse(
+  async parse(
     content: string,
-  ): SupplierImportRawRecord[] {
+  ): Promise<NormalizedSupplierProduct[]> {
 
     try {
 
-      return supplierJsonParser.parse(
+      return await supplierJsonParser.parse(
         content,
       );
 
@@ -154,25 +156,19 @@ export class SupplierImportService extends BaseService {
 
   }
 
-  normalize(
-    records: SupplierImportRawRecord[],
-  ): SupplierImportRecord[] {
+  async validate(
+    products: NormalizedSupplierProduct[],
+  ): Promise<void> {
 
-    return supplierProductNormalizer.normalize(
-      records,
+    const validationResults = await Promise.all(
+      products.map((product) => supplierImportValidator.validate(product)),
     );
 
-  }
-
-  validate(
-    records: SupplierImportRecord[],
-    references: ImportReferenceData,
-  ): void {
-
-    const errors = supplierImportValidator.validate(
-      records,
-      references,
-    );
+    const errors = validationResults.flatMap((result, index) => (
+      result.valid
+        ? []
+        : result.errors.map((error) => `Row ${index + 1}: ${error}`)
+    ));
 
     if (errors.length > 0) {
       throw new SupplierImportServiceError(
@@ -186,9 +182,9 @@ export class SupplierImportService extends BaseService {
 
   async import(
     supplierId: string,
-    records: SupplierImportRecord[],
+    products: NormalizedSupplierProduct[],
     references: ImportReferenceData,
-  ): Promise<SupplierImportSummary> {
+  ): Promise<ImportSummary> {
 
     return this.db.$transaction(async (tx) => {
 
@@ -198,29 +194,11 @@ export class SupplierImportService extends BaseService {
         references,
       );
 
-      const result = await importer.importRecords(
-        records,
-      );
-
-      return this.createSummary(
-        records.length,
-        result,
+      return importer.import(
+        products,
       );
 
     });
-
-  }
-
-  createSummary(
-    processed: number,
-    values: Omit<SupplierImportSummary, 'processed' | 'errors'>,
-  ): SupplierImportSummary {
-
-    return {
-      processed,
-      ...values,
-      errors: [],
-    };
 
   }
 

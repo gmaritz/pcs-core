@@ -15,7 +15,8 @@ const routes_8 = require("./modules/content/routes");
 const routes_9 = require("./modules/workflows/checkout/routes");
 const routes_10 = require("./modules/workflows/order-processing/routes");
 const routes_11 = require("./modules/workflows/supplier-feed-import/routes");
-const routes_12 = require("./modules/auth/routes");
+const routes_12 = require("./modules/workflows/supplier-adapters/routes");
+const routes_13 = require("./modules/auth/routes");
 const jwt_middleware_1 = require("./modules/auth/middleware/jwt.middleware");
 const authorization_middleware_1 = require("./modules/auth/middleware/authorization.middleware");
 const auth_1 = require("./modules/auth");
@@ -80,7 +81,7 @@ app.get('/health', (_req, res) => {
 // ==========================================================
 // API v1
 // ==========================================================
-app.use('/api/v1/auth', routes_12.authRoutes);
+app.use('/api/v1/auth', routes_13.authRoutes);
 app.use('/api/v1', jwt_middleware_1.authenticate);
 app.use('/api/v1', async (req, res, next) => {
     if (req.method === 'GET') {
@@ -119,6 +120,7 @@ app.use('/api/v1/seo-metadata', routes_8.seoMetadataRoutes);
 app.use('/api/v1/checkout', routes_9.checkoutRoutes);
 app.use('/api/v1/order-processing', routes_10.orderProcessingRoutes);
 app.use('/api/v1/imports', routes_11.supplierImportRoutes);
+app.use('/api/v1/imports', routes_12.supplierAdapterRoutes);
 // ==========================================================
 // Error Handler
 // ==========================================================

@@ -11,9 +11,8 @@ const promises_1 = require("node:fs/promises");
 const node_path_1 = __importDefault(require("node:path"));
 const BaseService_1 = require("../../../shared/services/BaseService");
 const parsers_1 = require("../parsers");
-const normalizers_1 = require("../normalizers");
-const validators_1 = require("../validators");
 const importers_1 = require("../importers");
+const validators_1 = require("../validators");
 // ==========================================================
 // Errors
 // ==========================================================
@@ -31,20 +30,22 @@ exports.SupplierImportServiceError = SupplierImportServiceError;
 // ==========================================================
 class SupplierImportService extends BaseService_1.BaseService {
     async importProducts(dto) {
+        const sample = await this.loadSample(dto.file);
+        const products = await this.parse(sample);
+        return this.importNormalizedProducts(dto.supplierId, products);
+    }
+    async importNormalizedProducts(supplierId, products) {
         const supplier = await this.db.supplier.findUnique({
             where: {
-                id: dto.supplierId,
+                id: supplierId,
             },
         });
         if (!supplier) {
             throw new SupplierImportServiceError('Supplier not found.', 404);
         }
-        const sample = await this.loadSample(dto.file);
-        const parsed = this.parse(sample);
-        const normalized = this.normalize(parsed);
         const references = await this.loadReferenceData();
-        this.validate(normalized, references);
-        return this.import(dto.supplierId, normalized, references);
+        await this.validate(products);
+        return this.import(supplierId, products, references);
     }
     async loadSample(file) {
         const baseName = node_path_1.default.basename(file);
@@ -56,36 +57,28 @@ class SupplierImportService extends BaseService_1.BaseService {
             throw new SupplierImportServiceError('Sample file not found.', 400);
         }
     }
-    parse(content) {
+    async parse(content) {
         try {
-            return parsers_1.supplierJsonParser.parse(content);
+            return await parsers_1.supplierJsonParser.parse(content);
         }
         catch {
             throw new SupplierImportServiceError('Invalid JSON.', 400);
         }
     }
-    normalize(records) {
-        return normalizers_1.supplierProductNormalizer.normalize(records);
-    }
-    validate(records, references) {
-        const errors = validators_1.supplierImportValidator.validate(records, references);
+    async validate(products) {
+        const validationResults = await Promise.all(products.map((product) => validators_1.supplierImportValidator.validate(product)));
+        const errors = validationResults.flatMap((result, index) => (result.valid
+            ? []
+            : result.errors.map((error) => `Row ${index + 1}: ${error}`)));
         if (errors.length > 0) {
             throw new SupplierImportServiceError('Validation failed.', 400, errors);
         }
     }
-    async import(supplierId, records, references) {
+    async import(supplierId, products, references) {
         return this.db.$transaction(async (tx) => {
             const importer = new importers_1.SupplierProductImporter(tx, supplierId, references);
-            const result = await importer.importRecords(records);
-            return this.createSummary(records.length, result);
+            return importer.import(products);
         });
-    }
-    createSummary(processed, values) {
-        return {
-            processed,
-            ...values,
-            errors: [],
-        };
     }
     async loadReferenceData() {
         const [brands, categories, sports] = await Promise.all([
