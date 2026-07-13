@@ -14,6 +14,7 @@ const MOVEMENT_TYPES = new Set<string>([
   InventoryMovementType.STOCK_OUT,
   InventoryMovementType.ADJUSTMENT,
   InventoryMovementType.RESERVED,
+  InventoryMovementType.SYNC,
 ]);
 
 export function validateCreateInventoryMovement(

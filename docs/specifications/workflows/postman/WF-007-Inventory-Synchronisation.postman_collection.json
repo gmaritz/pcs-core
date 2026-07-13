@@ -1,0 +1,278 @@
+{
+  "info": {
+    "_postman_id": "f0e62a3d-5a97-4d41-b0d7-3b9d3b7d7a07",
+    "name": "WF-007 Inventory Synchronisation",
+    "description": "Postman collection for WF-007 Inventory Synchronisation. Import the accompanying environment and set a valid access token plus test identifiers before running the requests.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "200 - Synchronise inventory successfully",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplierId\": \"{{supplierId}}\",\n  \"products\": [\n    {\n      \"supplierSku\": \"{{sku1}}\",\n      \"quantity\": {{qty1}}\n    },\n    {\n      \"supplierSku\": \"{{sku2}}\",\n      \"quantity\": {{qty2}}\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/inventory/sync",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "inventory",
+            "sync"
+          ]
+        }
+      }
+    },
+    {
+      "name": "400 - Validation failure",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplierId\": \"{{supplierId}}\",\n  \"products\": [\n    {\n      \"supplierSku\": \"{{sku1}}\",\n      \"quantity\": -1\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/inventory/sync",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "inventory",
+            "sync"
+          ]
+        }
+      }
+    },
+    {
+      "name": "400 - Malformed JSON",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplierId\": \"{{supplierId}}\",\n  \"products\": [\n    {\n      \"supplierSku\": \"{{sku1}}\",\n      \"quantity\": 18\n    },\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/inventory/sync",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "inventory",
+            "sync"
+          ]
+        }
+      }
+    },
+    {
+      "name": "404 - Supplier not found",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplierId\": \"{{missingSupplierId}}\",\n  \"products\": [\n    {\n      \"supplierSku\": \"{{sku1}}\",\n      \"quantity\": {{qty1}}\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/inventory/sync",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "inventory",
+            "sync"
+          ]
+        }
+      }
+    },
+    {
+      "name": "404 - Supplier SKU not found",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplierId\": \"{{supplierId}}\",\n  \"products\": [\n    {\n      \"supplierSku\": \"{{missingSku}}\",\n      \"quantity\": {{qty1}}\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/inventory/sync",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "inventory",
+            "sync"
+          ]
+        }
+      }
+    },
+    {
+      "name": "500 - Forced rollback verification",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{accessToken}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"supplierId\": \"{{supplierId}}\",\n  \"forceRollback\": true,\n  \"products\": [\n    {\n      \"supplierSku\": \"{{sku1}}\",\n      \"quantity\": {{rollbackQty1}}\n    },\n    {\n      \"supplierSku\": \"{{sku2}}\",\n      \"quantity\": {{rollbackQty2}}\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/inventory/sync",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "inventory",
+            "sync"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "supplierId",
+      "value": ""
+    },
+    {
+      "key": "missingSupplierId",
+      "value": "00000000-0000-0000-0000-000000000000"
+    },
+    {
+      "key": "sku1",
+      "value": "WR125001"
+    },
+    {
+      "key": "sku2",
+      "value": "WR125002"
+    },
+    {
+      "key": "missingSku",
+      "value": "DOES-NOT-EXIST"
+    },
+    {
+      "key": "qty1",
+      "value": "18"
+    },
+    {
+      "key": "qty2",
+      "value": "7"
+    },
+    {
+      "key": "rollbackQty1",
+      "value": "19"
+    },
+    {
+      "key": "rollbackQty2",
+      "value": "8"
+    }
+  ]
+}

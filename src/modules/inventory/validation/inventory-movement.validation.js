@@ -11,6 +11,7 @@ const MOVEMENT_TYPES = new Set([
     client_1.InventoryMovementType.STOCK_OUT,
     client_1.InventoryMovementType.ADJUSTMENT,
     client_1.InventoryMovementType.RESERVED,
+    client_1.InventoryMovementType.SYNC,
 ]);
 function validateCreateInventoryMovement(dto) {
     if (!dto.movementType) {

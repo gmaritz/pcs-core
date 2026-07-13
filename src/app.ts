@@ -43,6 +43,9 @@ import {
   orderProcessingRoutes,
 } from './modules/workflows/order-processing/routes';
 import {
+  inventorySyncRoutes,
+} from './modules/workflows/inventory-sync/routes';
+import {
   supplierImportRoutes,
 } from './modules/workflows/supplier-feed-import/routes';
 import {
@@ -202,6 +205,8 @@ app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/product-variants', productVariantRoutes);
 
 app.use('/api/v1/inventory', inventoryRoutes);
+
+app.use('/api/v1/inventory', inventorySyncRoutes);
 
 app.use('/api/v1/inventory-movements', inventoryMovementRoutes);
 

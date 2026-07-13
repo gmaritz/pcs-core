@@ -99,6 +99,10 @@ enum InventoryMovementType {
   STOCK_OUT
   ADJUSTMENT
   RESERVED
+  RELEASED
+  SYNC
+  IMPORT
+  RETURN
 }
 
 enum AddressType {
