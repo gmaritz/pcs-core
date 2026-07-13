@@ -13,7 +13,8 @@ const routes_6 = require("./modules/customers/routes");
 const routes_7 = require("./modules/suppliers/routes");
 const routes_8 = require("./modules/content/routes");
 const routes_9 = require("./modules/workflows/checkout/routes");
-const routes_10 = require("./modules/auth/routes");
+const routes_10 = require("./modules/workflows/order-processing/routes");
+const routes_11 = require("./modules/auth/routes");
 const jwt_middleware_1 = require("./modules/auth/middleware/jwt.middleware");
 const authorization_middleware_1 = require("./modules/auth/middleware/authorization.middleware");
 const auth_1 = require("./modules/auth");
@@ -40,6 +41,7 @@ function resolveWritePermission(path) {
     if (normalizedPath.startsWith('/orders') ||
         normalizedPath.startsWith('/order-items') ||
         normalizedPath.startsWith('/checkout') ||
+        normalizedPath.startsWith('/order-processing') ||
         normalizedPath.startsWith('/carts') ||
         normalizedPath.startsWith('/cart-items')) {
         return auth_1.Permissions.ORDERS_WRITE;
@@ -76,7 +78,7 @@ app.get('/health', (_req, res) => {
 // ==========================================================
 // API v1
 // ==========================================================
-app.use('/api/v1/auth', routes_10.authRoutes);
+app.use('/api/v1/auth', routes_11.authRoutes);
 app.use('/api/v1', jwt_middleware_1.authenticate);
 app.use('/api/v1', async (req, res, next) => {
     if (req.method === 'GET') {
@@ -113,6 +115,7 @@ app.use('/api/v1/media', routes_8.mediaRoutes);
 app.use('/api/v1/product-media', routes_8.productMediaRoutes);
 app.use('/api/v1/seo-metadata', routes_8.seoMetadataRoutes);
 app.use('/api/v1/checkout', routes_9.checkoutRoutes);
+app.use('/api/v1/order-processing', routes_10.orderProcessingRoutes);
 // ==========================================================
 // Error Handler
 // ==========================================================

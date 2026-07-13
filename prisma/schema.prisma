@@ -98,6 +98,7 @@ enum InventoryMovementType {
   STOCK_IN
   STOCK_OUT
   ADJUSTMENT
+  RESERVED
 }
 
 enum AddressType {
@@ -1955,7 +1956,7 @@ model Customer {
 
   addresses Address[]
 
-  cart Cart?
+  carts Cart[]
 
   wishlists Wishlist[]
 
@@ -2079,9 +2080,11 @@ model Cart {
   // Relationships
   // ========================================================
 
-  customerId String @unique
+  customerId String
 
   customer Customer @relation(fields: [customerId], references: [id])
+
+  @@index([customerId])
 
   items CartItem[]
 
@@ -2089,7 +2092,7 @@ model Cart {
   // Indexes
   // ========================================================
 
-  @@index([status])
+  @@index([customerId, status])
 
   // ========================================================
   // Database Mapping

@@ -13,6 +13,7 @@ const MOVEMENT_TYPES = new Set<string>([
   InventoryMovementType.STOCK_IN,
   InventoryMovementType.STOCK_OUT,
   InventoryMovementType.ADJUSTMENT,
+  InventoryMovementType.RESERVED,
 ]);
 
 export function validateCreateInventoryMovement(

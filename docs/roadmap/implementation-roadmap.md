@@ -6,11 +6,11 @@
 
 **Project Codename:** PCS Core
 
-**Document Version:** 3.0.0
+**Document Version:** 3.1.0
 
 **Document Status:** Living Document
 
-**Last Updated:** 2026-07-11
+**Last Updated:** 2026-07-12
 
 ---
 
@@ -25,11 +25,11 @@ Backend           ████████████████████ 1
 
 CRUD Layer        ████████████████████ 100%
 
-Workflow Engine   ███░░░░░░░░░░░░░░░░░ 15%
+Workflow Engine   ███████░░░░░░░░░░░░░ 25%
 
 Frontend          ░░░░░░░░░░░░░░░░░░░░ 0%
 
-Testing           ███████████████░░░░░ 75%
+Testing           █████████████████░░░ 80%
 
 Deployment        ░░░░░░░░░░░░░░░░░░░░ 0%
 ```
@@ -38,14 +38,14 @@ Deployment        ░░░░░░░░░░░░░░░░░░░░ 0
 
 # Overall Project Progress
 
-**≈ 82% Complete**
+**≈ 85% Complete**
 
 ---
 
 # Current Version
 
 ```text
-v0.9.0
+v0.9.1
 ```
 
 ---
@@ -53,7 +53,7 @@ v0.9.0
 # Current Milestone
 
 ```text
-M12 — Workflow & Integration
+M13 — Business Workflows
 ```
 
 ---
@@ -61,25 +61,21 @@ M12 — Workflow & Integration
 # Current Activity
 
 ```text
-CRUD Engineering Specifications
+Workflow Specifications
 
 Completed
 
 SPEC-001 → SPEC-020
-
-CRUD Foundation Complete
-
-Current Focus
-
-Workflow Specifications (WF)
-
-Next
 
 WF-001 Authentication
 
 WF-002 Authorization
 
 WF-003 Checkout Workflow
+
+Current
+
+WF-004 Order Processing
 ```
 
 ---
@@ -104,10 +100,10 @@ It is updated after every completed Engineering Specification and Workflow Speci
 | Architecture | ✅ Complete |
 | Domain Model | ✅ Complete |
 | Database Architecture | ✅ Complete |
-| CRUD Implementation | ✅ Complete |
-| Workflow Engine | 🚧 In Progress |
-| Testing | 🚧 In Progress |
+| CRUD Foundation | ✅ Complete |
+| Business Workflows | 🚧 In Progress |
 | Frontend | ⏳ Planned |
+| Testing | 🚧 In Progress |
 | Production Deployment | ⏳ Planned |
 
 ---
@@ -125,7 +121,8 @@ It is updated after every completed Engineering Specification and Workflow Speci
 | v0.7.0 | Supply Chain Domain | ✅ |
 | v0.8.0 | Commerce Domain | ✅ |
 | v0.9.0 | Content Domain | ✅ |
-| v1.0.0 | MVP Release | 🚧 |
+| v0.9.1 | Workflow Foundation | 🚧 |
+| v1.0.0 | MVP Release | ⏳ |
 
 ---
 
@@ -160,9 +157,9 @@ It is updated after every completed Engineering Specification and Workflow Speci
 
 | Workflow | Description | Status |
 |-----------|-------------|:------:|
-| WF-001 | Authentication | ⏳ |
-| WF-002 | Authorization | ⏳ |
-| WF-003 | Checkout Workflow | ⏳ |
+| WF-001 | Authentication | ✅ |
+| WF-002 | Authorization | ✅ |
+| WF-003 | Checkout Workflow | ✅ |
 | WF-004 | Order Processing | ⏳ |
 | WF-005 | Supplier Feed Import | ⏳ |
 | WF-006 | Product Import Pipeline | ⏳ |
@@ -187,7 +184,7 @@ It is updated after every completed Engineering Specification and Workflow Speci
 | Product | ✅ |
 | Product Variant | ✅ |
 
-**Progress:** 100%
+**Progress:** **100%**
 
 ---
 
@@ -201,7 +198,7 @@ It is updated after every completed Engineering Specification and Workflow Speci
 | Inventory Movement | ✅ |
 | Warehouse | ✅ |
 
-**Progress:** 100%
+**Progress:** **100%**
 
 ---
 
@@ -217,7 +214,7 @@ It is updated after every completed Engineering Specification and Workflow Speci
 | Order Item | ✅ |
 | Payment | ✅ |
 
-**Progress:** 100%
+**Progress:** **100%**
 
 ---
 
@@ -229,17 +226,7 @@ It is updated after every completed Engineering Specification and Workflow Speci
 | Product Media | ✅ |
 | SEO Metadata | ✅ |
 
-**Progress:** 100%
-
----
-
-## Administration
-
-| Module | Status |
-|---------|:------:|
-| User Management | ⏳ |
-| Roles | ⏳ |
-| Permissions | ⏳ |
+**Progress:** **100%**
 
 ---
 
@@ -247,21 +234,13 @@ It is updated after every completed Engineering Specification and Workflow Speci
 
 | Workflow | Status |
 |----------|:------:|
-| Authentication | ⏳ |
-| Authorization | ⏳ |
-| Checkout | ⏳ |
+| Authentication | ✅ |
+| Authorization | ✅ |
+| Checkout | ✅ |
 | Order Processing | ⏳ |
-
----
-
-## Integrations
-
-| Module | Status |
-|---------|:------:|
-| Supplier Feed | ⏳ |
-| Product Import | ⏳ |
-| Inventory Sync | ⏳ |
-| Price Sync | ⏳ |
+| Supplier Integration | ⏳ |
+| Search | ⏳ |
+| Storefront | ⏳ |
 
 ---
 
@@ -293,6 +272,20 @@ Routing Layer              COMPLETE
 
 ---
 
+# Workflow Foundation Status
+
+```text
+JWT Authentication         COMPLETE
+
+Role-Based Authorization   COMPLETE
+
+Checkout Workflow          COMPLETE
+
+Order Processing           NEXT
+```
+
+---
+
 # Current MVP Status
 
 ## Completed
@@ -310,20 +303,21 @@ Routing Layer              COMPLETE
 - CRUD Services
 - Controllers
 - Validation
-- DTOs
+- DTO Layer
 - Routing
 - Prisma Migrations
+- Authentication
+- Authorization
+- Checkout Workflow
 - End-to-End CRUD Verification
+- Workflow Verification
 
 ---
 
 ## Remaining for MVP
 
-- Authentication
-- Authorization
-- Checkout Workflow
 - Order Processing
-- Supplier Feed Integration
+- Supplier Feed Import
 - Product Import Pipeline
 - Inventory Synchronisation
 - Price Synchronisation
@@ -345,11 +339,11 @@ GitHub Copilot
 
         ↓
 
-Implementation
+Implement Prisma Models
 
         ↓
 
-Prisma Migration (if required)
+Prisma Migration
 
         ↓
 
@@ -357,7 +351,31 @@ Prisma Generate
 
         ↓
 
-TypeScript Build
+Compile
+
+        ↓
+
+Implement Services
+
+        ↓
+
+Compile
+
+        ↓
+
+Implement Controllers
+
+        ↓
+
+Compile
+
+        ↓
+
+Implement Routes
+
+        ↓
+
+Compile
 
         ↓
 
@@ -382,14 +400,14 @@ Next Workflow
 
 PCS Core MVP will be complete when:
 
-- All CRUD modules are complete
+- CRUD foundation completed
 - Authentication implemented
 - Authorization implemented
 - Checkout operational
-- Orders processed automatically
+- Order Processing operational
 - Supplier imports operational
 - Inventory synchronisation operational
-- Product search implemented
+- Product search operational
 - Storefront operational
 - Administration dashboard operational
 - Production deployment completed
@@ -398,25 +416,22 @@ PCS Core MVP will be complete when:
 
 # Immediate Next Steps
 
-1. WF-001 Authentication
-2. WF-002 Authorization
-3. WF-003 Checkout Workflow
-4. WF-004 Order Processing
-5. WF-005 Supplier Feed Import
-6. WF-006 Product Import Pipeline
-7. WF-007 Inventory Synchronisation
-8. WF-008 Price Synchronisation
-9. WF-009 Product Search
-10. WF-010 Public Storefront
-11. WF-011 Administration Dashboard
-12. WF-012 Production Deployment
+1. WF-004 Order Processing
+2. WF-005 Supplier Feed Import
+3. WF-006 Product Import Pipeline
+4. WF-007 Inventory Synchronisation
+5. WF-008 Price Synchronisation
+6. WF-009 Product Search
+7. WF-010 Public Storefront
+8. WF-011 Administration Dashboard
+9. WF-012 Production Deployment
 
 ---
 
 # Notes
 
-PCS Core has successfully completed the CRUD implementation phase.
+PCS Core has successfully completed the entire CRUD implementation phase and established its core workflow foundation.
 
-Future development is centred on workflow orchestration, supplier integrations and delivering a production-ready ecommerce platform.
+The project is now focused on business process orchestration, supplier integration, inventory automation, customer experience and production readiness.
 
 This roadmap is the authoritative implementation progress document for PCS Core and is updated after every completed Engineering Specification and Workflow Specification.
