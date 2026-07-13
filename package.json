@@ -8,6 +8,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "test:wf-004": "tsx tests/workflows/wf-004-order-processing.integration.ts",
+    "test:wf-008": "tsx tests/workflows/wf-008-pricing-engine-foundation.integration.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",

@@ -52,6 +52,9 @@ import {
   supplierAdapterRoutes,
 } from './modules/workflows/supplier-adapters/routes';
 import {
+  priceSyncRoutes,
+} from './modules/workflows/price-sync/routes';
+import {
   authRoutes,
 } from './modules/auth/routes';
 import {
@@ -83,6 +86,7 @@ function resolveWritePermission(
     normalizedPath.startsWith('/categories') ||
     normalizedPath.startsWith('/products') ||
     normalizedPath.startsWith('/product-variants') ||
+    normalizedPath.startsWith('/pricing') ||
     normalizedPath.startsWith('/sports') ||
     normalizedPath.startsWith('/media') ||
     normalizedPath.startsWith('/product-media') ||
@@ -241,6 +245,8 @@ app.use('/api/v1/seo-metadata', seoMetadataRoutes);
 app.use('/api/v1/checkout', checkoutRoutes);
 
 app.use('/api/v1/order-processing', orderProcessingRoutes);
+
+app.use('/api/v1/pricing', priceSyncRoutes);
 
 app.use('/api/v1/imports', supplierImportRoutes);
 
