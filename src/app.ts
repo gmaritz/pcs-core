@@ -55,6 +55,9 @@ import {
   priceSyncRoutes,
 } from './modules/workflows/price-sync/routes';
 import {
+  productSearchRoutes,
+} from './modules/workflows/product-search/routes';
+import {
   authRoutes,
 } from './modules/auth/routes';
 import {
@@ -167,6 +170,8 @@ app.get('/health', (_req, res) => {
 // ==========================================================
 // API v1
 // ==========================================================
+
+app.use('/api/v1/products', productSearchRoutes);
 
 app.use('/api/v1/auth', authRoutes);
 

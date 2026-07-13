@@ -18,7 +18,8 @@ const routes_11 = require("./modules/workflows/inventory-sync/routes");
 const routes_12 = require("./modules/workflows/supplier-feed-import/routes");
 const routes_13 = require("./modules/workflows/supplier-adapters/routes");
 const routes_14 = require("./modules/workflows/price-sync/routes");
-const routes_15 = require("./modules/auth/routes");
+const routes_15 = require("./modules/workflows/product-search/routes");
+const routes_16 = require("./modules/auth/routes");
 const jwt_middleware_1 = require("./modules/auth/middleware/jwt.middleware");
 const authorization_middleware_1 = require("./modules/auth/middleware/authorization.middleware");
 const auth_1 = require("./modules/auth");
@@ -84,7 +85,8 @@ app.get('/health', (_req, res) => {
 // ==========================================================
 // API v1
 // ==========================================================
-app.use('/api/v1/auth', routes_15.authRoutes);
+app.use('/api/v1/products', routes_15.productSearchRoutes);
+app.use('/api/v1/auth', routes_16.authRoutes);
 app.use('/api/v1', jwt_middleware_1.authenticate);
 app.use('/api/v1', async (req, res, next) => {
     if (req.method === 'GET') {
