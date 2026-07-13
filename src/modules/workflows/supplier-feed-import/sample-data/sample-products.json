@@ -1,0 +1,20 @@
+[
+  {
+    "supplierSku": "WR125001",
+    "name": "Wilson Pro Staff RF97",
+    "brand": "Wilson",
+    "category": "Tennis Racquets",
+    "sport": "Tennis",
+    "price": 4599.95,
+    "quantity": 12
+  },
+  {
+    "supplierSku": "WR125002",
+    "name": "Wilson Blade 98",
+    "brand": "Wilson",
+    "category": "Tennis Racquets",
+    "sport": "Tennis",
+    "price": 3999.95,
+    "quantity": 7
+  }
+]

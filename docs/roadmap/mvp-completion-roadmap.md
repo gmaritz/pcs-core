@@ -118,39 +118,23 @@ The MVP is complete when:
 # Workflow Sequence
 
 ```text
-WF-004 Order Processing
+WF-004  Order Processing                ✅
 
-↓
+WF-005  Supplier Import Framework
 
-WF-005 Supplier Feed Import
+WF-006  Supplier Feed Adapters
 
-↓
+WF-007  Inventory Synchronisation
 
-WF-006 Product Import Pipeline
+WF-008  Price Synchronisation
 
-↓
+WF-009  Product Search
 
-WF-007 Inventory Synchronisation
+WF-010  Public Storefront
 
-↓
+WF-011  Administration Dashboard
 
-WF-008 Price Synchronisation
-
-↓
-
-WF-009 Product Search
-
-↓
-
-WF-010 Public Storefront
-
-↓
-
-WF-011 Administration Dashboard
-
-↓
-
-WF-012 Production Deployment
+WF-012  Production Deployment
 
 ↓
 

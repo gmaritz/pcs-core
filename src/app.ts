@@ -43,6 +43,9 @@ import {
   orderProcessingRoutes,
 } from './modules/workflows/order-processing/routes';
 import {
+  supplierImportRoutes,
+} from './modules/workflows/supplier-feed-import/routes';
+import {
   authRoutes,
 } from './modules/auth/routes';
 import {
@@ -110,7 +113,8 @@ function resolveWritePermission(
 
   if (
     normalizedPath.startsWith('/suppliers') ||
-    normalizedPath.startsWith('/supplier-products')
+    normalizedPath.startsWith('/supplier-products') ||
+    normalizedPath.startsWith('/imports')
   ) {
     return Permissions.SUPPLIERS_WRITE;
   }
@@ -229,6 +233,8 @@ app.use('/api/v1/seo-metadata', seoMetadataRoutes);
 app.use('/api/v1/checkout', checkoutRoutes);
 
 app.use('/api/v1/order-processing', orderProcessingRoutes);
+
+app.use('/api/v1/imports', supplierImportRoutes);
 
 // ==========================================================
 // Error Handler
