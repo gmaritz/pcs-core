@@ -4,6 +4,24 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= pageTitle %></title>
+    <% if (metadata?.description) { %>
+      <meta name="description" content="<%= metadata.description %>" />
+    <% } %>
+    <% if (metadata?.canonicalUrl) { %>
+      <link rel="canonical" href="<%= metadata.canonicalUrl %>" />
+    <% } %>
+    <% if (metadata?.robots) { %>
+      <meta name="robots" content="<%= metadata.robots %>" />
+    <% } %>
+    <% if (metadata?.openGraph?.title) { %>
+      <meta property="og:title" content="<%= metadata.openGraph.title %>" />
+    <% } %>
+    <% if (metadata?.openGraph?.description) { %>
+      <meta property="og:description" content="<%= metadata.openGraph.description %>" />
+    <% } %>
+    <% if (metadata?.openGraph?.image) { %>
+      <meta property="og:image" content="<%= metadata.openGraph.image %>" />
+    <% } %>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

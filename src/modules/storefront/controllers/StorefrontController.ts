@@ -1,11 +1,16 @@
 import { Request, Response } from 'express';
 
 import {
+  catalogFacade,
   storefrontFacade,
 } from '../facades';
 import {
+  CatalogPageViewModel,
   HomeViewModel,
 } from '../view-models';
+import {
+  PageMetadata,
+} from '../../content';
 
 type NavItem = {
   label: string;
@@ -19,6 +24,8 @@ type RenderPageOptions = {
   description: string;
   breadcrumbs?: Array<{ label: string; href?: string }>;
   home?: HomeViewModel;
+  catalog?: CatalogPageViewModel;
+  metadata?: PageMetadata;
 };
 
 const NAV_ITEMS: NavItem[] = [
@@ -57,6 +64,8 @@ export class StorefrontController {
       currentPath: req.path,
       currentYear: new Date().getFullYear(),
       home: options.home,
+      catalog: options.catalog,
+      metadata: options.metadata,
       layout: 'layouts/main',
     });
   }
@@ -77,12 +86,18 @@ export class StorefrontController {
     });
   }
 
-  renderCatalog(req: Request, res: Response): void {
+  async renderCatalog(req: Request, res: Response): Promise<void> {
+    const catalog = await catalogFacade.buildCatalogPageViewModel(
+      req.query as Record<string, unknown>,
+    );
+
     this.renderPage(req, res, {
       view: 'storefront/catalog',
-      pageTitle: 'Pro Court Sports | Shop',
-      heading: 'Shop Catalogue',
-      description: 'Product catalogue integrations start in WF-010C. This placeholder confirms storefront routing and layout.',
+      pageTitle: catalog.metadata.title,
+      heading: catalog.catalog.heading,
+      description: catalog.catalog.description,
+      metadata: catalog.metadata,
+      catalog,
       breadcrumbs: [
         { label: 'Home', href: '/' },
         { label: 'Shop' },
@@ -91,20 +106,22 @@ export class StorefrontController {
   }
 
   renderSearch(req: Request, res: Response): void {
-    const query = typeof req.query.q === 'string' ? req.query.q : '';
+    const params = new URLSearchParams();
 
-    this.renderPage(req, res, {
-      view: 'storefront/search',
-      pageTitle: 'Pro Court Sports | Search',
-      heading: 'Search',
-      description: query.length > 0
-        ? `Showing placeholder search page for query: "${query}".`
-        : 'Search integration is enabled in WF-010B and WF-010C. This page verifies storefront routing only.',
-      breadcrumbs: [
-        { label: 'Home', href: '/' },
-        { label: 'Search' },
-      ],
-    });
+    const q = typeof req.query.q === 'string'
+      ? req.query.q.trim()
+      : '';
+
+    if (q) {
+      params.set('q', q);
+    }
+
+    const query = params.toString();
+    const redirectUrl = query
+      ? `/shop?${query}`
+      : '/shop';
+
+    res.redirect(redirectUrl);
   }
 
   renderCategory(req: Request, res: Response): void {

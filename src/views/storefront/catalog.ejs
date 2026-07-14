@@ -1,3 +1,148 @@
 <%- include('partials/breadcrumbs') %>
-<%- include('partials/page-header') %>
-<%- include('partials/empty-state') %>
+
+<% const catalogModel = catalog?.catalog; %>
+<% const filters = catalogModel?.filters; %>
+<% const products = catalogModel?.products ?? []; %>
+<% const pagination = catalogModel?.pagination; %>
+
+<section class="sf-page-header">
+	<div class="sf-container">
+		<h1><%= catalogModel?.heading ?? heading %></h1>
+		<p><%= catalogModel?.description ?? description %></p>
+	</div>
+</section>
+
+<section class="sf-section">
+	<div class="sf-container catalog-layout">
+		<form method="get" action="<%= filters?.actionUrl ?? '/shop' %>" class="catalog-filters" aria-label="Catalogue filters">
+			<div class="catalog-filters-grid">
+				<label>
+					Search
+					<input type="text" name="q" value="<%= filters?.search ?? '' %>" placeholder="Search products" />
+				</label>
+
+				<label>
+					Sport
+					<select name="sport" data-storefront-filter>
+						<option value="">All Sports</option>
+						<% (filters?.sportOptions ?? []).forEach((option) => { %>
+							<option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+						<% }); %>
+					</select>
+				</label>
+
+				<label>
+					Brand
+					<select name="brand" data-storefront-filter>
+						<option value="">All Brands</option>
+						<% (filters?.brandOptions ?? []).forEach((option) => { %>
+							<option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+						<% }); %>
+					</select>
+				</label>
+
+				<label>
+					Category
+					<select name="category" data-storefront-filter>
+						<option value="">All Categories</option>
+						<% (filters?.categoryOptions ?? []).forEach((option) => { %>
+							<option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+						<% }); %>
+					</select>
+				</label>
+
+				<label>
+					Min Price
+					<input type="number" min="0" step="1" name="minPrice" value="<%= filters?.minPrice ?? '' %>" placeholder="0" />
+				</label>
+
+				<label>
+					Max Price
+					<input type="number" min="0" step="1" name="maxPrice" value="<%= filters?.maxPrice ?? '' %>" placeholder="10000" />
+				</label>
+
+				<label>
+					Availability
+					<select name="available" data-storefront-filter>
+						<% (filters?.availabilityOptions ?? []).forEach((option) => { %>
+							<option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+						<% }); %>
+					</select>
+				</label>
+
+				<label>
+					Sort
+					<select name="sort" data-storefront-filter>
+						<% (filters?.sortOptions ?? []).forEach((option) => { %>
+							<option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+						<% }); %>
+					</select>
+				</label>
+			</div>
+
+			<div class="catalog-filters-actions">
+				<button type="submit" class="sf-button">Apply Filters</button>
+				<a href="/shop" class="sf-button sf-button-secondary">Reset</a>
+			</div>
+		</form>
+
+		<div class="catalog-results">
+			<p class="catalog-summary"><%= catalogModel?.resultSummary ?? 'No results found.' %></p>
+
+			<% if (products.length > 0) { %>
+				<div class="product-grid" data-product-grid>
+					<% products.forEach((product) => { %>
+						<article class="glass-card product-card">
+							<div class="product-image-shell">
+								<img src="<%= product.imageUrl %>" alt="<%= product.imageAlt %>" class="product-image" />
+							</div>
+
+							<div class="product-content">
+								<p class="product-brand"><%= product.brandName %> • <%= product.sportName %></p>
+								<h2 class="product-name"><%= product.productName %></h2>
+
+								<div class="product-footer">
+									<p class="product-price"><%= product.formattedPrice %></p>
+									<% if (product.isAvailable) { %>
+										<span class="product-availability is-in-stock"><%= product.availabilityLabel %></span>
+									<% } else { %>
+										<span class="product-availability is-out-of-stock"><%= product.availabilityLabel %></span>
+									<% } %>
+								</div>
+
+								<div class="catalog-product-actions">
+									<a href="<%= product.quickViewUrl %>" class="product-btn product-btn-muted">Quick View</a>
+									<a href="<%= product.productUrl %>" class="product-btn">View Product</a>
+								</div>
+							</div>
+						</article>
+					<% }); %>
+				</div>
+
+				<% if (pagination && pagination.totalPages > 1) { %>
+					<nav class="catalog-pagination" aria-label="Pagination">
+						<% if (pagination.previousUrl) { %>
+							<a href="<%= pagination.previousUrl %>" class="sf-button sf-button-secondary">Previous</a>
+						<% } %>
+
+						<div class="catalog-pagination-pages">
+							<% pagination.pages.forEach((page) => { %>
+								<a href="<%= page.url %>" class="catalog-page-link <%= page.isCurrent ? 'is-current' : '' %>"><%= page.label %></a>
+							<% }); %>
+						</div>
+
+						<% if (pagination.nextUrl) { %>
+							<a href="<%= pagination.nextUrl %>" class="sf-button sf-button-secondary">Next</a>
+						<% } %>
+					</nav>
+				<% } %>
+			<% } else { %>
+				<div class="sf-empty-state">
+					<h2>No Products Found</h2>
+					<p><%= catalogModel?.emptyStateMessage ?? 'No products matched your search.' %></p>
+					<a class="sf-button" href="<%= catalogModel?.returnToShopUrl ?? '/shop' %>">Return to Shop</a>
+				</div>
+			<% } %>
+		</div>
+	</div>
+</section>

@@ -15,5 +15,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./MediaService"), exports);
+__exportStar(require("./PageMetadataService"), exports);
 __exportStar(require("./ProductMediaService"), exports);
 __exportStar(require("./SeoMetadataService"), exports);

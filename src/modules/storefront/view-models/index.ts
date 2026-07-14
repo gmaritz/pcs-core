@@ -4,3 +4,8 @@ export * from './BrandsViewModel';
 export * from './CategoriesViewModel';
 export * from './SportsViewModel';
 export * from './HomeViewModel';
+export * from './ProductCardViewModel';
+export * from './FilterViewModel';
+export * from './PaginationViewModel';
+export * from './CatalogViewModel';
+export * from './CatalogPageViewModel';

@@ -20,3 +20,8 @@ __exportStar(require("./BrandsViewModel"), exports);
 __exportStar(require("./CategoriesViewModel"), exports);
 __exportStar(require("./SportsViewModel"), exports);
 __exportStar(require("./HomeViewModel"), exports);
+__exportStar(require("./ProductCardViewModel"), exports);
+__exportStar(require("./FilterViewModel"), exports);
+__exportStar(require("./PaginationViewModel"), exports);
+__exportStar(require("./CatalogViewModel"), exports);
+__exportStar(require("./CatalogPageViewModel"), exports);

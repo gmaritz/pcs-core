@@ -30,6 +30,8 @@ class StorefrontController {
             currentPath: req.path,
             currentYear: new Date().getFullYear(),
             home: options.home,
+            catalog: options.catalog,
+            metadata: options.metadata,
             layout: 'layouts/main',
         });
     }
@@ -44,12 +46,15 @@ class StorefrontController {
             home,
         });
     }
-    renderCatalog(req, res) {
+    async renderCatalog(req, res) {
+        const catalog = await facades_1.catalogFacade.buildCatalogPageViewModel(req.query);
         this.renderPage(req, res, {
             view: 'storefront/catalog',
-            pageTitle: 'Pro Court Sports | Shop',
-            heading: 'Shop Catalogue',
-            description: 'Product catalogue integrations start in WF-010C. This placeholder confirms storefront routing and layout.',
+            pageTitle: catalog.metadata.title,
+            heading: catalog.catalog.heading,
+            description: catalog.catalog.description,
+            metadata: catalog.metadata,
+            catalog,
             breadcrumbs: [
                 { label: 'Home', href: '/' },
                 { label: 'Shop' },
@@ -57,19 +62,18 @@ class StorefrontController {
         });
     }
     renderSearch(req, res) {
-        const query = typeof req.query.q === 'string' ? req.query.q : '';
-        this.renderPage(req, res, {
-            view: 'storefront/search',
-            pageTitle: 'Pro Court Sports | Search',
-            heading: 'Search',
-            description: query.length > 0
-                ? `Showing placeholder search page for query: "${query}".`
-                : 'Search integration is enabled in WF-010B and WF-010C. This page verifies storefront routing only.',
-            breadcrumbs: [
-                { label: 'Home', href: '/' },
-                { label: 'Search' },
-            ],
-        });
+        const params = new URLSearchParams();
+        const q = typeof req.query.q === 'string'
+            ? req.query.q.trim()
+            : '';
+        if (q) {
+            params.set('q', q);
+        }
+        const query = params.toString();
+        const redirectUrl = query
+            ? `/shop?${query}`
+            : '/shop';
+        res.redirect(redirectUrl);
     }
     renderCategory(req, res) {
         const slugParam = req.params.slug;

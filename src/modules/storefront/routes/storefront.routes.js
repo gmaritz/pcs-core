@@ -11,8 +11,13 @@ router.get('/', async (req, res, next) => {
         next(error);
     }
 });
-router.get('/shop', (req, res) => {
-    controllers_1.storefrontController.renderCatalog(req, res);
+router.get('/shop', async (req, res, next) => {
+    try {
+        await controllers_1.storefrontController.renderCatalog(req, res);
+    }
+    catch (error) {
+        next(error);
+    }
 });
 router.get('/search', (req, res) => {
     controllers_1.storefrontController.renderSearch(req, res);
