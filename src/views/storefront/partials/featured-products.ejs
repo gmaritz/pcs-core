@@ -1,4 +1,6 @@
 <section id="featured-products" class="section-shell product-section">
+  <% const featuredProducts = home?.featuredProducts?.items ?? []; %>
+
   <div class="page-shell">
     <div class="section-copy">
       <p class="section-label font-display">Featured Products</p>
@@ -7,73 +9,99 @@
     </div>
 
     <div class="product-grid" data-product-grid>
-      <article class="glass-card product-card brand-wilson">
-        <div class="product-image-shell">
-          <img src="/images/products/wilson-clash.jpeg" alt="Wilson Clash 100 V2" class="product-image" />
-        </div>
+      <% if (featuredProducts.length > 0) { %>
+        <% featuredProducts.forEach((product) => { %>
+          <article class="glass-card product-card <%= product.brandClass %>">
+            <div class="product-image-shell">
+              <img src="<%= product.imageUrl %>" alt="<%= product.imageAlt %>" class="product-image" />
+            </div>
 
-        <div class="product-content">
-          <p class="product-brand">Wilson</p>
-          <h3 class="product-name">Clash 100 V2</h3>
-          <p class="product-description">Modern flexibility and control for competitive baseline players.</p>
+            <div class="product-content">
+              <p class="product-brand"><%= product.brandName %></p>
+              <h3 class="product-name"><%= product.name %></h3>
+              <p class="product-description"><%= product.description %></p>
 
-          <div class="product-footer">
-            <p class="product-price">From R3,499</p>
-            <a href="/coming-soon" class="product-btn">View</a>
+              <div class="product-footer">
+                <p class="product-price"><%= product.formattedPrice %></p>
+                <% if (product.isOutOfStock) { %>
+                  <span class="product-availability is-out-of-stock"><%= product.availabilityLabel %></span>
+                <% } else { %>
+                  <span class="product-availability is-in-stock"><%= product.availabilityLabel %></span>
+                <% } %>
+                <a href="<%= product.url %>" class="product-btn">View</a>
+              </div>
+            </div>
+          </article>
+        <% }); %>
+      <% } else { %>
+        <article class="glass-card product-card brand-wilson">
+          <div class="product-image-shell">
+            <img src="/images/products/wilson-clash.jpeg" alt="Wilson Clash 100 V2" class="product-image" />
           </div>
-        </div>
-      </article>
 
-      <article class="glass-card product-card brand-head">
-        <div class="product-image-shell">
-          <img src="/images/products/head-speed.jpeg" alt="Head Speed MP" class="product-image" />
-        </div>
+          <div class="product-content">
+            <p class="product-brand">Wilson</p>
+            <h3 class="product-name">Clash 100 V2</h3>
+            <p class="product-description">Modern flexibility and control for competitive baseline players.</p>
 
-        <div class="product-content">
-          <p class="product-brand">Head</p>
-          <h3 class="product-name">Speed MP</h3>
-          <p class="product-description">Balanced speed and precision engineered for all-court performance.</p>
-
-          <div class="product-footer">
-            <p class="product-price">From R3,799</p>
-            <a href="/coming-soon" class="product-btn">View</a>
+            <div class="product-footer">
+              <p class="product-price">From R3,499</p>
+              <a href="/coming-soon" class="product-btn">View</a>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
 
-      <article class="glass-card product-card brand-babolat">
-        <div class="product-image-shell">
-          <img src="/images/products/babolat-pure-aero.png" alt="Babolat Pure Aero" class="product-image" />
-        </div>
-
-        <div class="product-content">
-          <p class="product-brand">Babolat</p>
-          <h3 class="product-name">Pure Aero</h3>
-          <p class="product-description">Spin-focused performance with explosive acceleration through contact.</p>
-
-          <div class="product-footer">
-            <p class="product-price">From R4,199</p>
-            <a href="/coming-soon" class="product-btn">View</a>
+        <article class="glass-card product-card brand-head">
+          <div class="product-image-shell">
+            <img src="/images/products/head-speed.jpeg" alt="Head Speed MP" class="product-image" />
           </div>
-        </div>
-      </article>
 
-      <article class="glass-card product-card brand-tecnifibre">
-        <div class="product-image-shell">
-          <img src="/images/products/tecnifibre-tfight.jpeg" alt="Tecnifibre TFight 300" class="product-image" />
-        </div>
+          <div class="product-content">
+            <p class="product-brand">Head</p>
+            <h3 class="product-name">Speed MP</h3>
+            <p class="product-description">Balanced speed and precision engineered for all-court performance.</p>
 
-        <div class="product-content">
-          <p class="product-brand">Tecnifibre</p>
-          <h3 class="product-name">TFight 300</h3>
-          <p class="product-description">Controlled power and feel developed for aggressive modern shot-making.</p>
-
-          <div class="product-footer">
-            <p class="product-price">From R3,999</p>
-            <a href="/coming-soon" class="product-btn">View</a>
+            <div class="product-footer">
+              <p class="product-price">From R3,799</p>
+              <a href="/coming-soon" class="product-btn">View</a>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
+
+        <article class="glass-card product-card brand-babolat">
+          <div class="product-image-shell">
+            <img src="/images/products/babolat-pure-aero.png" alt="Babolat Pure Aero" class="product-image" />
+          </div>
+
+          <div class="product-content">
+            <p class="product-brand">Babolat</p>
+            <h3 class="product-name">Pure Aero</h3>
+            <p class="product-description">Spin-focused performance with explosive acceleration through contact.</p>
+
+            <div class="product-footer">
+              <p class="product-price">From R4,199</p>
+              <a href="/coming-soon" class="product-btn">View</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="glass-card product-card brand-tecnifibre">
+          <div class="product-image-shell">
+            <img src="/images/products/tecnifibre-tfight.jpeg" alt="Tecnifibre TFight 300" class="product-image" />
+          </div>
+
+          <div class="product-content">
+            <p class="product-brand">Tecnifibre</p>
+            <h3 class="product-name">TFight 300</h3>
+            <p class="product-description">Controlled power and feel developed for aggressive modern shot-making.</p>
+
+            <div class="product-footer">
+              <p class="product-price">From R3,999</p>
+              <a href="/coming-soon" class="product-btn">View</a>
+            </div>
+          </div>
+        </article>
+      <% } %>
     </div>
   </div>
 </section>

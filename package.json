@@ -10,6 +10,7 @@
     "test:wf-004": "tsx tests/workflows/wf-004-order-processing.integration.ts",
     "test:wf-008": "tsx tests/workflows/wf-008-pricing-engine-foundation.integration.ts",
     "test:wf-009": "tsx tests/workflows/wf-009-product-search.integration.ts",
+    "test:wf-010b": "tsx tests/workflows/wf-010b-homepage.integration.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",

@@ -3,8 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const controllers_1 = require("../controllers");
 const router = (0, express_1.Router)();
-router.get('/', (req, res) => {
-    controllers_1.storefrontController.renderHome(req, res);
+router.get('/', async (req, res, next) => {
+    try {
+        await controllers_1.storefrontController.renderHome(req, res);
+    }
+    catch (error) {
+        next(error);
+    }
 });
 router.get('/shop', (req, res) => {
     controllers_1.storefrontController.renderCatalog(req, res);

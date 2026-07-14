@@ -4,8 +4,12 @@ import { storefrontController } from '../controllers';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  storefrontController.renderHome(req, res);
+router.get('/', async (req, res, next) => {
+  try {
+    await storefrontController.renderHome(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/shop', (req, res) => {

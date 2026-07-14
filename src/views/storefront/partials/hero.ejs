@@ -1,4 +1,6 @@
 <section class="hero-shell" id="hero">
+  <% const heroStats = home?.heroStatistics?.items ?? []; %>
+
   <div class="hero-panel">
     <div class="hero-layout">
       <div class="hero-copy">
@@ -7,23 +9,38 @@
         <p class="hero-intro">Premium tennis, padel &amp; squash equipment - launching soon.</p>
 
         <div class="hero-grid">
-          <div class="hero-stat">
-            <strong class="font-display">Tennis</strong>
-            <span>Performance frames and match-day essentials</span>
-          </div>
-          <div class="hero-stat">
-            <strong class="font-display">Padel</strong>
-            <span>Modern control, power, and accessory ranges</span>
-          </div>
-          <div class="hero-stat">
-            <strong class="font-display">Squash</strong>
-            <span>Fast, lightweight gear for serious players</span>
-          </div>
+          <% if (heroStats.length > 0) { %>
+            <% heroStats.forEach((item) => { %>
+              <div class="hero-stat">
+                <strong class="font-display"><%= item.formattedValue %> <%= item.label %></strong>
+                <span><%= item.description %></span>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <div class="hero-stat">
+              <strong class="font-display">Tennis</strong>
+              <span>Performance frames and match-day essentials</span>
+            </div>
+            <div class="hero-stat">
+              <strong class="font-display">Padel</strong>
+              <span>Modern control, power, and accessory ranges</span>
+            </div>
+            <div class="hero-stat">
+              <strong class="font-display">Squash</strong>
+              <span>Fast, lightweight gear for serious players</span>
+            </div>
+          <% } %>
         </div>
 
         <div class="hero-actions">
           <a href="mailto:info@procourtsports.co.za" class="button button-primary">Contact Pro Court Sports</a>
         </div>
+
+        <form action="<%= home?.searchAction ?? '/api/v1/products/search' %>" method="get" hidden aria-hidden="true">
+          <label for="home-search-input">Search</label>
+          <input id="home-search-input" type="search" name="q" />
+          <button type="submit">Search</button>
+        </form>
       </div>
     </div>
   </div>

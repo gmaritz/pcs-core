@@ -77,6 +77,31 @@
   color: #111827;
 }
 
+.product-availability {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.36rem 0.62rem;
+  border-radius: 999px;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(107, 114, 128, 0.24);
+  background: rgba(255, 255, 255, 0.72);
+  color: #374151;
+}
+
+.product-availability.is-out-of-stock {
+  border-color: rgba(220, 38, 38, 0.35);
+  color: #991b1b;
+}
+
+.product-availability.is-in-stock {
+  border-color: rgba(22, 163, 74, 0.3);
+  color: #166534;
+}
+
 .product-btn {
   display: inline-flex;
   align-items: center;

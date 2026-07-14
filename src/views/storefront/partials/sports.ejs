@@ -1,4 +1,6 @@
 <section id="court-sports" class="section-shell">
+  <% const sports = home?.sports?.items ?? []; %>
+
   <div class="page-shell">
     <div class="section-copy">
       <p class="section-label font-display">Court Sports</p>
@@ -7,41 +9,57 @@
     </div>
 
     <div class="sport-grid">
-      <article class="glass-card sport-card">
-        <div class="sport-media">
-          <img src="/images/sports/tennis.png" alt="Tennis equipment" class="sport-img" loading="lazy" decoding="async" />
-        </div>
-        <div class="sport-content">
-          <h3 class="sport-name">Tennis</h3>
-          <p class="sport-tagline">Performance Equipment</p>
-          <p class="sport-description">Premium racquets, strings, balls, footwear, apparel, and accessories for players of all levels.</p>
-          <p class="sport-status">Catalog Launching Soon</p>
-        </div>
-      </article>
+      <% if (sports.length > 0) { %>
+        <% sports.slice(0, 3).forEach((sport) => { %>
+          <article class="glass-card sport-card">
+            <div class="sport-media">
+              <img src="<%= sport.heroImageUrl %>" alt="<%= sport.heroImageAlt %>" class="sport-img" loading="lazy" decoding="async" />
+            </div>
+            <div class="sport-content">
+              <h3 class="sport-name"><%= sport.name %></h3>
+              <p class="sport-tagline"><%= sport.tagline %></p>
+              <p class="sport-description"><%= sport.description %></p>
+              <p class="sport-status"><%= sport.statusLabel %></p>
+            </div>
+          </article>
+        <% }); %>
+      <% } else { %>
+        <article class="glass-card sport-card">
+          <div class="sport-media">
+            <img src="/images/sports/tennis.png" alt="Tennis equipment" class="sport-img" loading="lazy" decoding="async" />
+          </div>
+          <div class="sport-content">
+            <h3 class="sport-name">Tennis</h3>
+            <p class="sport-tagline">Performance Equipment</p>
+            <p class="sport-description">Premium racquets, strings, balls, footwear, apparel, and accessories for players of all levels.</p>
+            <p class="sport-status">Catalog Launching Soon</p>
+          </div>
+        </article>
 
-      <article class="glass-card sport-card">
-        <div class="sport-media">
-          <img src="/images/sports/padel.png" alt="Padel equipment" class="sport-img" loading="lazy" decoding="async" />
-        </div>
-        <div class="sport-content">
-          <h3 class="sport-name">Padel</h3>
-          <p class="sport-tagline">The Fastest Growing Court Sport</p>
-          <p class="sport-description">Modern padel equipment designed for control, power, comfort, and competitive performance.</p>
-          <p class="sport-status">Catalog Launching Soon</p>
-        </div>
-      </article>
+        <article class="glass-card sport-card">
+          <div class="sport-media">
+            <img src="/images/sports/padel.png" alt="Padel equipment" class="sport-img" loading="lazy" decoding="async" />
+          </div>
+          <div class="sport-content">
+            <h3 class="sport-name">Padel</h3>
+            <p class="sport-tagline">The Fastest Growing Court Sport</p>
+            <p class="sport-description">Modern padel equipment designed for control, power, comfort, and competitive performance.</p>
+            <p class="sport-status">Catalog Launching Soon</p>
+          </div>
+        </article>
 
-      <article class="glass-card sport-card">
-        <div class="sport-media">
-          <img src="/images/sports/squash.png" alt="Squash equipment" class="sport-img" loading="lazy" decoding="async" />
-        </div>
-        <div class="sport-content">
-          <h3 class="sport-name">Squash</h3>
-          <p class="sport-tagline">Built For Speed</p>
-          <p class="sport-description">High-performance racquets, balls, footwear, and accessories for serious squash players.</p>
-          <p class="sport-status">Catalog Launching Soon</p>
-        </div>
-      </article>
+        <article class="glass-card sport-card">
+          <div class="sport-media">
+            <img src="/images/sports/squash.png" alt="Squash equipment" class="sport-img" loading="lazy" decoding="async" />
+          </div>
+          <div class="sport-content">
+            <h3 class="sport-name">Squash</h3>
+            <p class="sport-tagline">Built For Speed</p>
+            <p class="sport-description">High-performance racquets, balls, footwear, and accessories for serious squash players.</p>
+            <p class="sport-status">Catalog Launching Soon</p>
+          </div>
+        </article>
+      <% } %>
     </div>
   </div>
 </section>

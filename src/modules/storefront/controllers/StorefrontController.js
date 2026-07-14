@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.storefrontController = exports.StorefrontController = void 0;
+const facades_1 = require("../facades");
 const NAV_ITEMS = [
     { label: 'Home', href: '/' },
     { label: 'Shop', href: '/shop' },
@@ -28,16 +29,19 @@ class StorefrontController {
             navItems: NAV_ITEMS,
             currentPath: req.path,
             currentYear: new Date().getFullYear(),
+            home: options.home,
             layout: 'layouts/main',
         });
     }
-    renderHome(req, res) {
+    async renderHome(req, res) {
+        const home = await facades_1.storefrontFacade.buildHomeViewModel();
         this.renderPage(req, res, {
             view: 'storefront/home',
             pageTitle: 'Pro Court Sports | Home',
             heading: 'Gear for every court, every match, every level.',
             description: 'Explore premium tennis, padel and squash equipment with trusted service and fast local fulfilment.',
             breadcrumbs: [],
+            home,
         });
     }
     renderCatalog(req, res) {

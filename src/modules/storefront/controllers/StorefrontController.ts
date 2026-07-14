@@ -1,5 +1,12 @@
 import { Request, Response } from 'express';
 
+import {
+  storefrontFacade,
+} from '../facades';
+import {
+  HomeViewModel,
+} from '../view-models';
+
 type NavItem = {
   label: string;
   href: string;
@@ -11,6 +18,7 @@ type RenderPageOptions = {
   heading: string;
   description: string;
   breadcrumbs?: Array<{ label: string; href?: string }>;
+  home?: HomeViewModel;
 };
 
 const NAV_ITEMS: NavItem[] = [
@@ -48,17 +56,24 @@ export class StorefrontController {
       navItems: NAV_ITEMS,
       currentPath: req.path,
       currentYear: new Date().getFullYear(),
+      home: options.home,
       layout: 'layouts/main',
     });
   }
 
-  renderHome(req: Request, res: Response): void {
+  async renderHome(
+    req: Request,
+    res: Response,
+  ): Promise<void> {
+    const home = await storefrontFacade.buildHomeViewModel();
+
     this.renderPage(req, res, {
       view: 'storefront/home',
       pageTitle: 'Pro Court Sports | Home',
       heading: 'Gear for every court, every match, every level.',
       description: 'Explore premium tennis, padel and squash equipment with trusted service and fast local fulfilment.',
       breadcrumbs: [],
+      home,
     });
   }
 

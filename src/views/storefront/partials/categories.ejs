@@ -1,4 +1,6 @@
 <section id="categories" class="section-shell">
+  <% const categories = home?.categories?.items ?? []; %>
+
   <div class="page-shell">
     <div class="section-copy">
       <p class="section-label font-display">Categories</p>
@@ -7,22 +9,31 @@
     </div>
 
     <div class="category-grid">
-      <article class="glass-card category-card">
-        <h3 class="card-title">Tennis Racquets</h3>
-        <p class="card-copy">Frames and support gear tailored for club players, competitors, and growing juniors.</p>
-      </article>
-      <article class="glass-card category-card">
-        <h3 class="card-title">Padel Racquets</h3>
-        <p class="card-copy">Balanced options for control, feel, and explosive power in the modern game.</p>
-      </article>
-      <article class="glass-card category-card">
-        <h3 class="card-title">Squash Gear</h3>
-        <p class="card-copy">Lightweight, durable equipment configured for speed and high-intensity rallies.</p>
-      </article>
-      <article class="glass-card category-card">
-        <h3 class="card-title">Shoes &amp; Accessories</h3>
-        <p class="card-copy">Shoes, strings, balls, grips, bags, and essentials that complete the premium player setup.</p>
-      </article>
+      <% if (categories.length > 0) { %>
+        <% categories.slice(0, 4).forEach((category) => { %>
+          <article class="glass-card category-card">
+            <h3 class="card-title"><%= category.name %></h3>
+            <p class="card-copy"><%= category.description %></p>
+          </article>
+        <% }); %>
+      <% } else { %>
+        <article class="glass-card category-card">
+          <h3 class="card-title">Tennis Racquets</h3>
+          <p class="card-copy">Frames and support gear tailored for club players, competitors, and growing juniors.</p>
+        </article>
+        <article class="glass-card category-card">
+          <h3 class="card-title">Padel Racquets</h3>
+          <p class="card-copy">Balanced options for control, feel, and explosive power in the modern game.</p>
+        </article>
+        <article class="glass-card category-card">
+          <h3 class="card-title">Squash Gear</h3>
+          <p class="card-copy">Lightweight, durable equipment configured for speed and high-intensity rallies.</p>
+        </article>
+        <article class="glass-card category-card">
+          <h3 class="card-title">Shoes &amp; Accessories</h3>
+          <p class="card-copy">Shoes, strings, balls, grips, bags, and essentials that complete the premium player setup.</p>
+        </article>
+      <% } %>
     </div>
   </div>
 </section>
