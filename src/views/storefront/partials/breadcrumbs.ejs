@@ -1,0 +1,15 @@
+<% if (breadcrumbs && breadcrumbs.length > 0) { %>
+  <nav class="sf-breadcrumbs" aria-label="Breadcrumb">
+    <ol class="sf-container">
+      <% breadcrumbs.forEach((crumb, index) => { %>
+        <li>
+          <% if (crumb.href && index < breadcrumbs.length - 1) { %>
+            <a href="<%= crumb.href %>"><%= crumb.label %></a>
+          <% } else { %>
+            <span><%= crumb.label %></span>
+          <% } %>
+        </li>
+      <% }) %>
+    </ol>
+  </nav>
+<% } %>

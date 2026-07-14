@@ -1,0 +1,24 @@
+.page-shell {
+  width: min(100% - 2rem, 1140px);
+  margin: 0 auto;
+}
+
+.sf-main-content {
+  min-height: 0;
+}
+
+.section-shell {
+  padding: 1.75rem 0 0;
+}
+
+.section-shell.contact-shell {
+  padding-bottom: 5rem;
+}
+
+.section-copy {
+  max-width: 54rem;
+}
+
+.newsletter-shell {
+  display: none;
+}

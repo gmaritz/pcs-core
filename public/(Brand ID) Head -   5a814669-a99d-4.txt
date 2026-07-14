@@ -1,0 +1,21 @@
+(Brand ID) Head -   5a814669-a99d-4314-83cb-ffd3b3653e3f
+(Sport ID) Tennis - 6a1b2e7e-84c6-4ae5-88ef-c7f792db9a27
+(Category ID) Tennis Racquets  - fc761d7c-694c-477a-a004-4649164af366
+(Product ID) Wilson Pro Staff RF97 - b103e60e-05d7-4a27-b6a1-f90a98c535bb
+(ProductVariant ID) WIL - e27e4fef-541b-43c4-863d-221bcae7d7cb | bd7b3c20-d23b-4c0a-bcc0-0df99fa545f7
+(Supplier ID) Wilson South Africa - 172c6348-eb7b-4fdc-93b2-6ba27272df49
+(Inventory ID) Wilson Pro Staff RF97 4 3/8 - e27e4fef-541b-43c4-863d-221bcae7d7cb
+(Inventory-Movement ID) STOCK-IN - 7b958552-98bb-4491-b847-e61a2f99fcdb
+Customer ID - 12f0cf57-157b-419a-b211-34d8fadb97fc
+Address ID - 77a19299-3c7f-4dc6-b336-ab7a365d216e
+Cart ID - fb81a20a-bc72-4672-a9ad-f581d9087773
+Cart-Item ID - f481053d-6a3b-4ad8-afd7-c978f835bc7f
+Order ID - 513a8788-dd63-4e7f-87c8-58de35e0215c
+Order Item ID - 79d0652e-f467-4916-860e-c650b94ea2ff
+Payment ID - 295be788-a282-45dc-a6e3-eccf484da2a0
+Media ID - 9fc8cdbf-5755-4613-9623-48cfa87d62cb
+
+
+
+Proceed with SPEC-013
+Implement specification SPEC-014-Cart-Item-CRUD.md

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/storefront/storefront.css" />
+  </head>
+  <body class="sf-site-body">
+    <%- include('../storefront/partials/navigation') %>
+
+    <main class="sf-main-content">
+      <%- body %>
+    </main>
+
+    <%- include('../storefront/partials/footer') %>
+
+    <script src="/js/storefront/navigation.js"></script>
+    <script src="/js/storefront/search.js"></script>
+    <script src="/js/storefront/filters.js"></script>
+    <script src="/js/storefront/product-grid.js"></script>
+    <script src="/js/storefront/storefront.js"></script>
+  </body>
+</html>

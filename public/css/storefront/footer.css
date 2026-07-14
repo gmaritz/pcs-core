@@ -1,0 +1,30 @@
+.footer-shell {
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--premium-line);
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.93rem;
+  color: #6b7280;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-nav a {
+  transition: color 0.2s ease;
+}
+
+.footer-nav a:hover {
+  color: var(--premium-text);
+}

@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
+const expressLayouts = require('express-ejs-layouts');
 const routes_1 = require("./modules/catalog/routes");
 const routes_2 = require("./modules/inventory/routes");
 const routes_3 = require("./modules/commerce/routes");
@@ -20,6 +22,7 @@ const routes_13 = require("./modules/workflows/supplier-adapters/routes");
 const routes_14 = require("./modules/workflows/price-sync/routes");
 const routes_15 = require("./modules/workflows/product-search/routes");
 const routes_16 = require("./modules/auth/routes");
+const routes_17 = require("./modules/storefront/routes");
 const jwt_middleware_1 = require("./modules/auth/middleware/jwt.middleware");
 const authorization_middleware_1 = require("./modules/auth/middleware/authorization.middleware");
 const auth_1 = require("./modules/auth");
@@ -71,6 +74,11 @@ function resolveWritePermission(path) {
 // ==========================================================
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.set('views', path_1.default.join(process.cwd(), 'src/views'));
+app.set('view engine', 'ejs');
+app.use(expressLayouts);
+app.set('layout', 'layouts/main');
+app.use(express_1.default.static(path_1.default.join(process.cwd(), 'public')));
 // ==========================================================
 // Health Check
 // ==========================================================
@@ -82,6 +90,10 @@ app.get('/health', (_req, res) => {
         timestamp: new Date().toISOString(),
     });
 });
+// ==========================================================
+// Storefront
+// ==========================================================
+app.use('/', routes_17.storefrontRoutes);
 // ==========================================================
 // API v1
 // ==========================================================

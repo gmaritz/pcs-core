@@ -1,0 +1,38 @@
+:root {
+  --premium-bg-100: #f5f7fa;
+  --premium-bg-200: #e8ecf1;
+  --premium-bg-300: #d1d5db;
+  --premium-bg-400: #9ca3af;
+  --premium-accent: #00ffb3;
+  --premium-text: #111827;
+  --premium-muted: #4b5563;
+  --premium-line: rgba(107, 114, 128, 0.2);
+  --premium-shadow: rgba(55, 65, 81, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  color: var(--premium-text);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.72), transparent 32%),
+    linear-gradient(135deg, var(--premium-bg-100) 0%, var(--premium-bg-300) 52%, var(--premium-bg-400) 100%);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', 'Manrope', sans-serif;
+}

@@ -1,4 +1,7 @@
 ﻿import express, { type Express } from 'express';
+import path from 'path';
+
+const expressLayouts = require('express-ejs-layouts');
 
 import {
   brandRoutes,
@@ -60,6 +63,9 @@ import {
 import {
   authRoutes,
 } from './modules/auth/routes';
+import {
+  storefrontRoutes,
+} from './modules/storefront/routes';
 import {
   authenticate,
 } from './modules/auth/middleware/jwt.middleware';
@@ -148,6 +154,21 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+app.set(
+  'views',
+  path.join(process.cwd(), 'src/views'),
+);
+
+app.set('view engine', 'ejs');
+
+app.use(expressLayouts);
+
+app.set('layout', 'layouts/main');
+
+app.use(
+  express.static(path.join(process.cwd(), 'public')),
+);
+
 // ==========================================================
 // Health Check
 // ==========================================================
@@ -166,6 +187,12 @@ app.get('/health', (_req, res) => {
   });
 
 });
+
+// ==========================================================
+// Storefront
+// ==========================================================
+
+app.use('/', storefrontRoutes);
 
 // ==========================================================
 // API v1

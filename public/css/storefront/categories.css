@@ -1,0 +1,14 @@
+.category-grid {
+  margin-top: 2.5rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.category-card {
+  padding: 1.5rem;
+}
+
+.category-grid .category-card:hover {
+  border-color: #b8731a;
+}
