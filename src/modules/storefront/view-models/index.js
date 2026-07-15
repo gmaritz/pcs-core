@@ -25,3 +25,8 @@ __exportStar(require("./FilterViewModel"), exports);
 __exportStar(require("./PaginationViewModel"), exports);
 __exportStar(require("./CatalogViewModel"), exports);
 __exportStar(require("./CatalogPageViewModel"), exports);
+__exportStar(require("./BreadcrumbViewModel"), exports);
+__exportStar(require("./ProductGalleryViewModel"), exports);
+__exportStar(require("./ProductSpecificationViewModel"), exports);
+__exportStar(require("./RelatedProductsViewModel"), exports);
+__exportStar(require("./ProductDetailViewModel"), exports);

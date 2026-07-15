@@ -2,11 +2,13 @@ import { Request, Response } from 'express';
 
 import {
   catalogFacade,
+  productFacade,
   storefrontFacade,
 } from '../facades';
 import {
   CatalogPageViewModel,
   HomeViewModel,
+  ProductDetailViewModel,
 } from '../view-models';
 import {
   PageMetadata,
@@ -25,6 +27,7 @@ type RenderPageOptions = {
   breadcrumbs?: Array<{ label: string; href?: string }>;
   home?: HomeViewModel;
   catalog?: CatalogPageViewModel;
+  product?: ProductDetailViewModel;
   metadata?: PageMetadata;
 };
 
@@ -65,6 +68,7 @@ export class StorefrontController {
       currentYear: new Date().getFullYear(),
       home: options.home,
       catalog: options.catalog,
+      product: options.product,
       metadata: options.metadata,
       layout: 'layouts/main',
     });
@@ -141,20 +145,36 @@ export class StorefrontController {
     });
   }
 
-  renderProduct(req: Request, res: Response): void {
+  async renderProduct(req: Request, res: Response): Promise<void> {
     const slugParam = req.params.slug;
     const slug = Array.isArray(slugParam) ? slugParam[0] : slugParam;
-    const productName = formatSlug(slug);
+
+    const productPage = await productFacade.buildProductPageViewModel(slug);
+
+    if (!productPage) {
+      res.status(404);
+      this.renderPage(req, res, {
+        view: 'storefront/error',
+        pageTitle: 'Pro Court Sports | Product Not Found',
+        heading: 'Product Not Found',
+        description: 'The requested product is not available.',
+        breadcrumbs: [
+          { label: 'Home', href: '/' },
+          { label: 'Shop', href: '/shop' },
+          { label: 'Product' },
+        ],
+      });
+      return;
+    }
 
     this.renderPage(req, res, {
       view: 'storefront/product',
-      pageTitle: `Pro Court Sports | Product | ${productName}`,
-      heading: `Product: ${productName}`,
-      description: 'Product detail integration begins in WF-010D. This is a placeholder page.',
-      breadcrumbs: [
-        { label: 'Home', href: '/' },
-        { label: 'Product' },
-      ],
+      pageTitle: productPage.metadata.title,
+      heading: productPage.product.name,
+      description: productPage.product.description,
+      breadcrumbs: productPage.product.breadcrumbs,
+      metadata: productPage.metadata,
+      product: productPage.product,
     });
   }
 

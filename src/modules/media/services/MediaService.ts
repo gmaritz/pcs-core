@@ -9,6 +9,7 @@ import {
 
 import {
   MediaResult,
+  ProductGalleryResult,
 } from '../types';
 
 const PRODUCT_PLACEHOLDER_IMAGE = '/images/products/wilson-clash.jpeg';
@@ -30,6 +31,66 @@ const SPORT_IMAGE_MAP: Record<string, string> = {
 };
 
 export class MediaService extends BaseService {
+  async resolveProductGallery(
+    productId: string,
+  ): Promise<ProductGalleryResult> {
+    const mediaRecords = await this.db.productMedia.findMany({
+      where: {
+        productId,
+        product: {
+          status: RecordStatus.ACTIVE,
+        },
+        media: {
+          status: RecordStatus.ACTIVE,
+        },
+      },
+      include: {
+        media: true,
+      },
+      orderBy: [
+        {
+          isPrimary: 'desc',
+        },
+        {
+          displayOrder: 'asc',
+        },
+      ],
+    });
+
+    const fallbackImage: MediaResult = {
+      url: PRODUCT_PLACEHOLDER_IMAGE,
+      altText: 'Product image placeholder',
+    };
+
+    if (mediaRecords.length === 0) {
+      return {
+        primaryImage: fallbackImage,
+        images: [fallbackImage],
+      };
+    }
+
+    const images = mediaRecords.map((record) => ({
+      url: record.media.url,
+      altText: record.media.altText?.trim() || 'Product image',
+    }));
+
+    const primaryRecord = mediaRecords.find((record) => (
+      record.isPrimary ||
+      record.mediaRole === MediaRole.PRIMARY ||
+      record.mediaRole === MediaRole.HERO
+    ));
+
+    return {
+      primaryImage: primaryRecord
+        ? {
+          url: primaryRecord.media.url,
+          altText: primaryRecord.media.altText?.trim() || 'Product image',
+        }
+        : images[0],
+      images,
+    };
+  }
+
   async resolveProductImages(
     productIds: string[],
   ): Promise<Record<string, MediaResult>> {

@@ -19,6 +19,56 @@ const SPORT_IMAGE_MAP = {
     squash: '/images/sports/squash.png',
 };
 class MediaService extends BaseService_1.BaseService {
+    async resolveProductGallery(productId) {
+        const mediaRecords = await this.db.productMedia.findMany({
+            where: {
+                productId,
+                product: {
+                    status: client_1.RecordStatus.ACTIVE,
+                },
+                media: {
+                    status: client_1.RecordStatus.ACTIVE,
+                },
+            },
+            include: {
+                media: true,
+            },
+            orderBy: [
+                {
+                    isPrimary: 'desc',
+                },
+                {
+                    displayOrder: 'asc',
+                },
+            ],
+        });
+        const fallbackImage = {
+            url: PRODUCT_PLACEHOLDER_IMAGE,
+            altText: 'Product image placeholder',
+        };
+        if (mediaRecords.length === 0) {
+            return {
+                primaryImage: fallbackImage,
+                images: [fallbackImage],
+            };
+        }
+        const images = mediaRecords.map((record) => ({
+            url: record.media.url,
+            altText: record.media.altText?.trim() || 'Product image',
+        }));
+        const primaryRecord = mediaRecords.find((record) => (record.isPrimary ||
+            record.mediaRole === client_1.MediaRole.PRIMARY ||
+            record.mediaRole === client_1.MediaRole.HERO));
+        return {
+            primaryImage: primaryRecord
+                ? {
+                    url: primaryRecord.media.url,
+                    altText: primaryRecord.media.altText?.trim() || 'Product image',
+                }
+                : images[0],
+            images,
+        };
+    }
     async resolveProductImages(productIds) {
         if (productIds.length === 0) {
             return {};

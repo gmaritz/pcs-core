@@ -9,3 +9,8 @@ export * from './FilterViewModel';
 export * from './PaginationViewModel';
 export * from './CatalogViewModel';
 export * from './CatalogPageViewModel';
+export * from './BreadcrumbViewModel';
+export * from './ProductGalleryViewModel';
+export * from './ProductSpecificationViewModel';
+export * from './RelatedProductsViewModel';
+export * from './ProductDetailViewModel';

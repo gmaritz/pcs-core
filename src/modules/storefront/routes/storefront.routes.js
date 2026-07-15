@@ -25,8 +25,13 @@ router.get('/search', (req, res) => {
 router.get('/category/:slug', (req, res) => {
     controllers_1.storefrontController.renderCategory(req, res);
 });
-router.get('/product/:slug', (req, res) => {
-    controllers_1.storefrontController.renderProduct(req, res);
+router.get('/product/:slug', async (req, res, next) => {
+    try {
+        await controllers_1.storefrontController.renderProduct(req, res);
+    }
+    catch (error) {
+        next(error);
+    }
 });
 router.get('/cart', (req, res) => {
     controllers_1.storefrontController.renderCart(req, res);

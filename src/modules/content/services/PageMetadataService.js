@@ -16,6 +16,22 @@ class PageMetadataService {
             },
         };
     }
+    buildProductPageMetadata(input) {
+        const title = `${input.brandName} ${input.productName} | Pro Court Sports`;
+        const description = input.description?.trim() ||
+            `${input.productName} from ${input.brandName}.`;
+        const canonicalUrl = `/product/${input.slug}`;
+        return {
+            title,
+            description,
+            canonicalUrl,
+            openGraph: {
+                title,
+                description,
+                image: input.primaryImageUrl,
+            },
+        };
+    }
 }
 exports.PageMetadataService = PageMetadataService;
 exports.pageMetadataService = new PageMetadataService();

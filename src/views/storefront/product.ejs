@@ -1,3 +1,108 @@
 <%- include('partials/breadcrumbs') %>
-<%- include('partials/page-header') %>
-<%- include('partials/empty-state') %>
+
+<% const model = product; %>
+
+<% if (!model) { %>
+	<%- include('partials/empty-state') %>
+<% } else { %>
+	<section class="sf-section product-detail-section">
+		<div class="sf-container product-detail-layout">
+			<article class="product-detail-gallery glass-card">
+				<div class="product-detail-primary-media">
+					<img src="<%= model.gallery.primaryImage.url %>" alt="<%= model.gallery.primaryImage.altText %>" />
+				</div>
+
+				<% if ((model.gallery.images ?? []).length > 1) { %>
+					<div class="product-detail-thumbnails" aria-label="Product gallery">
+						<% model.gallery.images.forEach((image) => { %>
+							<div class="product-detail-thumbnail <%= image.isPrimary ? 'is-primary' : '' %>">
+								<img src="<%= image.url %>" alt="<%= image.altText %>" />
+							</div>
+						<% }); %>
+					</div>
+				<% } %>
+			</article>
+
+			<article class="product-detail-content glass-card">
+				<p class="product-brand"><%= model.brandName %> • <%= model.sportName %> • <%= model.categoryName %></p>
+				<h1 class="product-detail-title"><%= model.name %></h1>
+
+				<div class="product-detail-pricing">
+					<p class="product-detail-price"><%= model.formattedPrice %></p>
+					<span class="product-availability <%= model.isAvailable ? 'is-in-stock' : 'is-out-of-stock' %>"><%= model.availabilityLabel %></span>
+				</div>
+
+				<p class="product-detail-sku">SKU: <%= model.sku %></p>
+				<p class="product-description"><%= model.description %></p>
+			</article>
+		</div>
+	</section>
+
+	<section class="sf-section">
+		<div class="sf-container product-spec-grid">
+			<article class="glass-card product-spec-panel">
+				<h2>Specifications</h2>
+				<% if ((model.specifications ?? []).length > 0) { %>
+					<dl>
+						<% model.specifications.forEach((spec) => { %>
+							<div>
+								<dt><%= spec.label %></dt>
+								<dd><%= spec.value %></dd>
+							</div>
+						<% }); %>
+					</dl>
+				<% } else { %>
+					<p>Specification details will be added soon.</p>
+				<% } %>
+			</article>
+
+			<article class="glass-card product-spec-panel">
+				<h2>Attributes</h2>
+				<% if ((model.attributes ?? []).length > 0) { %>
+					<ul class="product-attribute-list">
+						<% model.attributes.forEach((attribute) => { %>
+							<li>
+								<strong><%= attribute.label %></strong>
+								<span><%= attribute.value %></span>
+							</li>
+						<% }); %>
+					</ul>
+				<% } else { %>
+					<p>Attributes are currently unavailable for this product.</p>
+				<% } %>
+			</article>
+		</div>
+	</section>
+
+	<% if ((model.relatedProducts?.products ?? []).length > 0) { %>
+		<section class="sf-section product-section">
+			<div class="sf-container">
+				<h2><%= model.relatedProducts.heading %></h2>
+
+				<div class="product-grid" data-product-grid>
+					<% model.relatedProducts.products.forEach((related) => { %>
+						<article class="glass-card product-card">
+							<div class="product-image-shell">
+								<img src="<%= related.imageUrl %>" alt="<%= related.imageAlt %>" class="product-image" />
+							</div>
+
+							<div class="product-content">
+								<p class="product-brand"><%= related.brandName %> • <%= related.sportName %></p>
+								<h3 class="product-name"><%= related.productName %></h3>
+
+								<div class="product-footer">
+									<p class="product-price"><%= related.formattedPrice %></p>
+									<span class="product-availability <%= related.isAvailable ? 'is-in-stock' : 'is-out-of-stock' %>"><%= related.availabilityLabel %></span>
+								</div>
+
+								<div class="catalog-product-actions">
+									<a href="<%= related.productUrl %>" class="product-btn">View Product</a>
+								</div>
+							</div>
+						</article>
+					<% }); %>
+				</div>
+			</div>
+		</section>
+	<% } %>
+<% } %>

@@ -12,6 +12,7 @@
     "test:wf-009": "tsx tests/workflows/wf-009-product-search.integration.ts",
     "test:wf-010b": "tsx tests/workflows/wf-010b-homepage.integration.ts",
     "test:wf-010c": "tsx tests/workflows/wf-010c-catalog.integration.ts",
+    "test:wf-010d": "tsx tests/workflows/wf-010d-product.integration.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
