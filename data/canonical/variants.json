@@ -1,0 +1,49 @@
+{
+  "profiles": [
+    {
+      "categoryCodeContains": "SHOES",
+      "options": [
+        { "code": "SIZE-8", "label": "Size 8" },
+        { "code": "SIZE-9", "label": "Size 9" },
+        { "code": "SIZE-10", "label": "Size 10" }
+      ]
+    },
+    {
+      "categoryCodeContains": "APPAREL",
+      "options": [
+        { "code": "SIZE-S", "label": "Size S" },
+        { "code": "SIZE-M", "label": "Size M" },
+        { "code": "SIZE-L", "label": "Size L" }
+      ]
+    },
+    {
+      "categoryCodeContains": "RACQUETS",
+      "options": [
+        { "code": "GRIP-L1", "label": "Grip L1" },
+        { "code": "GRIP-L2", "label": "Grip L2" },
+        { "code": "GRIP-L3", "label": "Grip L3" }
+      ]
+    },
+    {
+      "categoryCodeContains": "RACKETS",
+      "options": [
+        { "code": "GRIP-S", "label": "Grip Small" },
+        { "code": "GRIP-M", "label": "Grip Medium" },
+        { "code": "GRIP-L", "label": "Grip Large" }
+      ]
+    },
+    {
+      "categoryCodeContains": "BALLS",
+      "options": [
+        { "code": "PACK-3", "label": "Pack of 3" },
+        { "code": "PACK-6", "label": "Pack of 6" },
+        { "code": "PACK-12", "label": "Pack of 12" }
+      ]
+    }
+  ],
+  "defaultOptions": [
+    { "code": "STANDARD", "label": "Standard" },
+    { "code": "LITE", "label": "Lite" },
+    { "code": "PRO", "label": "Pro" }
+  ]
+}

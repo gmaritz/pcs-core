@@ -1,0 +1,22 @@
+[
+  { "code": "CAT-TEN-RACQUETS", "name": "Tennis Racquets", "slug": "tennis-racquets", "sportCode": "SPORT-TENNIS", "displayOrder": 1 },
+  { "code": "CAT-TEN-SHOES", "name": "Tennis Shoes", "slug": "tennis-shoes", "sportCode": "SPORT-TENNIS", "displayOrder": 2 },
+  { "code": "CAT-TEN-STRINGS", "name": "Tennis Strings", "slug": "tennis-strings", "sportCode": "SPORT-TENNIS", "displayOrder": 3 },
+  { "code": "CAT-PAD-RACKETS", "name": "Padel Rackets", "slug": "padel-rackets", "sportCode": "SPORT-PADEL", "displayOrder": 4 },
+  { "code": "CAT-PAD-SHOES", "name": "Padel Shoes", "slug": "padel-shoes", "sportCode": "SPORT-PADEL", "displayOrder": 5 },
+  { "code": "CAT-SQU-RACQUETS", "name": "Squash Racquets", "slug": "squash-racquets", "sportCode": "SPORT-SQUASH", "displayOrder": 6 },
+  { "code": "CAT-SQU-BALLS", "name": "Squash Balls", "slug": "squash-balls", "sportCode": "SPORT-SQUASH", "displayOrder": 7 },
+  { "code": "CAT-PKL-PADDLES", "name": "Pickleball Paddles", "slug": "pickleball-paddles", "sportCode": "SPORT-PICKLEBALL", "displayOrder": 8 },
+  { "code": "CAT-PKL-BALLS", "name": "Pickleball Balls", "slug": "pickleball-balls", "sportCode": "SPORT-PICKLEBALL", "displayOrder": 9 },
+  { "code": "CAT-BAD-RACKETS", "name": "Badminton Rackets", "slug": "badminton-rackets", "sportCode": "SPORT-BADMINTON", "displayOrder": 10 },
+  { "code": "CAT-BAD-SHOES", "name": "Badminton Shoes", "slug": "badminton-shoes", "sportCode": "SPORT-BADMINTON", "displayOrder": 11 },
+  { "code": "CAT-BAD-SHUTTLES", "name": "Badminton Shuttlecocks", "slug": "badminton-shuttlecocks", "sportCode": "SPORT-BADMINTON", "displayOrder": 12 },
+  { "code": "CAT-TBL-BATS", "name": "Table Tennis Bats", "slug": "table-tennis-bats", "sportCode": "SPORT-TABLE-TENNIS", "displayOrder": 13 },
+  { "code": "CAT-TBL-RUBBERS", "name": "Table Tennis Rubbers", "slug": "table-tennis-rubbers", "sportCode": "SPORT-TABLE-TENNIS", "displayOrder": 14 },
+  { "code": "CAT-BSK-BALLS", "name": "Basketballs", "slug": "basketballs", "sportCode": "SPORT-BASKETBALL", "displayOrder": 15 },
+  { "code": "CAT-BSK-SHOES", "name": "Basketball Shoes", "slug": "basketball-shoes", "sportCode": "SPORT-BASKETBALL", "displayOrder": 16 },
+  { "code": "CAT-BSK-APPAREL", "name": "Basketball Apparel", "slug": "basketball-apparel", "sportCode": "SPORT-BASKETBALL", "displayOrder": 17 },
+  { "code": "CAT-NET-BALLS", "name": "Netballs", "slug": "netballs", "sportCode": "SPORT-NETBALL", "displayOrder": 18 },
+  { "code": "CAT-NET-SHOES", "name": "Netball Shoes", "slug": "netball-shoes", "sportCode": "SPORT-NETBALL", "displayOrder": 19 },
+  { "code": "CAT-NET-APPAREL", "name": "Netball Apparel", "slug": "netball-apparel", "sportCode": "SPORT-NETBALL", "displayOrder": 20 }
+]

@@ -1,0 +1,16 @@
+[
+  { "code": "BRAND-WILSON", "name": "Wilson", "slug": "wilson", "sportCode": "SPORT-TENNIS", "website": "https://www.wilson.com", "displayOrder": 1 },
+  { "code": "BRAND-HEAD", "name": "HEAD", "slug": "head", "sportCode": "SPORT-PADEL", "website": "https://www.head.com", "displayOrder": 2 },
+  { "code": "BRAND-BABOLAT", "name": "Babolat", "slug": "babolat", "sportCode": "SPORT-TENNIS", "website": "https://www.babolat.com", "displayOrder": 3 },
+  { "code": "BRAND-DUNLOP", "name": "Dunlop", "slug": "dunlop", "sportCode": "SPORT-SQUASH", "website": "https://www.dunlopsports.com", "displayOrder": 4 },
+  { "code": "BRAND-TECNIFIBRE", "name": "Tecnifibre", "slug": "tecnifibre", "sportCode": "SPORT-SQUASH", "website": "https://www.tecnifibre.com", "displayOrder": 5 },
+  { "code": "BRAND-YONEX", "name": "Yonex", "slug": "yonex", "sportCode": "SPORT-BADMINTON", "website": "https://www.yonex.com", "displayOrder": 6 },
+  { "code": "BRAND-ASICS", "name": "ASICS", "slug": "asics", "sportCode": "SPORT-BADMINTON", "website": "https://www.asics.com", "displayOrder": 7 },
+  { "code": "BRAND-NIKE", "name": "Nike", "slug": "nike", "sportCode": "SPORT-BASKETBALL", "website": "https://www.nike.com", "displayOrder": 8 },
+  { "code": "BRAND-ADIDAS", "name": "Adidas", "slug": "adidas", "sportCode": "SPORT-NETBALL", "website": "https://www.adidas.com", "displayOrder": 9 },
+  { "code": "BRAND-STIGA", "name": "STIGA", "slug": "stiga", "sportCode": "SPORT-TABLE-TENNIS", "website": "https://www.stiga.com", "displayOrder": 10 },
+  { "code": "BRAND-PRINCE", "name": "Prince", "slug": "prince", "sportCode": "SPORT-TENNIS", "website": "https://www.princetennis.com", "displayOrder": 10 },
+  { "code": "BRAND-PROKENNEX", "name": "ProKennex", "slug": "prokennex", "sportCode": "SPORT-PICKLEBALL", "website": "https://www.prokennex.com", "displayOrder": 11 },
+  { "code": "BRAND-LUXILON", "name": "Luxilon", "slug": "luxilon", "sportCode": "SPORT-TENNIS", "website": "https://www.luxilon.com", "displayOrder": 12 },
+  { "code": "BRAND-GILBERT", "name": "Gilbert", "slug": "gilbert", "sportCode": "SPORT-NETBALL", "website": "https://www.gilbertnetball.com", "displayOrder": 13 }
+]

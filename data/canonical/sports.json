@@ -1,0 +1,58 @@
+[
+  {
+    "code": "SPORT-TENNIS",
+    "name": "Tennis",
+    "slug": "tennis",
+    "description": "Professional and recreational tennis equipment.",
+    "displayOrder": 1
+  },
+  {
+    "code": "SPORT-PADEL",
+    "name": "Padel",
+    "slug": "padel",
+    "description": "Padel rackets, shoes and accessories.",
+    "displayOrder": 2
+  },
+  {
+    "code": "SPORT-SQUASH",
+    "name": "Squash",
+    "slug": "squash",
+    "description": "Squash racquets and court essentials.",
+    "displayOrder": 3
+  },
+  {
+    "code": "SPORT-PICKLEBALL",
+    "name": "Pickleball",
+    "slug": "pickleball",
+    "description": "Pickleball paddles and accessories.",
+    "displayOrder": 4
+  },
+  {
+    "code": "SPORT-BADMINTON",
+    "name": "Badminton",
+    "slug": "badminton",
+    "description": "Badminton rackets and feather shuttle gear.",
+    "displayOrder": 5
+  },
+  {
+    "code": "SPORT-TABLE-TENNIS",
+    "name": "Table Tennis",
+    "slug": "table-tennis",
+    "description": "Table tennis bats, rubbers and training sets.",
+    "displayOrder": 6
+  },
+  {
+    "code": "SPORT-BASKETBALL",
+    "name": "Basketball",
+    "slug": "basketball",
+    "description": "Basketball footwear and match equipment.",
+    "displayOrder": 7
+  },
+  {
+    "code": "SPORT-NETBALL",
+    "name": "Netball",
+    "slug": "netball",
+    "description": "Netball balls, footwear and training gear.",
+    "displayOrder": 8
+  }
+]

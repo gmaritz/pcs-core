@@ -1,0 +1,17 @@
+[
+  { "code": "SPEC-RACQUET-WEIGHT", "name": "Racquet Weight", "slug": "racquet-weight", "sportCode": "SPORT-TENNIS", "dataType": "DECIMAL", "unit": "g", "displayOrder": 1 },
+  { "code": "SPEC-RACQUET-HEAD-SIZE", "name": "Head Size", "slug": "head-size", "sportCode": "SPORT-TENNIS", "dataType": "INTEGER", "unit": "sq in", "displayOrder": 2 },
+  { "code": "SPEC-GRIP-SIZE", "name": "Grip Size", "slug": "grip-size", "sportCode": "SPORT-TENNIS", "dataType": "TEXT", "unit": null, "displayOrder": 3 },
+  { "code": "SPEC-SHOE-SURFACE", "name": "Shoe Surface", "slug": "shoe-surface", "sportCode": "SPORT-TENNIS", "dataType": "TEXT", "unit": null, "displayOrder": 4 },
+  { "code": "SPEC-STRING-TYPE", "name": "String Type", "slug": "string-type", "sportCode": "SPORT-TENNIS", "dataType": "TEXT", "unit": null, "displayOrder": 5 },
+  { "code": "SPEC-PAD-CORE", "name": "Padel Core", "slug": "padel-core", "sportCode": "SPORT-PADEL", "dataType": "TEXT", "unit": null, "displayOrder": 6 },
+  { "code": "SPEC-PAD-SHAPE", "name": "Padel Shape", "slug": "padel-shape", "sportCode": "SPORT-PADEL", "dataType": "TEXT", "unit": null, "displayOrder": 7 },
+  { "code": "SPEC-SQU-BALL-SPEED", "name": "Squash Ball Speed", "slug": "squash-ball-speed", "sportCode": "SPORT-SQUASH", "dataType": "TEXT", "unit": null, "displayOrder": 8 },
+  { "code": "SPEC-BAD-WEIGHT", "name": "Badminton Weight Class", "slug": "badminton-weight-class", "sportCode": "SPORT-BADMINTON", "dataType": "TEXT", "unit": null, "displayOrder": 9 },
+  { "code": "SPEC-BAD-BALANCE", "name": "Badminton Balance", "slug": "badminton-balance", "sportCode": "SPORT-BADMINTON", "dataType": "TEXT", "unit": null, "displayOrder": 10 },
+  { "code": "SPEC-TBL-BLADE", "name": "Blade Type", "slug": "blade-type", "sportCode": "SPORT-TABLE-TENNIS", "dataType": "TEXT", "unit": null, "displayOrder": 11 },
+  { "code": "SPEC-TBL-RUBBER", "name": "Rubber Hardness", "slug": "rubber-hardness", "sportCode": "SPORT-TABLE-TENNIS", "dataType": "TEXT", "unit": null, "displayOrder": 12 },
+  { "code": "SPEC-BSK-MATERIAL", "name": "Ball Material", "slug": "ball-material", "sportCode": "SPORT-BASKETBALL", "dataType": "TEXT", "unit": null, "displayOrder": 13 },
+  { "code": "SPEC-APPAREL-SIZE-RANGE", "name": "Apparel Size Range", "slug": "apparel-size-range", "sportCode": "SPORT-BASKETBALL", "dataType": "TEXT", "unit": null, "displayOrder": 14 },
+  { "code": "SPEC-NET-LEVEL", "name": "Match Level", "slug": "match-level", "sportCode": "SPORT-NETBALL", "dataType": "TEXT", "unit": null, "displayOrder": 15 }
+]

@@ -1,0 +1,22 @@
+{
+  "warehouses": [
+    {
+      "code": "WH-CPT-01",
+      "name": "Cape Town Central Warehouse",
+      "slug": "cape-town-central-warehouse",
+      "city": "Cape Town",
+      "province": "Western Cape",
+      "country": "South Africa",
+      "displayOrder": 1
+    }
+  ],
+  "quantityOnHand": {
+    "minimum": 15,
+    "maximum": 240
+  },
+  "quantityReserved": {
+    "minimum": 0,
+    "maximum": 18
+  },
+  "reorderLevel": 10
+}

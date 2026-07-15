@@ -1,0 +1,12 @@
+{
+  "defaultMarkupPercentage": 35,
+  "categoryCostBands": {
+    "RACQUETS": { "minimum": 850, "maximum": 2400 },
+    "RACKETS": { "minimum": 820, "maximum": 2200 },
+    "SHOES": { "minimum": 600, "maximum": 1600 },
+    "STRINGS": { "minimum": 140, "maximum": 380 },
+    "BALLS": { "minimum": 90, "maximum": 420 },
+    "APPAREL": { "minimum": 250, "maximum": 700 }
+  },
+  "defaultCostBand": { "minimum": 300, "maximum": 950 }
+}

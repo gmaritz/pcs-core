@@ -1,0 +1,15 @@
+[
+  { "specificationCode": "SPEC-GRIP-SIZE", "values": ["L0", "L1", "L2", "L3", "L4"] },
+  { "specificationCode": "SPEC-SHOE-SURFACE", "values": ["Hard Court", "Clay", "All Court"] },
+  { "specificationCode": "SPEC-STRING-TYPE", "values": ["Poly", "Multifilament", "Synthetic Gut"] },
+  { "specificationCode": "SPEC-PAD-CORE", "values": ["Soft EVA", "Medium EVA", "Hard EVA"] },
+  { "specificationCode": "SPEC-PAD-SHAPE", "values": ["Round", "Teardrop", "Diamond"] },
+  { "specificationCode": "SPEC-SQU-BALL-SPEED", "values": ["Double Yellow Dot", "Single Yellow Dot", "Red Dot"] },
+  { "specificationCode": "SPEC-BAD-WEIGHT", "values": ["3U", "4U", "5U"] },
+  { "specificationCode": "SPEC-BAD-BALANCE", "values": ["Head Heavy", "Even Balance", "Head Light"] },
+  { "specificationCode": "SPEC-TBL-BLADE", "values": ["5 Ply Wood", "7 Ply Wood", "Carbon Composite"] },
+  { "specificationCode": "SPEC-TBL-RUBBER", "values": ["Soft", "Medium", "Hard"] },
+  { "specificationCode": "SPEC-BSK-MATERIAL", "values": ["Composite", "Outdoor Rubber", "Leather"] },
+  { "specificationCode": "SPEC-APPAREL-SIZE-RANGE", "values": ["S-XL", "XS-XL", "M-XXL"] },
+  { "specificationCode": "SPEC-NET-LEVEL", "values": ["Training", "Club", "Match"] }
+]

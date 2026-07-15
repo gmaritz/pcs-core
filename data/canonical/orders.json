@@ -1,0 +1,20 @@
+{
+  "count": 50,
+  "statuses": {
+    "PENDING": 10,
+    "PROCESSING": 14,
+    "COMPLETED": 20,
+    "CANCELLED": 6
+  },
+  "itemsPerOrder": {
+    "minimum": 1,
+    "maximum": 3
+  },
+  "notes": [
+    "Deliver during business hours.",
+    "Leave with reception.",
+    "Customer requested expedited handling.",
+    "Gift order for club tournament.",
+    "Phone customer before delivery."
+  ]
+}

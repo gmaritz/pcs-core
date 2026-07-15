@@ -1,0 +1,52 @@
+[
+  {
+    "code": "SUP-WILSON-SA",
+    "name": "Wilson SA",
+    "slug": "wilson-sa",
+    "website": "https://www.wilson.com",
+    "email": "trade@wilson-sa.example",
+    "telephone": "+27-21-100-0101",
+    "description": "Demonstration supplier profile for Wilson South Africa.",
+    "displayOrder": 1
+  },
+  {
+    "code": "SUP-HEAD-ZA",
+    "name": "HEAD South Africa",
+    "slug": "head-south-africa",
+    "website": "https://www.head.com",
+    "email": "trade@head-za.example",
+    "telephone": "+27-21-100-0102",
+    "description": "Demonstration supplier profile for HEAD South Africa.",
+    "displayOrder": 2
+  },
+  {
+    "code": "SUP-BABOLAT-DIST",
+    "name": "Babolat Distributor",
+    "slug": "babolat-distributor",
+    "website": "https://www.babolat.com",
+    "email": "trade@babolat-dist.example",
+    "telephone": "+27-21-100-0103",
+    "description": "Demonstration supplier profile for Babolat distributor operations.",
+    "displayOrder": 3
+  },
+  {
+    "code": "SUP-TECNIFIBRE-ZA",
+    "name": "Tecnifibre South Africa",
+    "slug": "tecnifibre-south-africa",
+    "website": "https://www.tecnifibre.com",
+    "email": "trade@tecnifibre-za.example",
+    "telephone": "+27-21-100-0104",
+    "description": "Demonstration supplier profile for Tecnifibre South Africa.",
+    "displayOrder": 4
+  },
+  {
+    "code": "SUP-DEMO-GENERAL",
+    "name": "Demo Supplier",
+    "slug": "demo-supplier",
+    "website": "https://supplier-demo.example",
+    "email": "trade@demo-supplier.example",
+    "telephone": "+27-21-100-0105",
+    "description": "General demonstration supplier for fallback mapping.",
+    "displayOrder": 5
+  }
+]

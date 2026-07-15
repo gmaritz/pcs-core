@@ -1,0 +1,6 @@
+{
+  "baseUrl": "/images/brands",
+  "placeholderExt": "webp",
+  "galleryPerProduct": 3,
+  "altTemplate": "{productName} image {index}"
+}

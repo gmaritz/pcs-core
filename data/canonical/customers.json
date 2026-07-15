@@ -1,0 +1,18 @@
+{
+  "count": 25,
+  "emailDomain": "pcs-core.dev",
+  "telephonePrefix": "+27-82-555-",
+  "firstNames": [
+    "Aiden", "Bianca", "Caleb", "Danielle", "Ethan", "Farah", "Gavin", "Hannah", "Isaac", "Jade",
+    "Keegan", "Lerato", "Mason", "Nadia", "Owen", "Priya", "Quinton", "Riley", "Sanel", "Tyler",
+    "Uma", "Vikash", "Warren", "Xolani", "Yasmin", "Zoe"
+  ],
+  "lastNames": [
+    "Meyer", "Naidoo", "Jacobs", "Petersen", "Botha", "Smith", "Williams", "Ndlovu", "Dlamini", "Kruger"
+  ],
+  "cities": ["Cape Town", "Johannesburg", "Durban", "Pretoria", "Gqeberha"],
+  "provinces": ["Western Cape", "Gauteng", "KwaZulu-Natal", "Gauteng", "Eastern Cape"],
+  "postalCodes": ["8001", "2000", "4001", "0002", "6001"],
+  "accountAgeStartDays": 720,
+  "accountAgeStepDays": 9
+}

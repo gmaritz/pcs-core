@@ -1,0 +1,28 @@
+{
+  "perCategory": 6,
+  "namePrefixes": ["Pro", "Tour", "Elite", "Control", "Power", "Velocity", "Aero", "Strike"],
+  "nameSeries": ["200", "300", "400", "500", "600", "700", "800", "900"],
+  "featuredEvery": 8,
+  "categoryNouns": {
+    "CAT-TEN-RACQUETS": "Racquet",
+    "CAT-TEN-SHOES": "Shoe",
+    "CAT-TEN-STRINGS": "String Set",
+    "CAT-PAD-RACKETS": "Racket",
+    "CAT-PAD-SHOES": "Shoe",
+    "CAT-SQU-RACQUETS": "Racquet",
+    "CAT-SQU-BALLS": "Ball",
+    "CAT-PKL-PADDLES": "Paddle",
+    "CAT-PKL-BALLS": "Ball",
+    "CAT-BAD-RACKETS": "Racket",
+    "CAT-BAD-SHOES": "Shoe",
+    "CAT-BAD-SHUTTLES": "Shuttlecock",
+    "CAT-TBL-BATS": "Bat",
+    "CAT-TBL-RUBBERS": "Rubber Sheet",
+    "CAT-BSK-BALLS": "Ball",
+    "CAT-BSK-SHOES": "Shoe",
+    "CAT-BSK-APPAREL": "Jersey",
+    "CAT-NET-BALLS": "Ball",
+    "CAT-NET-SHOES": "Shoe",
+    "CAT-NET-APPAREL": "Training Top"
+  }
+}

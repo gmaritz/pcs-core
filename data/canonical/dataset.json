@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "name": "PCS Core Canonical Development Dataset",
+  "description": "Reference dataset for development, testing, demonstrations and supplier validation.",
+  "created": "2026-07-15",
+  "maintainer": "PCS Core",
+  "minimumPlatformVersion": "1.0.0"
+}
