@@ -1,533 +1,399 @@
 # PCS Core MVP Completion Roadmap
 
----
+Version: 2.0
 
-**Project:** Pro Court Sports
+Status: Feature Development Complete
 
-**Project Codename:** PCS Core
+Last Updated: July 2026
 
-**Document Version:** 2.0.0
-
-**Document Status:** Living Document
-
-**Last Updated:** 2026-07-13
+Author: ChatGPT
 
 ---
 
-# Purpose
+# Overview
 
-This roadmap tracks the remaining work required to deliver the first production-ready release of PCS Core.
+PCS Core has successfully completed all planned MVP feature development.
 
-Unlike the Implementation Roadmap, which tracks engineering implementation, this document tracks the business capabilities required to achieve the MVP.
+The project now transitions into the MVP Hardening phase.
 
-It is updated after every completed Workflow Specification.
+No significant new business features are planned before supplier onboarding.
+
+The remaining work focuses on validation, quality, optimisation and production readiness.
+
+---
+
+# Current Status
+
+## Feature Development
+
+```
+██████████████████████████████████████████████
+
+100%
+
+COMPLETE
+```
+
+Completed
+
+- Platform Foundation
+- CRUD Platform
+- Authentication
+- Authorization
+- Supplier Platform
+- Pricing Engine
+- Inventory Engine
+- Search Engine
+- Storefront
+- Shopping Experience
 
 ---
 
 # MVP Progress
 
-```text
-Foundation                     COMPLETE
-
-Architecture                   COMPLETE
-
-Database                        COMPLETE
-
-CRUD Foundation                 COMPLETE
-
-Authentication                  COMPLETE
-
-Authorization                   COMPLETE
-
-Checkout                        COMPLETE
-
-Order Processing                COMPLETE
-
-Supplier Import Framework       COMPLETE
-
-Supplier Adapter Framework      COMPLETE
-
-Inventory Synchronisation       COMPLETE
-
-Price Synchronisation           NEXT
-
-Storefront                      PLANNED
-
-Administration                  PLANNED
-
-Production                      PLANNED
-```
+| Phase | Status |
+|---------|:------:|
+| Platform Foundation | ✅ |
+| Business Platform | ✅ |
+| Supplier Platform | ✅ |
+| Storefront | ✅ |
+| Customer Shopping | ✅ |
+| Feature Development | ✅ |
+| MVP Hardening | ⏳ |
+| Supplier Onboarding | ⏳ |
+| Production Launch | ⏳ |
 
 ---
 
-# Overall MVP Progress
+# Completed Workflows
 
-**≈ 90% Complete**
+## Commerce Platform
 
----
+✅ WF-001 Authentication
 
-# Current Version
+✅ WF-002 Authorization
 
-```text
-v0.9.5
-```
+✅ WF-003 Checkout
 
----
-
-# Current Milestone
-
-```text
-M14 — Supplier Integration
-```
-
----
-
-# Completed Milestones
-
-## M01 — Foundation
-
-- Project Structure
-- TypeScript
-- Express
-- Prisma
-- PostgreSQL
-- Shared Infrastructure
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-## M02 — Architecture
-
-- Domain Model
-- Folder Structure
-- Shared Services
-- Development Standards
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-## M03 — Catalog Domain
-
-- Sport
-- Brand
-- Category
-- Product
-- Product Variant
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-## M04 — Supply Chain Domain
-
-- Supplier
-- Supplier Product
-- Warehouse
-- Inventory
-- Inventory Movement
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-## M05 — Commerce Domain
-
-- Customer
-- Address
-- Cart
-- Cart Item
-- Order
-- Order Item
-- Payment
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-## M06 — Content Domain
-
-- Media
-- Product Media
-- SEO Metadata
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-## M07 — Security
-
-Completed
-
-- JWT Authentication
-- Role-Based Authorization
-- Protected Endpoints
-- Permission-Based Access
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-## M08 — Commerce Workflows
-
-Completed
-
-- Checkout Workflow
-- Order Processing
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-## M09 — Supplier Platform
-
-Completed
-
-- Supplier Import Framework
-- Shared Import Contracts
-- Supplier Adapter Framework
-- Inventory Synchronisation
-
-Status
-
-```
-COMPLETE
-```
-
----
-
-# Current Milestone
-
-## M10 — Commercial Intelligence
-
-Current Workflow
-
-```
-WF-008 Price Synchronisation
-```
-
-Objectives
-
-- Supplier Cost Updates
-- Price Synchronisation
-- Pricing Rules Foundation
-- Future Pricing Engine
-
-Status
-
-```
-IN PROGRESS
-```
-
----
-
-# Remaining Milestones
-
-## M11 — Customer Experience
-
-Planned
-
-- Product Search
-- Public Storefront
-- Product Detail Pages
-- Shopping Cart UI
-- Checkout UI
-- Customer Account
-- Order History
-
----
-
-## M12 — Administration
-
-Planned
-
-- Dashboard
-- User Management
-- Supplier Management
-- Inventory Dashboard
-- Import Monitoring
-- Reporting
-
----
-
-## M13 — Production Readiness
-
-Planned
-
-- Performance Optimisation
-- Security Review
-- Error Monitoring
-- Deployment Automation
-- Production Deployment
-
----
-
-# Workflow Progress
-
-| Workflow | Description | Status |
-|----------|-------------|:------:|
-| WF-001 | Authentication | ✅ |
-| WF-002 | Authorization | ✅ |
-| WF-003 | Checkout | ✅ |
-| WF-004 | Order Processing | ✅ |
-| WF-005 | Supplier Import Framework | ✅ |
-| WF-006 | Supplier Adapter Framework | ✅ |
-| WF-007 | Inventory Synchronisation | ✅ |
-| WF-008 | Price Synchronisation | ⏳ |
-| WF-009 | Product Search | ⏳ |
-| WF-010 | Public Storefront | ⏳ |
-| WF-011 | Administration Dashboard | ⏳ |
-| WF-012 | Production Deployment | ⏳ |
-
----
-
-# Engineering Standards
-
-| Standard | Description | Status |
-|----------|-------------|:------:|
-| STD-001 | Import Contracts | ✅ |
-
----
-
-# Current Platform Capabilities
-
-## Customer Platform
-
-- Customer Management
-- Addresses
-- Shopping Cart
-- Checkout
-- Orders
-- Payments
-
-Status
-
-```
-COMPLETE
-```
+✅ WF-004 Order Processing
 
 ---
 
 ## Supplier Platform
 
-- Supplier Management
-- Supplier Products
-- Import Framework
-- Adapter Framework
-- Inventory Synchronisation
+✅ WF-005 Supplier Import Framework
 
-Status
+✅ WF-006 Supplier Adapter Framework
 
-```
-COMPLETE
-```
+✅ WF-007 Inventory Synchronisation
+
+✅ WF-008 Price Synchronisation
 
 ---
 
-## Inventory Platform
+## Customer Storefront
 
+✅ WF-009 Product Search
+
+✅ WF-010A Storefront Foundation
+
+✅ WF-010B Dynamic Home Page
+
+✅ WF-010C Product Catalogue
+
+✅ WF-010D Product Detail
+
+✅ WF-010E Shopping Experience
+
+---
+
+# Current Customer Journey
+
+```
+Homepage
+
+↓
+
+Catalogue
+
+↓
+
+Product Detail
+
+↓
+
+Cart
+
+↓
+
+Checkout
+
+↓
+
+Order Processing
+
+↓
+
+Customer Account
+```
+
+Status
+
+✅ Complete
+
+---
+
+# Remaining MVP Work
+
+## MVP-001
+
+Platform Validation
+
+Status
+
+Pending
+
+Objectives
+
+- Execute complete regression suite
+- Verify all workflows
+- Verify CRUD modules
+- Validate APIs
+- Validate Storefront
+
+---
+
+## MVP-002
+
+Seed Data Framework
+
+Status
+
+Pending
+
+Objectives
+
+- Sports
+- Categories
+- Brands
+- Attributes
+- Products
+- Variants
 - Inventory
-- Warehouses
-- Inventory Movements
-- Reservations
-- Synchronisation
+- Pricing
+- Product Media
+
+Purpose
+
+Simulate production supplier data.
+
+---
+
+## MVP-003
+
+Storefront Polish
 
 Status
 
-```
-COMPLETE
-```
+Pending
+
+Objectives
+
+- Homepage refinement
+- UX improvements
+- Responsive review
+- Accessibility review
+- Design consistency
+- Navigation polish
+
+Purpose
+
+Prepare customer-facing experience.
 
 ---
 
-## Security Platform
+## MVP-004
 
-- JWT Authentication
-- Role-Based Authorization
-- Permission Framework
+Performance Optimisation
 
 Status
 
-```
-COMPLETE
-```
+Pending
+
+Objectives
+
+- Database optimisation
+- Query optimisation
+- Image optimisation
+- Lazy loading
+- Asset bundling
+- Response time review
 
 ---
 
-# Remaining for MVP
+## MVP-005
 
-## Commercial Intelligence
+Security Review
 
-- Price Synchronisation
+Status
+
+Pending
+
+Objectives
+
+- Authentication review
+- Authorization review
+- Input validation
+- API review
+- Security headers
+- Environment configuration
 
 ---
 
-## Customer Experience
+## MVP-006
 
-- Product Search
+Supplier Readiness
 
-- Public Storefront
+Status
 
-- Customer Account
+Pending
 
-- Order History
+Objectives
+
+- Validate import framework
+- Validate adapter framework
+- Test with representative supplier data
+- Validate pricing
+- Validate inventory
+- Validate synchronization
+
+Purpose
+
+Ensure supplier onboarding requires only adapter implementation.
 
 ---
 
-## Administration
+## MVP-007
 
-- Dashboard
+Production Readiness
 
-- Reporting
+Status
 
+Pending
+
+Objectives
+
+- Logging
 - Monitoring
+- Error handling
+- Backup strategy
+- Deployment review
+- Environment review
 
 ---
 
-## Production
+## MVP-008
 
-- Production Deployment
+Architecture Review v1.0
 
-- Performance
+Status
 
-- Security Hardening
+Pending
 
----
+Objectives
 
-# Definition of MVP
+- Document final architecture
+- Review modules
+- Review services
+- Review workflows
+- Review testing
+- Review deployment
 
-PCS Core MVP is complete when:
+Purpose
 
-- Complete CRUD Foundation
-- Authentication
-- Authorization
-- Checkout
-- Order Processing
-- Supplier Import Framework
-- Supplier Adapter Framework
-- Inventory Synchronisation
-- Price Synchronisation
-- Product Search
-- Public Storefront
-- Customer Account
-- Administration Dashboard
-- Production Deployment
+Produce the official Architecture Reference for PCS Core v1.0.
 
 ---
 
-# Workflow Sequence
+# Success Criteria
 
-```text
-WF-001 Authentication                     ✓
+The MVP is considered complete when
 
-↓
+- All MVP specifications completed
+- Full integration suite passing
+- Seed data loaded
+- Storefront polished
+- Security reviewed
+- Performance validated
+- Architecture documented
+- Supplier onboarding validated
 
-WF-002 Authorization                     ✓
+---
 
-↓
+# Supplier Onboarding
 
-WF-003 Checkout                          ✓
+Following MVP Hardening
 
-↓
-
-WF-004 Order Processing                  ✓
-
-↓
-
-WF-005 Supplier Import Framework         ✓
-
-↓
-
-STD-001 Import Contracts                 ✓
+```
+Supplier Contact
 
 ↓
 
-WF-006 Supplier Adapter Framework        ✓
+Supplier Feed Received
 
 ↓
 
-WF-007 Inventory Synchronisation         ✓
+Adapter Implementation
 
 ↓
 
-WF-008 Price Synchronisation             NEXT
+Import
 
 ↓
 
-WF-009 Product Search
+Catalogue Validation
 
 ↓
 
-WF-010 Public Storefront
+Pricing Validation
 
 ↓
 
-WF-011 Administration Dashboard
+Inventory Validation
 
 ↓
 
-WF-012 Production Deployment
-
-↓
-
-PCS Core MVP Complete
+Go Live
 ```
 
----
+Goal
 
-# Immediate Next Steps
-
-1. WF-008 Price Synchronisation
-
-2. WF-009 Product Search
-
-3. WF-010 Public Storefront
-
-4. WF-011 Administration Dashboard
-
-5. WF-012 Production Deployment
+Supplier onboarding should require minimal implementation effort.
 
 ---
 
-# Notes
+# Production Launch
 
-PCS Core has successfully completed the foundational architecture, CRUD implementation, authentication and authorization platform, commerce workflows, supplier integration framework and inventory synchronisation.
+Following successful supplier onboarding
 
-The platform now enters the Commercial Intelligence phase, beginning with Price Synchronisation.
+- Final homepage redesign
+- SEO optimisation
+- Marketing content
+- Production catalogue
+- Launch campaign
 
-Following completion of commercial workflows, development will shift to customer-facing functionality, administrative tooling and production readiness.
+---
 
-This roadmap is the authoritative guide for tracking PCS Core's progress toward MVP and should be updated after every completed Workflow Specification.
+# Long-Term Vision
+
+PCS Core has transitioned from feature development to platform refinement.
+
+The architecture is complete.
+
+Future effort focuses on quality, scalability and operational excellence rather than introducing major business functionality.
+
+The objective is to launch a stable, production-ready ecommerce platform that can onboard suppliers rapidly while delivering a premium customer shopping experience.
+
+---
+
+# End Roadmap

@@ -34,6 +34,27 @@
 
 				<p class="product-detail-sku">SKU: <%= model.sku %></p>
 				<p class="product-description"><%= model.description %></p>
+
+				<div class="product-detail-actions">
+					<% if (shoppingCustomerId) { %>
+						<form method="post" action="/cart/add" class="product-add-form">
+							<input type="hidden" name="customerId" value="<%= shoppingCustomerId %>" />
+							<input type="hidden" name="productVariantId" value="<%= model.primaryVariantId %>" />
+							<label>
+								Quantity
+								<input type="number" name="quantity" min="1" value="1" />
+							</label>
+							<button type="submit" class="sf-button">Add To Cart</button>
+						</form>
+						<div class="product-detail-links">
+							<a href="/shop" class="sf-button sf-button-secondary">Continue Shopping</a>
+							<a href="/cart?customerId=<%= encodeURIComponent(shoppingCustomerId) %>" class="sf-button">View Cart</a>
+						</div>
+					<% } else { %>
+						<p>Sign in to add this product to your cart.</p>
+						<a href="/login?redirect=<%= encodeURIComponent(`/product/${model.slug}`) %>" class="sf-button">Login To Continue</a>
+					<% } %>
+				</div>
 			</article>
 		</div>
 	</section>

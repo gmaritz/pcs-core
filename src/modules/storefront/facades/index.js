@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./CatalogFacade"), exports);
 __exportStar(require("./StorefrontFacade"), exports);
 __exportStar(require("./ProductFacade"), exports);
+__exportStar(require("./ShoppingFacade"), exports);

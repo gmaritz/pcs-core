@@ -101,6 +101,7 @@ class ProductFacade {
             brandName: product.brand.name,
             sportName: product.sport.name,
             categoryName: product.category.name,
+            primaryVariantId: primaryVariant.id,
             sku: primaryVariant.sku,
             description,
             formattedPrice: this.formatCurrency(Number(primaryVariant.sellingPrice)),

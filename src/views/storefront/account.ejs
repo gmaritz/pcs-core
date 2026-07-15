@@ -1,3 +1,77 @@
 <%- include('partials/breadcrumbs') %>
-<%- include('partials/page-header') %>
-<%- include('partials/empty-state') %>
+
+<section class="sf-page-header">
+	<div class="sf-container">
+		<h1><%= heading %></h1>
+		<p><%= description %></p>
+	</div>
+</section>
+
+<% if (notification) { %>
+	<section class="sf-section">
+		<div class="sf-container">
+			<div class="sf-notification is-<%= notification.severity %>">
+				<strong><%= notification.title %></strong>
+				<p><%= notification.message %></p>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<section class="sf-section">
+	<div class="sf-container shopping-layout">
+		<article class="shopping-main-panel glass-card">
+			<h2>Customer Profile</h2>
+			<p><strong>Name:</strong> <%= account?.customerName %></p>
+			<p><strong>Email:</strong> <%= account?.customerEmail %></p>
+			<% if (account?.customerTelephone) { %>
+				<p><strong>Telephone:</strong> <%= account.customerTelephone %></p>
+			<% } %>
+		</article>
+
+		<aside class="shopping-summary glass-card">
+			<h2>Current Orders</h2>
+			<% if ((account?.currentOrders ?? []).length > 0) { %>
+				<% account.currentOrders.forEach((order) => { %>
+					<div class="checkout-summary-item">
+						<p><strong><%= order.orderNumber %></strong></p>
+						<p><%= order.orderDate %> • <%= order.status %></p>
+						<p><%= order.itemCount %> items • <%= order.orderTotal %></p>
+						<a href="<%= order.confirmationUrl %>" class="sf-button sf-button-secondary">View</a>
+					</div>
+				<% }); %>
+			<% } else { %>
+				<p>No current orders.</p>
+			<% } %>
+		</aside>
+	</div>
+
+	<div class="sf-container">
+		<div class="glass-card shopping-main-panel">
+			<h2>Previous Orders</h2>
+			<% if ((account?.previousOrders ?? []).length > 0) { %>
+				<div class="shopping-table">
+					<div class="shopping-row shopping-row-head">
+						<span>Order</span>
+						<span>Date</span>
+						<span>Status</span>
+						<span>Items</span>
+						<span>Total</span>
+					</div>
+
+					<% account.previousOrders.forEach((order) => { %>
+						<div class="shopping-row">
+							<span><a href="<%= order.confirmationUrl %>"><%= order.orderNumber %></a></span>
+							<span><%= order.orderDate %></span>
+							<span><%= order.status %></span>
+							<span><%= order.itemCount %></span>
+							<span><%= order.orderTotal %></span>
+						</div>
+					<% }); %>
+				</div>
+			<% } else { %>
+				<p>No previous orders.</p>
+			<% } %>
+		</div>
+	</div>
+</section>

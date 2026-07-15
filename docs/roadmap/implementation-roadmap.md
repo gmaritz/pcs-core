@@ -1,437 +1,590 @@
 # PCS Core Implementation Roadmap
 
----
+Version: 5.0
 
-**Project:** Pro Court Sports
+Status: MVP Feature Development Complete
 
-**Project Codename:** PCS Core
+Last Updated: July 2026
 
-**Document Version:** 3.1.0
-
-**Document Status:** Living Document
-
-**Last Updated:** 2026-07-12
+Author: ChatGPT
 
 ---
 
-# Overall Progress
+# Overview
 
-```text
-Architecture      ████████████████████ 100%
+PCS Core has successfully completed all planned MVP feature development.
 
-Persistence       ████████████████████ 100%
+The platform has evolved from a CRUD-based backend into a modular enterprise ecommerce platform capable of supporting supplier integrations, product management, pricing, inventory synchronisation and a complete customer shopping experience.
 
-Backend           ████████████████████ 100%
-
-CRUD Layer        ████████████████████ 100%
-
-Workflow Engine   ███████░░░░░░░░░░░░░ 25%
-
-Frontend          ░░░░░░░░░░░░░░░░░░░░ 0%
-
-Testing           █████████████████░░░ 80%
-
-Deployment        ░░░░░░░░░░░░░░░░░░░░ 0%
-```
-
----
-
-# Overall Project Progress
-
-**≈ 85% Complete**
-
----
-
-# Current Version
-
-```text
-v0.9.1
-```
-
----
-
-# Current Milestone
-
-```text
-M13 — Business Workflows
-```
-
----
-
-# Current Activity
-
-```text
-Workflow Specifications
-
-Completed
-
-SPEC-001 → SPEC-020
-
-WF-001 Authentication
-
-WF-002 Authorization
-
-WF-003 Checkout Workflow
-
-Current
-
-WF-004 Order Processing
-```
-
----
-
-# Purpose
-
-This roadmap is the master implementation plan for PCS Core.
-
-It reflects the actual implementation status of the project.
-
-Unlike the Architecture Handbook, this document tracks implementation progress from project inception through production deployment.
-
-It is updated after every completed Engineering Specification and Workflow Specification.
+Development now transitions from Feature Development into the MVP Hardening phase.
 
 ---
 
 # Project Status
 
-| Phase | Status |
-|---------|:------:|
-| Vision | ✅ Complete |
-| Architecture | ✅ Complete |
-| Domain Model | ✅ Complete |
-| Database Architecture | ✅ Complete |
-| CRUD Foundation | ✅ Complete |
-| Business Workflows | 🚧 In Progress |
-| Frontend | ⏳ Planned |
-| Testing | 🚧 In Progress |
-| Production Deployment | ⏳ Planned |
+## Phase 1
+
+Platform Foundation
+
+Status
+
+✅ Complete
+
+Includes
+
+- Clean Architecture
+- PostgreSQL
+- Prisma ORM
+- TypeScript
+- Express
+- EJS
+- Modular Folder Structure
+- Documentation Framework
 
 ---
 
-# Version Roadmap
+## Phase 2
 
-| Version | Milestone | Status |
-|---------|-----------|:------:|
-| v0.1.0 | Foundation | ✅ |
-| v0.2.0 | Architecture | ✅ |
-| v0.3.0 | Domain Model | ✅ |
-| v0.4.0 | Database | ✅ |
-| v0.5.0 | Persistence | ✅ |
-| v0.6.0 | Catalog Domain | ✅ |
-| v0.7.0 | Supply Chain Domain | ✅ |
-| v0.8.0 | Commerce Domain | ✅ |
-| v0.9.0 | Content Domain | ✅ |
-| v0.9.1 | Workflow Foundation | 🚧 |
-| v1.0.0 | MVP Release | ⏳ |
+Business Platform
 
----
+Status
 
-# Engineering Specification Progress
+✅ Complete
 
-| Specification | Module | Status |
-|--------------|--------|:------:|
-| SPEC-001 | Brand CRUD | ✅ |
-| SPEC-002 | Sport CRUD | ✅ |
-| SPEC-003 | Category CRUD | ✅ |
-| SPEC-004 | Product CRUD | ✅ |
-| SPEC-005 | Product Variant CRUD | ✅ |
-| SPEC-006 | Supplier CRUD | ✅ |
-| SPEC-007 | Inventory CRUD | ✅ |
-| SPEC-008 | Inventory Movement CRUD | ✅ |
-| SPEC-009 | Warehouse CRUD | ✅ |
-| SPEC-010 | Supplier Product CRUD | ✅ |
-| SPEC-011 | Customer CRUD | ✅ |
-| SPEC-012 | Address CRUD | ✅ |
-| SPEC-013 | Cart CRUD | ✅ |
-| SPEC-014 | Cart Item CRUD | ✅ |
-| SPEC-015 | Order CRUD | ✅ |
-| SPEC-016 | Order Item CRUD | ✅ |
-| SPEC-017 | Payment CRUD | ✅ |
-| SPEC-018 | Media CRUD | ✅ |
-| SPEC-019 | Product Media CRUD | ✅ |
-| SPEC-020 | SEO Metadata CRUD | ✅ |
+Includes
 
----
+Authentication
 
-# Workflow Specification Progress
+Authorization
 
-| Workflow | Description | Status |
-|-----------|-------------|:------:|
-| WF-001 | Authentication | ✅ |
-| WF-002 | Authorization | ✅ |
-| WF-003 | Checkout Workflow | ✅ |
-| WF-004 | Order Processing | ⏳ |
-| WF-005 | Supplier Feed Import | ⏳ |
-| WF-006 | Product Import Pipeline | ⏳ |
-| WF-007 | Inventory Synchronisation | ⏳ |
-| WF-008 | Price Synchronisation | ⏳ |
-| WF-009 | Product Search | ⏳ |
-| WF-010 | Public Storefront | ⏳ |
-| WF-011 | Administration Dashboard | ⏳ |
-| WF-012 | Production Deployment | ⏳ |
+Catalog
+
+Brands
+
+Categories
+
+Sports
+
+Products
+
+Product Variants
+
+Attributes
+
+Media
+
+Supplier Platform
+
+Inventory
+
+Pricing
+
+Search
+
+Orders
+
+Customers
+
+Roles
+
+Permissions
 
 ---
 
-# Domain Progress
+## Phase 3
 
-## Catalog
+Supplier Platform
 
-| Module | Status |
-|---------|:------:|
-| Sport | ✅ |
-| Brand | ✅ |
-| Category | ✅ |
-| Product | ✅ |
-| Product Variant | ✅ |
+Status
 
-**Progress:** **100%**
+✅ Complete
+
+Includes
+
+- Supplier Import Framework
+- Shared Import Contracts
+- Supplier Adapter Framework
+- Inventory Synchronisation
+- Price Synchronisation
+
+Platform now ready for supplier onboarding after MVP Hardening.
+
+---
+
+## Phase 4
+
+Customer Storefront
+
+Status
+
+✅ Complete
+
+Includes
+
+### WF-010A
+
+Storefront Foundation
+
+Completed
+
+### WF-010B
+
+Dynamic Home Page
+
+Completed
+
+### WF-010C
+
+Product Catalogue & Search
+
+Completed
+
+### WF-010D
+
+Product Detail Experience
+
+Completed
+
+### WF-010E
+
+Shopping Experience
+
+Completed
+
+Customer Journey
+
+```
+Homepage
+
+↓
+
+Catalogue
+
+↓
+
+Product Detail
+
+↓
+
+Cart
+
+↓
+
+Checkout
+
+↓
+
+Order Processing
+
+↓
+
+Customer Account
+```
+
+Fully operational.
 
 ---
 
-## Supply Chain
+# Architectural Overview
 
-| Module | Status |
-|---------|:------:|
-| Supplier | ✅ |
-| Supplier Product | ✅ |
-| Inventory | ✅ |
-| Inventory Movement | ✅ |
-| Warehouse | ✅ |
+PCS Core now consists of two primary layers.
 
-**Progress:** **100%**
+```
+Presentation Platform
+
+↓
+
+Business Platform
+
+↓
+
+Persistence Platform
+```
 
 ---
+
+# Presentation Platform
+
+Completed
+
+## Facades
+
+- StorefrontFacade
+- CatalogFacade
+- ProductFacade
+- ShoppingFacade
+
+---
+
+## Presentation Services
+
+- StorefrontPresentationService
+- MediaService
+- PageMetadataService
+- RecommendationService
+- NotificationService
+
+---
+
+## View Models
+
+Implemented across
+
+- Homepage
+- Catalogue
+- Product Detail
+- Shopping
+
+---
+
+# Business Platform
+
+Completed
 
 ## Commerce
 
-| Module | Status |
-|---------|:------:|
-| Customer | ✅ |
-| Address | ✅ |
-| Cart | ✅ |
-| Cart Item | ✅ |
-| Order | ✅ |
-| Order Item | ✅ |
-| Payment | ✅ |
-
-**Progress:** **100%**
+- Cart
+- Checkout
+- Orders
+- Pricing
+- Inventory
+- Search
 
 ---
 
-## Content
+## Supplier Platform
 
-| Module | Status |
-|---------|:------:|
-| Media | ✅ |
-| Product Media | ✅ |
-| SEO Metadata | ✅ |
-
-**Progress:** **100%**
+- Import Framework
+- Adapter Framework
+- Synchronisation
+- Import Contracts
 
 ---
 
-## Workflow
+## Security
 
-| Workflow | Status |
-|----------|:------:|
-| Authentication | ✅ |
-| Authorization | ✅ |
-| Checkout | ✅ |
-| Order Processing | ⏳ |
-| Supplier Integration | ⏳ |
-| Search | ⏳ |
-| Storefront | ⏳ |
-
----
-
-# CRUD Foundation Status
-
-```text
-Catalog Domain             COMPLETE
-
-Supply Chain Domain        COMPLETE
-
-Commerce Domain            COMPLETE
-
-Content Domain             COMPLETE
-
-REST API                   COMPLETE
-
-Prisma Schema              COMPLETE
-
-DTO Layer                  COMPLETE
-
-Validation Layer           COMPLETE
-
-Service Layer              COMPLETE
-
-Controller Layer           COMPLETE
-
-Routing Layer              COMPLETE
-```
-
----
-
-# Workflow Foundation Status
-
-```text
-JWT Authentication         COMPLETE
-
-Role-Based Authorization   COMPLETE
-
-Checkout Workflow          COMPLETE
-
-Order Processing           NEXT
-```
-
----
-
-# Current MVP Status
-
-## Completed
-
-- Project Foundation
-- Architecture
-- Domain Model
-- Database Design
-- Shared Infrastructure
-- Complete Catalog Domain
-- Complete Supply Chain Domain
-- Complete Commerce Domain
-- Complete Content Domain
-- REST API
-- CRUD Services
-- Controllers
-- Validation
-- DTO Layer
-- Routing
-- Prisma Migrations
 - Authentication
 - Authorization
-- Checkout Workflow
-- End-to-End CRUD Verification
-- Workflow Verification
+- Roles
+- Permissions
+- JWT
 
 ---
 
-## Remaining for MVP
+# Completed Specifications
 
-- Order Processing
-- Supplier Feed Import
-- Product Import Pipeline
-- Inventory Synchronisation
-- Price Synchronisation
-- Product Search
-- Public Storefront
-- Administration Dashboard
-- Production Deployment
+## CRUD
+
+CRUD-001 through CRUD-017
+
+Status
+
+✅ Complete
 
 ---
 
-# Development Workflow
+## Workflow Specifications
 
-```text
-Workflow Specification
+WF-001 Authentication
 
-        ↓
+✅
 
-GitHub Copilot
+WF-002 Authorization
 
-        ↓
+✅
 
-Implement Prisma Models
+WF-003 Checkout
 
-        ↓
+✅
 
-Prisma Migration
+WF-004 Order Processing
 
-        ↓
+✅
 
-Prisma Generate
+WF-005 Supplier Import Framework
 
-        ↓
+✅
 
-Compile
+WF-006 Supplier Adapter Framework
 
-        ↓
+✅
 
-Implement Services
+WF-007 Inventory Synchronisation
 
-        ↓
+✅
 
-Compile
+WF-008 Price Synchronisation
 
-        ↓
+✅
 
-Implement Controllers
+WF-009 Product Search
 
-        ↓
+✅
 
-Compile
+WF-010A Storefront Foundation
 
-        ↓
+✅
 
-Implement Routes
+WF-010B Dynamic Home Page
 
-        ↓
+✅
 
-Compile
+WF-010C Product Catalogue & Search
 
-        ↓
+✅
 
-Manual Verification
+WF-010D Product Detail Experience
 
-        ↓
+✅
 
-Git Commit
+WF-010E Shopping Experience
 
-        ↓
+✅
 
-Update Roadmap
+---
 
-        ↓
+# Shared Services
 
-Next Workflow
+Implemented
+
+- MediaService
+- RecommendationService
+- NotificationService
+- PageMetadataService
+- StorefrontPresentationService
+
+These services provide reusable functionality across the entire Storefront and future Administration modules.
+
+---
+
+# Design Principles
+
+PCS Core follows
+
+- Clean Architecture
+- Modular Design
+- Domain Driven Design principles
+- Separation of Concerns
+- Presentation Layer isolation
+- Service Layer orchestration
+- Facade Pattern
+- View Model Pattern
+- Shared Service Pattern
+
+---
+
+# Development Standards
+
+Implemented
+
+STD-001
+
+Import Contracts
+
+Completed
+
+Upcoming
+
+STD-002
+
+Git Repository Standards
+
+STD-003
+
+Developer Environment
+
+STD-004
+
+Testing Standards
+
+---
+
+# Testing Status
+
+Current
+
+## Build
+
+All workflows compile successfully.
+
+## Integration Tests
+
+WF-009
+
+Passed
+
+WF-010B
+
+Passed
+
+WF-010C
+
+Passed
+
+WF-010D
+
+Passed
+
+WF-010E
+
+Passed
+
+The project now includes repeatable workflow integration tests.
+
+---
+
+# Git Repository
+
+Recently Improved
+
+- node_modules removed from version control
+- Professional .gitignore
+- .gitattributes introduced
+- Repository optimisation
+- Workspace moved from OneDrive to dedicated development drive
+
+---
+
+# Current Platform Capability
+
+PCS Core now supports
+
+✅ Product Management
+
+✅ Supplier Management
+
+✅ Supplier Import
+
+✅ Product Search
+
+✅ Pricing
+
+✅ Inventory
+
+✅ Customer Authentication
+
+✅ Customer Shopping
+
+✅ Checkout
+
+✅ Order Processing
+
+✅ Customer Account
+
+---
+
+# Current Phase
+
+```
+█████████████████████████████████████████████
+
+Feature Development
+
+100%
+
+█████████████████████████████████████████████
 ```
 
----
+Current Status
 
-# Definition of MVP
-
-PCS Core MVP will be complete when:
-
-- CRUD foundation completed
-- Authentication implemented
-- Authorization implemented
-- Checkout operational
-- Order Processing operational
-- Supplier imports operational
-- Inventory synchronisation operational
-- Product search operational
-- Storefront operational
-- Administration dashboard operational
-- Production deployment completed
+MVP Feature Development Complete
 
 ---
 
-# Immediate Next Steps
+# Next Phase
 
-1. WF-004 Order Processing
-2. WF-005 Supplier Feed Import
-3. WF-006 Product Import Pipeline
-4. WF-007 Inventory Synchronisation
-5. WF-008 Price Synchronisation
-6. WF-009 Product Search
-7. WF-010 Public Storefront
-8. WF-011 Administration Dashboard
-9. WF-012 Production Deployment
+## MVP Hardening
+
+Planned Specifications
+
+MVP-001
+
+Platform Validation
 
 ---
 
-# Notes
+MVP-002
 
-PCS Core has successfully completed the entire CRUD implementation phase and established its core workflow foundation.
+Seed Data Framework
 
-The project is now focused on business process orchestration, supplier integration, inventory automation, customer experience and production readiness.
+---
 
-This roadmap is the authoritative implementation progress document for PCS Core and is updated after every completed Engineering Specification and Workflow Specification.
+MVP-003
+
+Storefront Polish
+
+---
+
+MVP-004
+
+Performance Optimisation
+
+---
+
+MVP-005
+
+Security Review
+
+---
+
+MVP-006
+
+Supplier Readiness
+
+---
+
+MVP-007
+
+Production Readiness
+
+---
+
+MVP-008
+
+Architecture Review v1.0
+
+---
+
+# Future Roadmap
+
+Following MVP Hardening
+
+Supplier Onboarding
+
+↓
+
+Production Supplier Imports
+
+↓
+
+Live Product Catalogue
+
+↓
+
+Homepage Redesign
+
+↓
+
+SEO Optimisation
+
+↓
+
+Marketing Launch
+
+↓
+
+Production Release
+
+---
+
+# Vision
+
+PCS Core has reached the point where feature development is complete.
+
+The focus now shifts from building functionality to refining quality, validating architecture and preparing the platform for production supplier onboarding.
+
+The next phase will concentrate on reliability, performance, usability and operational readiness rather than introducing significant new business capabilities.
+
+---
+
+# End Roadmap

@@ -4,6 +4,9 @@ exports.pageMetadataService = exports.PageMetadataService = void 0;
 const CATALOG_TITLE = 'Shop Premium Court Sports Equipment | Pro Court Sports';
 const CATALOG_DESCRIPTION = 'Browse premium tennis, padel, squash and badminton equipment from leading international brands.';
 const CATALOG_CANONICAL_URL = '/shop';
+const CART_TITLE = 'Your Cart | Pro Court Sports';
+const CHECKOUT_TITLE = 'Checkout | Pro Court Sports';
+const ACCOUNT_TITLE = 'My Account | Pro Court Sports';
 class PageMetadataService {
     buildCatalogPageMetadata() {
         return {
@@ -29,6 +32,51 @@ class PageMetadataService {
                 title,
                 description,
                 image: input.primaryImageUrl,
+            },
+        };
+    }
+    buildCartPageMetadata() {
+        return {
+            title: CART_TITLE,
+            description: 'Review your selected items and continue to checkout.',
+            canonicalUrl: '/cart',
+            openGraph: {
+                title: CART_TITLE,
+                description: 'Review your selected items and continue to checkout.',
+            },
+        };
+    }
+    buildCheckoutPageMetadata() {
+        return {
+            title: CHECKOUT_TITLE,
+            description: 'Confirm delivery details and place your Pro Court Sports order.',
+            canonicalUrl: '/checkout',
+            openGraph: {
+                title: CHECKOUT_TITLE,
+                description: 'Confirm delivery details and place your Pro Court Sports order.',
+            },
+        };
+    }
+    buildOrderConfirmationPageMetadata(orderId, orderNumber) {
+        const title = `Order ${orderNumber} | Pro Court Sports`;
+        return {
+            title,
+            description: `Order confirmation for ${orderNumber}.`,
+            canonicalUrl: `/order-confirmation/${orderId}`,
+            openGraph: {
+                title,
+                description: `Order confirmation for ${orderNumber}.`,
+            },
+        };
+    }
+    buildCustomerAccountPageMetadata() {
+        return {
+            title: ACCOUNT_TITLE,
+            description: 'View your profile details and order history.',
+            canonicalUrl: '/account',
+            openGraph: {
+                title: ACCOUNT_TITLE,
+                description: 'View your profile details and order history.',
             },
         };
     }

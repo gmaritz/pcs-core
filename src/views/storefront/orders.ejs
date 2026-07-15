@@ -1,3 +1,58 @@
 <%- include('partials/breadcrumbs') %>
-<%- include('partials/page-header') %>
-<%- include('partials/empty-state') %>
+
+<section class="sf-page-header">
+	<div class="sf-container">
+		<h1><%= heading %></h1>
+		<p><%= description %></p>
+	</div>
+</section>
+
+<% if (notification) { %>
+	<section class="sf-section">
+		<div class="sf-container">
+			<div class="sf-notification is-<%= notification.severity %>">
+				<strong><%= notification.title %></strong>
+				<p><%= notification.message %></p>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<section class="sf-section">
+	<div class="sf-container shopping-layout">
+		<article class="shopping-main-panel glass-card">
+			<h2>Order Details</h2>
+			<p><strong>Order Number:</strong> <%= orderConfirmation?.orderNumber %></p>
+			<p><strong>Date:</strong> <%= orderConfirmation?.orderDate %></p>
+			<p><strong>Customer:</strong> <%= orderConfirmation?.customerName %></p>
+			<p><strong>Status:</strong> <%= orderConfirmation?.status %></p>
+
+			<div class="shopping-table">
+				<div class="shopping-row shopping-row-head">
+					<span>Product</span>
+					<span>SKU</span>
+					<span>Qty</span>
+					<span>Unit</span>
+					<span>Total</span>
+				</div>
+
+				<% (orderConfirmation?.items ?? []).forEach((item) => { %>
+					<div class="shopping-row">
+						<span><%= item.productName %></span>
+						<span><%= item.sku %></span>
+						<span><%= item.quantity %></span>
+						<span><%= item.unitPrice %></span>
+						<span><%= item.lineTotal %></span>
+					</div>
+				<% }); %>
+			</div>
+		</article>
+
+		<aside class="shopping-summary glass-card">
+			<h2>Order Total</h2>
+			<p><strong><%= orderConfirmation?.orderTotal %></strong></p>
+			<a href="<%= orderConfirmation?.continueShoppingUrl ?? '/shop' %>" class="sf-button">Continue Shopping</a>
+			<a href="/account?customerId=<%= encodeURIComponent(shoppingCustomerId || '') %>" class="sf-button sf-button-secondary">View Account</a>
+		</aside>
+	</div>
+</section>

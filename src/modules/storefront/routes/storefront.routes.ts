@@ -1,6 +1,9 @@
 import { Router } from 'express';
 
-import { storefrontController } from '../controllers';
+import {
+  shoppingController,
+  storefrontController,
+} from '../controllers';
 
 const router = Router();
 
@@ -36,12 +39,52 @@ router.get('/product/:slug', async (req, res, next) => {
   }
 });
 
-router.get('/cart', (req, res) => {
-  storefrontController.renderCart(req, res);
+router.get('/cart', async (req, res, next) => {
+  try {
+    await shoppingController.renderCart(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get('/checkout', (req, res) => {
-  storefrontController.renderCheckout(req, res);
+router.post('/cart/add', async (req, res, next) => {
+  try {
+    await shoppingController.addToCart(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/cart/update', async (req, res, next) => {
+  try {
+    await shoppingController.updateCartItem(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/cart/remove', async (req, res, next) => {
+  try {
+    await shoppingController.removeCartItem(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/checkout', async (req, res, next) => {
+  try {
+    await shoppingController.renderCheckout(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/checkout/place-order', async (req, res, next) => {
+  try {
+    await shoppingController.placeOrder(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/login', (req, res) => {
@@ -52,12 +95,28 @@ router.get('/register', (req, res) => {
   storefrontController.renderRegister(req, res);
 });
 
-router.get('/account', (req, res) => {
-  storefrontController.renderAccount(req, res);
+router.get('/order-confirmation/:orderId', async (req, res, next) => {
+  try {
+    await shoppingController.renderOrderConfirmation(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.get('/orders', (req, res) => {
-  storefrontController.renderOrders(req, res);
+router.get('/account', async (req, res, next) => {
+  try {
+    await shoppingController.renderAccount(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/orders', async (req, res, next) => {
+  try {
+    await shoppingController.renderAccount(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/wishlist', (req, res) => {

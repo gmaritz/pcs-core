@@ -1,3 +1,77 @@
 <%- include('partials/breadcrumbs') %>
-<%- include('partials/page-header') %>
-<%- include('partials/empty-state') %>
+
+<section class="sf-page-header">
+	<div class="sf-container">
+		<h1><%= heading %></h1>
+		<p><%= description %></p>
+	</div>
+</section>
+
+<% if (notification) { %>
+	<section class="sf-section">
+		<div class="sf-container">
+			<div class="sf-notification is-<%= notification.severity %>">
+				<strong><%= notification.title %></strong>
+				<p><%= notification.message %></p>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<section class="sf-section">
+	<div class="sf-container shopping-layout">
+		<% if ((cart?.items ?? []).length > 0) { %>
+			<div class="shopping-main-panel glass-card">
+				<div class="shopping-table">
+					<div class="shopping-row shopping-row-head">
+						<span>Product</span>
+						<span>Price</span>
+						<span>Quantity</span>
+						<span>Total</span>
+						<span>Actions</span>
+					</div>
+
+					<% cart.items.forEach((item) => { %>
+						<div class="shopping-row">
+							<div class="shopping-product-cell">
+								<img src="<%= item.imageUrl %>" alt="<%= item.imageAlt %>" />
+								<div>
+									<p class="shopping-product-name"><%= item.productName %></p>
+									<p class="shopping-product-meta">SKU: <%= item.sku %></p>
+									<p class="shopping-product-meta"><%= item.availabilityLabel %></p>
+								</div>
+							</div>
+							<span><%= item.unitPrice %></span>
+							<form method="post" action="/cart/update" class="shopping-inline-form">
+								<input type="hidden" name="customerId" value="<%= shoppingCustomerId %>" />
+								<input type="hidden" name="cartItemId" value="<%= item.cartItemId %>" />
+								<input type="number" min="1" name="quantity" value="<%= item.quantity %>" />
+								<button type="submit" class="sf-button sf-button-secondary">Update</button>
+							</form>
+							<span><%= item.lineTotal %></span>
+							<form method="post" action="/cart/remove" class="shopping-inline-form">
+								<input type="hidden" name="customerId" value="<%= shoppingCustomerId %>" />
+								<input type="hidden" name="cartItemId" value="<%= item.cartItemId %>" />
+								<button type="submit" class="sf-button sf-button-secondary">Remove</button>
+							</form>
+						</div>
+					<% }); %>
+				</div>
+			</div>
+
+			<aside class="shopping-summary glass-card">
+				<h2>Cart Summary</h2>
+				<p><strong>Items:</strong> <%= cart.itemCount %></p>
+				<p><strong>Total:</strong> <%= cart.cartTotal %></p>
+				<a href="<%= cart.checkoutUrl %>" class="sf-button">Proceed To Checkout</a>
+				<a href="<%= cart.continueShoppingUrl %>" class="sf-button sf-button-secondary">Continue Shopping</a>
+			</aside>
+		<% } else { %>
+			<div class="sf-empty-state">
+				<h2>Your cart is empty</h2>
+				<p>Add products from the catalogue to begin checkout.</p>
+				<a class="sf-button" href="/shop">Browse Products</a>
+			</div>
+		<% } %>
+	</div>
+</section>

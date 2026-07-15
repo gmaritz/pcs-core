@@ -18,6 +18,7 @@ export interface ProductDetailViewModel {
   brandName: string;
   sportName: string;
   categoryName: string;
+  primaryVariantId: string;
   sku: string;
   description: string;
   formattedPrice: string;

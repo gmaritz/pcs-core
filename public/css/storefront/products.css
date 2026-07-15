@@ -91,6 +91,36 @@
   letter-spacing: 0.05em;
 }
 
+.product-detail-actions {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.product-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 0.65rem;
+}
+
+.product-add-form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.product-add-form input[type='number'] {
+  width: 86px;
+}
+
+.product-detail-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
 .product-spec-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

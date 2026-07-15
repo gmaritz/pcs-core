@@ -28,6 +28,7 @@ type RenderPageOptions = {
   home?: HomeViewModel;
   catalog?: CatalogPageViewModel;
   product?: ProductDetailViewModel;
+  shoppingCustomerId?: string;
   metadata?: PageMetadata;
 };
 
@@ -69,6 +70,7 @@ export class StorefrontController {
       home: options.home,
       catalog: options.catalog,
       product: options.product,
+      shoppingCustomerId: options.shoppingCustomerId,
       metadata: options.metadata,
       layout: 'layouts/main',
     });
@@ -175,6 +177,9 @@ export class StorefrontController {
       breadcrumbs: productPage.product.breadcrumbs,
       metadata: productPage.metadata,
       product: productPage.product,
+      shoppingCustomerId: typeof req.query.customerId === 'string'
+        ? req.query.customerId
+        : undefined,
     });
   }
 

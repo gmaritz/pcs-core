@@ -1,3 +1,77 @@
 <%- include('partials/breadcrumbs') %>
-<%- include('partials/page-header') %>
-<%- include('partials/empty-state') %>
+
+<section class="sf-page-header">
+	<div class="sf-container">
+		<h1><%= heading %></h1>
+		<p><%= description %></p>
+	</div>
+</section>
+
+<% if (notification) { %>
+	<section class="sf-section">
+		<div class="sf-container">
+			<div class="sf-notification is-<%= notification.severity %>">
+				<strong><%= notification.title %></strong>
+				<p><%= notification.message %></p>
+			</div>
+		</div>
+	</section>
+<% } %>
+
+<section class="sf-section">
+	<div class="sf-container shopping-layout">
+		<article class="shopping-main-panel glass-card">
+			<h2>Customer Details</h2>
+			<p><strong>Name:</strong> <%= checkout?.customerName %></p>
+			<p><strong>Email:</strong> <%= checkout?.customerEmail %></p>
+
+			<form method="post" action="<%= checkout?.placeOrderActionUrl ?? '/checkout/place-order' %>" class="checkout-form">
+				<input type="hidden" name="customerId" value="<%= shoppingCustomerId %>" />
+
+				<label>
+					Shipping Address
+					<select name="shippingAddressId">
+						<% (checkout?.addressBook ?? []).forEach((address) => { %>
+							<option value="<%= address.id %>" <%= address.id === checkout?.shippingAddressId ? 'selected' : '' %>>
+								<%= address.label %> - <%= address.line1 %>, <%= address.city %>
+							</option>
+						<% }); %>
+					</select>
+				</label>
+
+				<label>
+					Billing Address
+					<select name="billingAddressId">
+						<% (checkout?.addressBook ?? []).forEach((address) => { %>
+							<option value="<%= address.id %>" <%= address.id === checkout?.billingAddressId ? 'selected' : '' %>>
+								<%= address.label %> - <%= address.line1 %>, <%= address.city %>
+							</option>
+						<% }); %>
+					</select>
+				</label>
+
+				<label>
+					Order Notes
+					<textarea name="notes" rows="3" placeholder="Optional notes for this order"></textarea>
+				</label>
+
+				<button type="submit" class="sf-button">Place Order</button>
+			</form>
+		</article>
+
+		<aside class="shopping-summary glass-card">
+			<h2>Order Summary</h2>
+			<% (checkout?.orderSummary ?? []).forEach((item) => { %>
+				<div class="checkout-summary-item">
+					<p><strong><%= item.productName %></strong></p>
+					<p>SKU: <%= item.sku %></p>
+					<p><%= item.quantity %> x <%= item.unitPrice %></p>
+					<p><strong><%= item.lineTotal %></strong></p>
+				</div>
+			<% }); %>
+
+			<p class="checkout-total">Total: <strong><%= checkout?.orderTotal %></strong></p>
+			<a href="<%= checkout?.returnToCartUrl %>" class="sf-button sf-button-secondary">Back To Cart</a>
+		</aside>
+	</div>
+</section>
