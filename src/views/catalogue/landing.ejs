@@ -1,0 +1,79 @@
+<%- include('./partials/breadcrumb') %>
+
+<section class="ct-hero hp-section">
+  <div class="ct-container ct-hero-grid">
+    <div>
+      <p class="hp-eyebrow"><%= catalogue.landing.hero.eyebrow %></p>
+      <h1 class="ct-hero-title"><%= catalogue.landing.hero.title %></h1>
+      <p class="ct-hero-description"><%= catalogue.landing.hero.description %></p>
+    </div>
+    <div class="ct-hero-media">
+      <img src="<%= catalogue.landing.hero.imageUrl %>" alt="<%= catalogue.landing.hero.imageAlt %>" loading="eager" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <div class="ct-section-heading">
+      <p class="hp-eyebrow">Featured Sports</p>
+      <h2>Specialist shopping by sport</h2>
+    </div>
+    <div class="ct-card-grid ct-card-grid-3">
+      <% catalogue.landing.featuredSports.forEach((card) => { %>
+        <a href="<%= card.url %>" class="ct-feature-card">
+          <img src="<%= card.imageUrl %>" alt="<%= card.imageAlt %>" loading="lazy" decoding="async" />
+          <h3><%= card.title %></h3>
+          <p><%= card.description %></p>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <div class="ct-section-heading">
+      <p class="hp-eyebrow">Featured Categories</p>
+      <h2>Explore premium product categories</h2>
+    </div>
+    <div class="ct-card-grid ct-card-grid-3">
+      <% catalogue.landing.featuredCategories.forEach((card) => { %>
+        <a href="<%= card.url %>" class="ct-feature-card">
+          <img src="<%= card.imageUrl %>" alt="<%= card.imageAlt %>" loading="lazy" decoding="async" />
+          <h3><%= card.title %></h3>
+          <p><%= card.description %></p>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <div class="ct-section-heading">
+      <p class="hp-eyebrow">Featured Brands</p>
+      <h2>Trusted by serious athletes</h2>
+    </div>
+    <div class="ct-brand-row">
+      <% catalogue.landing.featuredBrands.forEach((brand) => { %>
+        <a href="<%= brand.url %>" class="ct-brand-item" aria-label="Shop <%= brand.name %>">
+          <img src="<%= brand.logoUrl %>" alt="<%= brand.name %> logo" loading="lazy" decoding="async" />
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <div class="ct-section-heading">
+      <p class="hp-eyebrow">Featured Products</p>
+      <h2>Performance-ready products</h2>
+    </div>
+    <%- include('./partials/product-grid', {
+      products: catalogue.landing.featuredProducts,
+      emptyStateMessage: 'No featured products available right now.'
+    }) %>
+  </div>
+</section>

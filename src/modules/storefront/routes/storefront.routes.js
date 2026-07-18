@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const catalogue_1 = require("../catalogue");
 const controllers_1 = require("../controllers");
 const router = (0, express_1.Router)();
 router.get('/', async (req, res, next) => {
@@ -13,7 +14,23 @@ router.get('/', async (req, res, next) => {
 });
 router.get('/shop', async (req, res, next) => {
     try {
-        await controllers_1.storefrontController.renderCatalog(req, res);
+        await catalogue_1.catalogueController.renderLanding(req, res);
+    }
+    catch (error) {
+        next(error);
+    }
+});
+router.get('/shop/:sport/:category', async (req, res, next) => {
+    try {
+        await catalogue_1.catalogueController.renderCategory(req, res);
+    }
+    catch (error) {
+        next(error);
+    }
+});
+router.get('/shop/:sport', async (req, res, next) => {
+    try {
+        await catalogue_1.catalogueController.renderSport(req, res);
     }
     catch (error) {
         next(error);
@@ -131,6 +148,14 @@ router.get('/terms', (req, res) => {
 });
 router.get('/sports', (req, res) => {
     controllers_1.storefrontController.renderSports(req, res);
+});
+router.get('/brands/:brand', async (req, res, next) => {
+    try {
+        await catalogue_1.catalogueController.renderBrand(req, res);
+    }
+    catch (error) {
+        next(error);
+    }
 });
 router.get('/brands', (req, res) => {
     controllers_1.storefrontController.renderBrands(req, res);

@@ -1,0 +1,45 @@
+<%- include('./partials/breadcrumb') %>
+
+<section class="ct-hero hp-section">
+  <div class="ct-container ct-hero-grid">
+    <div>
+      <p class="hp-eyebrow"><%= catalogue.category.hero.eyebrow %></p>
+      <h1 class="ct-hero-title"><%= catalogue.category.hero.title %></h1>
+      <p class="ct-hero-description"><%= catalogue.category.hero.description %></p>
+    </div>
+    <div class="ct-hero-media">
+      <img src="<%= catalogue.category.hero.imageUrl %>" alt="<%= catalogue.category.hero.imageAlt %>" loading="eager" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<section class="hp-section ct-catalogue-shell">
+  <div class="ct-container ct-catalogue-grid">
+    <%- include('./partials/filter-sidebar', {
+      filters: catalogue.category.filters
+    }) %>
+
+    <div class="ct-catalogue-results">
+      <%- include('./partials/sort-toolbar', {
+        toolbar: catalogue.category.sortToolbar,
+        persistedQuery: catalogue.category.filters.search,
+        persistedBrand: catalogue.category.filters.brandOptions.find((item) => item.selected)?.value,
+        persistedMinPrice: catalogue.category.filters.minPrice,
+        persistedMaxPrice: catalogue.category.filters.maxPrice,
+        persistedAvailability: catalogue.category.filters.availabilityOptions.find((item) => item.selected)?.value,
+        persistedTier: catalogue.category.filters.performanceTierOptions.find((item) => item.selected)?.value
+      }) %>
+
+      <p class="ct-result-summary"><%= catalogue.category.resultSummary %></p>
+
+      <%- include('./partials/product-grid', {
+        products: catalogue.category.products,
+        emptyStateMessage: catalogue.category.emptyStateMessage
+      }) %>
+
+      <%- include('./partials/pagination', {
+        pagination: catalogue.category.pagination
+      }) %>
+    </div>
+  </div>
+</section>

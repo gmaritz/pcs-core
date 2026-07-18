@@ -1,0 +1,15 @@
+<% if (breadcrumbs && breadcrumbs.length > 0) { %>
+  <nav class="ct-breadcrumb" aria-label="Breadcrumb">
+    <ol class="ct-container">
+      <% breadcrumbs.forEach((crumb, index) => { %>
+        <li>
+          <% if (index < breadcrumbs.length - 1) { %>
+            <a href="<%= crumb.href %>"><%= crumb.label %></a>
+          <% } else { %>
+            <span aria-current="page"><%= crumb.label %></span>
+          <% } %>
+        </li>
+      <% }); %>
+    </ol>
+  </nav>
+<% } %>

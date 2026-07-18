@@ -1,0 +1,57 @@
+<%- include('./partials/breadcrumb') %>
+
+<section class="ct-hero hp-section">
+  <div class="ct-container ct-hero-grid ct-brand-hero-grid">
+    <div>
+      <p class="hp-eyebrow"><%= catalogue.brand.hero.eyebrow %></p>
+      <h1 class="ct-hero-title"><%= catalogue.brand.hero.title %></h1>
+      <p class="ct-hero-description"><%= catalogue.brand.description %></p>
+    </div>
+    <div class="ct-brand-hero-media">
+      <img src="<%= catalogue.brand.hero.imageUrl %>" alt="<%= catalogue.brand.hero.imageAlt %>" loading="eager" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <div class="ct-section-heading">
+      <p class="hp-eyebrow">Featured Categories</p>
+      <h2>Shop by category in this brand</h2>
+    </div>
+    <div class="ct-card-grid ct-card-grid-3">
+      <% catalogue.brand.featuredCategories.forEach((card) => { %>
+        <a href="<%= card.url %>" class="ct-feature-card">
+          <img src="<%= card.imageUrl %>" alt="<%= card.imageAlt %>" loading="lazy" decoding="async" />
+          <h3><%= card.title %></h3>
+          <p><%= card.description %></p>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <%- include('./partials/sort-toolbar', {
+      toolbar: catalogue.brand.sortToolbar,
+      persistedQuery: '',
+      persistedBrand: '',
+      persistedMinPrice: '',
+      persistedMaxPrice: '',
+      persistedAvailability: '',
+      persistedTier: ''
+    }) %>
+
+    <p class="ct-result-summary"><%= catalogue.brand.resultSummary %></p>
+
+    <%- include('./partials/product-grid', {
+      products: catalogue.brand.products,
+      emptyStateMessage: 'No products are available for this brand yet.'
+    }) %>
+
+    <%- include('./partials/pagination', {
+      pagination: catalogue.brand.pagination
+    }) %>
+  </div>
+</section>

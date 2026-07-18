@@ -1,0 +1,61 @@
+<%- include('./partials/breadcrumb') %>
+
+<section class="ct-hero hp-section">
+  <div class="ct-container ct-hero-grid">
+    <div>
+      <p class="hp-eyebrow"><%= catalogue.sport.hero.eyebrow %></p>
+      <h1 class="ct-hero-title"><%= catalogue.sport.hero.title %></h1>
+      <p class="ct-hero-description"><%= catalogue.sport.hero.description %></p>
+    </div>
+    <div class="ct-hero-media">
+      <img src="<%= catalogue.sport.hero.imageUrl %>" alt="<%= catalogue.sport.hero.imageAlt %>" loading="eager" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <div class="ct-section-heading">
+      <p class="hp-eyebrow">Categories</p>
+      <h2>Browse by category</h2>
+    </div>
+    <div class="ct-card-grid ct-card-grid-3">
+      <% catalogue.sport.categories.forEach((card) => { %>
+        <a href="<%= card.url %>" class="ct-feature-card">
+          <img src="<%= card.imageUrl %>" alt="<%= card.imageAlt %>" loading="lazy" decoding="async" />
+          <h3><%= card.title %></h3>
+          <p><%= card.description %></p>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <div class="ct-section-heading">
+      <p class="hp-eyebrow">Featured Products</p>
+      <h2>Top picks for <%= catalogue.sport.hero.title %></h2>
+    </div>
+    <%- include('./partials/product-grid', {
+      products: catalogue.sport.featuredProducts,
+      emptyStateMessage: 'No products available for this sport yet.'
+    }) %>
+  </div>
+</section>
+
+<section class="hp-section">
+  <div class="ct-container">
+    <div class="ct-section-heading">
+      <p class="hp-eyebrow">Featured Brands</p>
+      <h2>Leading brands in this sport</h2>
+    </div>
+    <div class="ct-brand-row">
+      <% catalogue.sport.featuredBrands.forEach((brand) => { %>
+        <a href="<%= brand.url %>" class="ct-brand-item" aria-label="Shop <%= brand.name %>">
+          <img src="<%= brand.logoUrl %>" alt="<%= brand.name %> logo" loading="lazy" decoding="async" />
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>

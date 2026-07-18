@@ -1,0 +1,30 @@
+<div class="ct-sort-toolbar" aria-label="Sorting toolbar">
+  <div class="ct-results-count">Results: <strong><%= toolbar.resultCount %></strong></div>
+  <form method="get" action="<%= toolbar.actionUrl %>" class="ct-sort-form">
+    <% if (typeof persistedQuery === 'string' && persistedQuery.length > 0) { %>
+      <input type="hidden" name="q" value="<%= persistedQuery %>" />
+    <% } %>
+    <% if (typeof persistedBrand === 'string' && persistedBrand.length > 0) { %>
+      <input type="hidden" name="brand" value="<%= persistedBrand %>" />
+    <% } %>
+    <% if (typeof persistedMinPrice === 'string' && persistedMinPrice.length > 0) { %>
+      <input type="hidden" name="minPrice" value="<%= persistedMinPrice %>" />
+    <% } %>
+    <% if (typeof persistedMaxPrice === 'string' && persistedMaxPrice.length > 0) { %>
+      <input type="hidden" name="maxPrice" value="<%= persistedMaxPrice %>" />
+    <% } %>
+    <% if (typeof persistedAvailability === 'string' && persistedAvailability.length > 0 && persistedAvailability !== 'all') { %>
+      <input type="hidden" name="available" value="<%= persistedAvailability %>" />
+    <% } %>
+    <% if (typeof persistedTier === 'string' && persistedTier.length > 0 && persistedTier !== 'all') { %>
+      <input type="hidden" name="performanceTier" value="<%= persistedTier %>" />
+    <% } %>
+
+    <label for="ct-sort-select">Sort By</label>
+    <select id="ct-sort-select" name="sort" onchange="this.form.submit()">
+      <% toolbar.sortOptions.forEach((option) => { %>
+        <option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+      <% }); %>
+    </select>
+  </form>
+</div>

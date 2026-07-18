@@ -1,0 +1,13 @@
+<% if (products.length > 0) { %>
+  <div class="ct-product-grid" data-product-grid>
+    <% products.forEach((product) => { %>
+      <%- include('../../components/product-card', { product }) %>
+    <% }); %>
+  </div>
+<% } else { %>
+  <div class="ct-empty-state">
+    <h2>No Products Found</h2>
+    <p><%= emptyStateMessage %></p>
+    <a class="hp-btn hp-btn-primary" href="/shop">Return to Shop</a>
+  </div>
+<% } %>

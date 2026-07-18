@@ -14,6 +14,7 @@
     "test:wf-010c": "tsx tests/workflows/wf-010c-catalog.integration.ts",
     "test:wf-010d": "tsx tests/workflows/wf-010d-product.integration.ts",
     "test:wf-010e": "tsx tests/workflows/wf-010e-shopping.integration.ts",
+    "test:wf-010f": "tsx tests/workflows/wf-010f-catalogue-routes-smoke.integration.ts",
     "validate:mvp-001": "tsx scripts/mvp-001-platform-validation.ts",
     "seed": "tsx tools/database/seed/index.ts",
     "seed:reset": "tsx tools/database/seed/index.ts --reset",

@@ -1,0 +1,74 @@
+<button type="button" class="ct-filter-toggle" data-catalogue-filter-toggle aria-controls="ct-filter-sidebar" aria-expanded="false">
+  Filters
+</button>
+
+<aside id="ct-filter-sidebar" class="ct-filter-sidebar" aria-label="Filter sidebar" data-catalogue-filter-drawer>
+  <form method="get" action="<%= filters.actionUrl %>">
+    <div class="ct-filter-group">
+      <label for="ct-q">Search</label>
+      <input id="ct-q" type="search" name="q" value="<%= filters.search %>" placeholder="Search catalogue" />
+    </div>
+
+    <div class="ct-filter-group">
+      <label for="ct-sport">Sport</label>
+      <select id="ct-sport" name="sport">
+        <% filters.sportOptions.forEach((option) => { %>
+          <option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="ct-filter-group">
+      <label for="ct-category">Category</label>
+      <select id="ct-category" name="category">
+        <% filters.categoryOptions.forEach((option) => { %>
+          <option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="ct-filter-group">
+      <label for="ct-brand">Brand</label>
+      <select id="ct-brand" name="brand">
+        <option value="">All Brands</option>
+        <% filters.brandOptions.forEach((option) => { %>
+          <option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="ct-filter-group ct-filter-price-grid">
+      <div>
+        <label for="ct-min-price">Min Price</label>
+        <input id="ct-min-price" type="number" min="0" name="minPrice" value="<%= filters.minPrice %>" />
+      </div>
+      <div>
+        <label for="ct-max-price">Max Price</label>
+        <input id="ct-max-price" type="number" min="0" name="maxPrice" value="<%= filters.maxPrice %>" />
+      </div>
+    </div>
+
+    <div class="ct-filter-group">
+      <label for="ct-availability">Availability</label>
+      <select id="ct-availability" name="available">
+        <% filters.availabilityOptions.forEach((option) => { %>
+          <option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="ct-filter-group">
+      <label for="ct-tier">Performance Tier</label>
+      <select id="ct-tier" name="performanceTier">
+        <% filters.performanceTierOptions.forEach((option) => { %>
+          <option value="<%= option.value %>" <%= option.selected ? 'selected' : '' %>><%= option.label %></option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="ct-filter-actions">
+      <button type="submit" class="hp-btn hp-btn-primary">Apply</button>
+      <a href="<%= filters.actionUrl %>" class="hp-btn hp-btn-secondary">Reset</a>
+    </div>
+  </form>
+</aside>

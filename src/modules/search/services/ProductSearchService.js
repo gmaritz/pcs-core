@@ -61,32 +61,44 @@ class ProductSearchService extends BaseService_1.BaseService {
         });
         const records = [];
         for (const product of products) {
-            for (const variant of product.variants) {
-                if (!variant.sellingPrice) {
-                    continue;
+            const candidateVariants = product.variants
+                .filter((variant) => Boolean(variant.sellingPrice))
+                .sort((left, right) => {
+                if (left.isDefault !== right.isDefault) {
+                    return left.isDefault ? -1 : 1;
                 }
-                const availableQuantity = variant.inventory.reduce((total, inventory) => total + (inventory.quantityOnHand -
-                    inventory.quantityReserved), 0);
-                records.push({
-                    productId: product.id,
-                    productName: product.name,
-                    productSlug: product.slug,
-                    productDescription: [
-                        product.shortDescription,
-                        product.description,
-                        variant.description,
-                    ].filter((value) => Boolean(value)).join(' '),
-                    productCreatedAt: product.createdAt,
-                    brandName: product.brand.name,
-                    categoryName: product.category.name,
-                    sportName: product.sport.name,
-                    variantId: variant.id,
-                    variantName: variant.name,
-                    variantSku: variant.sku,
-                    sellingPrice: Number(variant.sellingPrice),
-                    available: availableQuantity > 0,
-                });
+                const leftPrice = Number(left.sellingPrice);
+                const rightPrice = Number(right.sellingPrice);
+                if (leftPrice !== rightPrice) {
+                    return leftPrice - rightPrice;
+                }
+                return left.id.localeCompare(right.id);
+            });
+            const variant = candidateVariants[0];
+            if (!variant) {
+                continue;
             }
+            const availableQuantity = variant.inventory.reduce((total, inventory) => total + (inventory.quantityOnHand -
+                inventory.quantityReserved), 0);
+            records.push({
+                productId: product.id,
+                productName: product.name,
+                productSlug: product.slug,
+                productDescription: [
+                    product.shortDescription,
+                    product.description,
+                    variant.description,
+                ].filter((value) => Boolean(value)).join(' '),
+                productCreatedAt: product.createdAt,
+                brandName: product.brand.name,
+                categoryName: product.category.name,
+                sportName: product.sport.name,
+                variantId: variant.id,
+                variantName: variant.name,
+                variantSku: variant.sku,
+                sellingPrice: Number(variant.sellingPrice),
+                available: availableQuantity > 0,
+            });
         }
         return records;
     }

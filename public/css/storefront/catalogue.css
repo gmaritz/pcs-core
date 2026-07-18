@@ -1,0 +1,374 @@
+.ct-container {
+  width: min(100% - 2.4rem, 1240px);
+  margin: 0 auto;
+}
+
+.ct-breadcrumb {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.ct-breadcrumb ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  color: #475569;
+  font-size: 0.86rem;
+}
+
+.ct-breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ct-breadcrumb li:not(:last-child)::after {
+  content: '>';
+  color: #94a3b8;
+}
+
+.ct-hero {
+  padding: 3.2rem 0;
+}
+
+.ct-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.ct-hero-title {
+  margin: 0;
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  line-height: 1.15;
+}
+
+.ct-hero-description {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #334155;
+}
+
+.ct-hero-media,
+.ct-brand-hero-media {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+}
+
+.ct-hero-media img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.ct-brand-hero-media {
+  padding: 1.25rem;
+}
+
+.ct-brand-hero-media img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+}
+
+.ct-section-heading {
+  margin-bottom: 1.6rem;
+}
+
+.ct-section-heading h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+}
+
+.ct-card-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.ct-card-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ct-feature-card {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 14px;
+  background: #ffffff;
+  overflow: hidden;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.ct-feature-card:hover,
+.ct-feature-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.12);
+}
+
+.ct-feature-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.ct-feature-card h3,
+.ct-feature-card p {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.ct-feature-card h3 {
+  margin-top: 0.95rem;
+  margin-bottom: 0;
+}
+
+.ct-feature-card p {
+  margin-top: 0.65rem;
+  margin-bottom: 1rem;
+  color: #475569;
+}
+
+.ct-brand-row {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.ct-brand-item {
+  min-height: 92px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 0.7rem;
+  display: grid;
+  place-items: center;
+}
+
+.ct-brand-item img {
+  width: 100%;
+  max-width: 110px;
+  max-height: 44px;
+  object-fit: contain;
+}
+
+.ct-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.ct-catalogue-grid {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  gap: 1.4rem;
+  align-items: start;
+}
+
+.ct-filter-toggle {
+  display: none;
+}
+
+.ct-filter-sidebar {
+  position: sticky;
+  top: 92px;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 1rem;
+}
+
+.ct-filter-group {
+  display: grid;
+  gap: 0.38rem;
+  margin-top: 0.8rem;
+}
+
+.ct-filter-group label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.ct-filter-group input,
+.ct-filter-group select,
+.ct-sort-form select {
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  border-radius: 8px;
+  padding: 0.52rem 0.62rem;
+  font: inherit;
+}
+
+.ct-filter-price-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.ct-filter-actions {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.ct-sort-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.ct-sort-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ct-sort-form label {
+  font-size: 0.86rem;
+  color: #334155;
+  font-weight: 700;
+}
+
+.ct-result-summary {
+  margin: 1rem 0;
+  font-size: 0.92rem;
+  color: #475569;
+}
+
+.ct-pagination {
+  margin-top: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.ct-pagination-pages {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ct-pagination-link {
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: #ffffff;
+  border-radius: 8px;
+  min-width: 2rem;
+  min-height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.86rem;
+}
+
+.ct-pagination-link.is-current {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.ct-pagination-link.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.ct-empty-state {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 1.2rem;
+}
+
+.ct-empty-state h2 {
+  margin: 0;
+}
+
+.ct-empty-state p {
+  margin: 0.6rem 0 1rem;
+  color: #475569;
+}
+
+@media (max-width: 1100px) {
+  .ct-product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ct-brand-row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .ct-card-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 880px) {
+  .ct-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ct-catalogue-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ct-filter-toggle {
+    display: inline-flex;
+    margin-bottom: 0.8rem;
+    border: 1px solid rgba(15, 23, 42, 0.18);
+    border-radius: 10px;
+    background: #ffffff;
+    padding: 0.58rem 0.88rem;
+    font-weight: 700;
+  }
+
+  .ct-filter-sidebar {
+    position: static;
+  }
+
+  .ct-sort-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ct-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .ct-container {
+    width: min(100% - 1.4rem, 1240px);
+  }
+
+  .ct-filter-sidebar {
+    display: none;
+  }
+
+  .ct-filter-sidebar.is-open {
+    display: block;
+  }
+
+  .ct-card-grid-3,
+  .ct-product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ct-brand-row {
+    grid-auto-flow: column;
+    grid-auto-columns: 70%;
+    grid-template-columns: none;
+    overflow-x: auto;
+  }
+
+  .ct-pagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

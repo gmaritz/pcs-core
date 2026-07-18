@@ -1,6 +1,10 @@
 import { Router } from 'express';
 
 import {
+  catalogueController,
+} from '../catalogue';
+
+import {
   shoppingController,
   storefrontController,
 } from '../controllers';
@@ -17,7 +21,23 @@ router.get('/', async (req, res, next) => {
 
 router.get('/shop', async (req, res, next) => {
   try {
-    await storefrontController.renderCatalog(req, res);
+    await catalogueController.renderLanding(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/shop/:sport/:category', async (req, res, next) => {
+  try {
+    await catalogueController.renderCategory(req, res);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/shop/:sport', async (req, res, next) => {
+  try {
+    await catalogueController.renderSport(req, res);
   } catch (error) {
     next(error);
   }
@@ -145,6 +165,14 @@ router.get('/terms', (req, res) => {
 
 router.get('/sports', (req, res) => {
   storefrontController.renderSports(req, res);
+});
+
+router.get('/brands/:brand', async (req, res, next) => {
+  try {
+    await catalogueController.renderBrand(req, res);
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get('/brands', (req, res) => {

@@ -10,5 +10,6 @@
     safeInit(window.StorefrontSearch);
     safeInit(window.StorefrontFilters);
     safeInit(window.StorefrontProductGrid);
+    safeInit(window.StorefrontCatalogue);
   });
 })();
