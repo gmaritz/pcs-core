@@ -24,6 +24,7 @@ type RenderPageOptions = {
   pageTitle: string;
   heading: string;
   description: string;
+  isHomePage?: boolean;
   breadcrumbs?: Array<{ label: string; href?: string }>;
   home?: HomeViewModel;
   catalog?: CatalogPageViewModel;
@@ -72,6 +73,7 @@ export class StorefrontController {
       product: options.product,
       shoppingCustomerId: options.shoppingCustomerId,
       metadata: options.metadata,
+      isHomePage: options.isHomePage ?? false,
       layout: 'layouts/main',
     });
   }
@@ -80,13 +82,14 @@ export class StorefrontController {
     req: Request,
     res: Response,
   ): Promise<void> {
-    const home = await storefrontFacade.buildHomeViewModel();
+    const home = await storefrontFacade.getHomepage();
 
     this.renderPage(req, res, {
       view: 'storefront/home',
       pageTitle: 'Pro Court Sports | Home',
       heading: 'Gear for every court, every match, every level.',
       description: 'Explore premium tennis, padel and squash equipment with trusted service and fast local fulfilment.',
+      isHomePage: true,
       breadcrumbs: [],
       home,
     });

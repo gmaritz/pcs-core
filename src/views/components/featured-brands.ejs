@@ -1,0 +1,17 @@
+<section id="featured-brands" class="hp-section hp-lazy-section hp-reveal" aria-labelledby="featured-brands-title">
+  <div class="hp-container">
+    <div class="hp-section-heading">
+      <p class="hp-eyebrow">Featured Brands</p>
+      <h2 id="featured-brands-title">Trusted by players, backed by leading global brands</h2>
+    </div>
+
+    <div class="hp-brand-strip" role="list" aria-label="Featured brands">
+      <% home.featuredBrands.items.forEach((brand) => { %>
+        <a href="<%= brand.url %>" class="hp-brand-item <%= brand.themeClass %>" role="listitem" aria-label="Shop <%= brand.name %>">
+          <img src="<%= brand.logoUrl %>" alt="<%= brand.name %> logo" loading="lazy" decoding="async" />
+          <span class="hp-brand-name"><%= brand.name %></span>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+</section>

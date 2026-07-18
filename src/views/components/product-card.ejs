@@ -1,0 +1,20 @@
+<article class="hp-product-card <%= product.brandClass %>">
+  <a href="<%= product.url %>" class="hp-product-media" aria-label="View <%= product.name %>">
+    <img
+      src="<%= product.imageUrl %>"
+      alt="<%= product.imageAlt %>"
+      loading="lazy"
+      decoding="async"
+      sizes="(max-width: 980px) 100vw, 25vw"
+    />
+  </a>
+
+  <div class="hp-product-content">
+    <div class="hp-product-badge-area" aria-hidden="true"></div>
+    <p class="hp-product-brand"><%= product.brandName %></p>
+    <h3><a href="<%= product.url %>"><%= product.name %></a></h3>
+    <p class="hp-product-price"><%= product.formattedPrice %></p>
+    <p class="hp-product-stock hp-stock-pill is-<%= product.stockState %>"><%= product.stockLabel %></p>
+    <a href="<%= product.url %>" class="hp-btn hp-btn-small">Add to Cart</a>
+  </div>
+</article>

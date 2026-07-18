@@ -1,0 +1,14 @@
+<section id="featured-products" class="hp-section hp-lazy-section hp-reveal" aria-labelledby="featured-products-title">
+  <div class="hp-container">
+    <div class="hp-section-heading">
+      <p class="hp-eyebrow">Featured Products</p>
+      <h2 id="featured-products-title">Premium equipment picked for match-ready players</h2>
+    </div>
+
+    <div class="hp-grid hp-grid-products">
+      <% home.featuredProducts.items.forEach((product) => { %>
+        <%- include('product-card', { product }) %>
+      <% }); %>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+<section class="hp-hero" aria-labelledby="homepage-hero-title">
+  <div class="hp-container hp-hero-grid">
+    <div class="hp-hero-copy">
+      <h1 id="homepage-hero-title" class="hp-hero-title"><%= home.hero.headline %></h1>
+      <p class="hp-hero-text"><%= home.hero.supportingText %></p>
+      <div class="hp-hero-actions">
+        <a href="<%= home.hero.primaryCtaUrl %>" class="hp-btn hp-btn-primary"><%= home.hero.primaryCtaLabel %></a>
+        <a href="<%= home.hero.secondaryCtaUrl %>" class="hp-btn hp-btn-secondary"><%= home.hero.secondaryCtaLabel %></a>
+      </div>
+    </div>
+
+    <div class="hp-hero-media">
+      <img
+        src="<%= home.hero.imageUrl %>"
+        alt="<%= home.hero.imageAlt %>"
+        loading="eager"
+        decoding="async"
+        sizes="(max-width: 980px) 100vw, 50vw"
+      />
+    </div>
+  </div>
+</section>

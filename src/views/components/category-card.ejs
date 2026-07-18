@@ -1,0 +1,16 @@
+<article class="hp-category-card">
+  <div class="hp-category-media">
+    <img
+      src="<%= category.imageUrl %>"
+      alt="<%= category.name %>"
+      loading="lazy"
+      decoding="async"
+      sizes="(max-width: 980px) 100vw, 33vw"
+    />
+  </div>
+  <div class="hp-category-content">
+    <h3><%= category.name %></h3>
+    <p><%= category.description %></p>
+    <a href="<%= category.url %>" class="hp-inline-link">Shop Category</a>
+  </div>
+</article>

@@ -1,0 +1,44 @@
+<header class="hp-header" data-home-header>
+  <div class="hp-container hp-header-inner">
+    <a href="/" class="hp-logo-link" aria-label="Go to homepage">
+      <img src="<%= home.header.logoUrl %>" alt="<%= home.header.logoAlt %>" class="hp-logo" />
+    </a>
+
+    <button
+      type="button"
+      class="hp-mobile-menu-toggle"
+      data-home-nav-toggle
+      aria-expanded="false"
+      aria-controls="home-primary-navigation"
+      aria-label="Toggle navigation"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav id="home-primary-navigation" class="hp-nav" aria-label="Primary navigation" data-home-nav>
+      <% home.header.navigation.forEach((item) => { %>
+        <a href="<%= item.href %>" class="hp-nav-link"><%= item.label %></a>
+      <% }); %>
+    </nav>
+
+    <div class="hp-header-actions" aria-label="Header actions">
+      <a href="<%= home.header.searchUrl %>" class="hp-icon-action" aria-label="Search">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14Zm0-2a9 9 0 1 0 5.74 15.93l4.17 4.17 1.42-1.42-4.17-4.17A9 9 0 0 0 11 2Z"></path>
+        </svg>
+      </a>
+      <a href="<%= home.header.accountUrl %>" class="hp-icon-action" aria-label="Account">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0 2c4.42 0 8 2.24 8 5v3h-2v-3c0-1.43-2.45-3-6-3s-6 1.57-6 3v3H4v-3c0-2.76 3.58-5 8-5Z"></path>
+        </svg>
+      </a>
+      <a href="<%= home.header.cartUrl %>" class="hp-icon-action" aria-label="Cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M6 6h15l-1.5 9h-11L7 4H3V2h5l.8 2H22l-2.1 13H8.3L6 6Zm2 13a2 2 0 1 1 0 4 2 2 0 0 1 0-4Zm9 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4Z"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>

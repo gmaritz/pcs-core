@@ -1,0 +1,20 @@
+<section id="newsletter" class="hp-section hp-newsletter hp-lazy-section hp-reveal" aria-labelledby="newsletter-title">
+  <div class="hp-container hp-newsletter-inner">
+    <div class="hp-section-heading">
+      <h2 id="newsletter-title"><%= home.newsletter.heading %></h2>
+      <p><%= home.newsletter.subheading %></p>
+    </div>
+
+    <form class="hp-newsletter-form" action="<%= home.newsletter.actionUrl %>" method="post">
+      <label for="newsletter-email" class="hp-sr-only">Email address</label>
+      <input
+        id="newsletter-email"
+        type="email"
+        name="email"
+        placeholder="<%= home.newsletter.emailPlaceholder %>"
+        autocomplete="email"
+      />
+      <button type="submit" class="hp-btn hp-btn-primary"><%= home.newsletter.buttonLabel %></button>
+    </form>
+  </div>
+</section>

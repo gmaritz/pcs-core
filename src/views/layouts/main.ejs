@@ -31,13 +31,17 @@
     <link rel="stylesheet" href="/css/storefront/storefront.css" />
   </head>
   <body class="sf-site-body">
-    <%- include('../storefront/partials/navigation') %>
+    <% if (!isHomePage) { %>
+      <%- include('../storefront/partials/navigation') %>
+    <% } %>
 
     <main class="sf-main-content">
       <%- body %>
     </main>
 
-    <%- include('../storefront/partials/footer') %>
+    <% if (!isHomePage) { %>
+      <%- include('../storefront/partials/footer') %>
+    <% } %>
 
     <script src="/js/storefront/navigation.js"></script>
     <script src="/js/storefront/search.js"></script>

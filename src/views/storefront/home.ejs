@@ -1,9 +1,33 @@
-<%- include('partials/hero') %>
-<%- include('partials/categories') %>
-<%- include('partials/brands') %>
-<%- include('partials/sports') %>
-<%- include('partials/featured-products') %>
-<%- include('partials/why-us') %>
-<%- include('partials/supplier-cta') %>
-<%- include('partials/newsletter') %>
-<%- include('partials/contact') %>
+<%- include('../components/announcement-bar') %>
+<%- include('../components/header') %>
+<%- include('../components/hero-banner') %>
+
+<div class="hp-trust-strip hp-reveal" aria-label="Store trust highlights">
+	<div class="hp-container hp-trust-strip-items" role="list">
+		<span role="listitem">Premium Brands</span>
+		<span role="listitem">Court Sports Specialists</span>
+		<span role="listitem">Nationwide Delivery</span>
+	</div>
+</div>
+
+<section id="shop-by-sport" class="hp-section hp-reveal" aria-labelledby="shop-by-sport-title">
+	<div class="hp-container">
+		<div class="hp-section-heading">
+			<p class="hp-eyebrow">Shop by Sport</p>
+			<h2 id="shop-by-sport-title">Specialist collections for tennis, padel, and squash</h2>
+		</div>
+
+		<div class="hp-grid hp-grid-sports">
+			<% home.featuredSports.items.forEach((sport) => { %>
+				<%- include('../components/sport-card', { sport }) %>
+			<% }); %>
+		</div>
+	</div>
+</section>
+
+<%- include('../components/featured-categories') %>
+<%- include('../components/featured-products') %>
+<%- include('../components/featured-brands') %>
+<%- include('../components/trust-section') %>
+<%- include('../components/newsletter') %>
+<%- include('../components/footer') %>

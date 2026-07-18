@@ -1,0 +1,16 @@
+<article class="hp-sport-card">
+  <img
+    src="<%= sport.heroImageUrl %>"
+    alt="<%= sport.heroImageAlt %>"
+    class="hp-sport-image"
+    loading="lazy"
+    decoding="async"
+    sizes="(max-width: 980px) 100vw, 33vw"
+  />
+  <div class="hp-sport-content">
+    <p class="hp-sport-tagline"><%= sport.tagline %></p>
+    <h3><%= sport.name %></h3>
+    <p class="hp-sport-description"><%= sport.description %></p>
+    <a href="<%= sport.url %>" class="hp-inline-link"><%= sport.statusLabel %></a>
+  </div>
+</article>

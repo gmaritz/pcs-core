@@ -34,16 +34,18 @@ class StorefrontController {
             product: options.product,
             shoppingCustomerId: options.shoppingCustomerId,
             metadata: options.metadata,
+            isHomePage: options.isHomePage ?? false,
             layout: 'layouts/main',
         });
     }
     async renderHome(req, res) {
-        const home = await facades_1.storefrontFacade.buildHomeViewModel();
+        const home = await facades_1.storefrontFacade.getHomepage();
         this.renderPage(req, res, {
             view: 'storefront/home',
             pageTitle: 'Pro Court Sports | Home',
             heading: 'Gear for every court, every match, every level.',
             description: 'Explore premium tennis, padel and squash equipment with trusted service and fast local fulfilment.',
+            isHomePage: true,
             breadcrumbs: [],
             home,
         });

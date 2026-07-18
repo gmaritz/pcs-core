@@ -30,6 +30,16 @@ const SPORT_IMAGE_MAP: Record<string, string> = {
   squash: '/images/sports/squash.png',
 };
 
+const BRAND_LOGO_MAP: Record<string, string> = {
+  wilson: '/images/brands/wilson.svg',
+  head: '/images/brands/head.svg',
+  babolat: '/images/brands/babolat.svg',
+  tecnifibre: '/images/brands/tecnifibre.svg',
+  dunlop: '/images/brands/dunlop.svg',
+  yonex: '/images/brands/yonex.svg',
+  asics: '/images/brands/asics.svg',
+};
+
 export class MediaService extends BaseService {
   async resolveProductGallery(
     productId: string,
@@ -165,10 +175,14 @@ export class MediaService extends BaseService {
 
   resolveBrandLogo(
     brandName: string,
+    brandSlug: string,
     logoUrl?: string | null,
   ): MediaResult {
     return {
-      url: logoUrl?.trim() || BRAND_PLACEHOLDER_IMAGE,
+      url:
+        logoUrl?.trim() ||
+        BRAND_LOGO_MAP[brandSlug.toLowerCase()] ||
+        BRAND_PLACEHOLDER_IMAGE,
       altText: `${brandName} logo`,
     };
   }

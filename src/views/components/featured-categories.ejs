@@ -1,0 +1,14 @@
+<section id="featured-categories" class="hp-section hp-reveal" aria-labelledby="featured-categories-title">
+  <div class="hp-container">
+    <div class="hp-section-heading">
+      <p class="hp-eyebrow">Featured Categories</p>
+      <h2 id="featured-categories-title">Build your setup across key product categories</h2>
+    </div>
+
+    <div class="hp-grid hp-grid-categories">
+      <% home.featuredCategories.items.forEach((category) => { %>
+        <%- include('category-card', { category }) %>
+      <% }); %>
+    </div>
+  </div>
+</section>

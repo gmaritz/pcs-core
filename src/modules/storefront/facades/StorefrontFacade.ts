@@ -1,5 +1,4 @@
 import {
-  MediaRole,
   Prisma,
   RecordStatus,
 } from '@prisma/client';
@@ -12,8 +11,16 @@ import {
 } from '../../catalog/services';
 
 import {
+  mediaService,
+} from '../../media';
+
+import {
+  BrandsViewModel,
+  CategoriesViewModel,
+  FeaturedProductsViewModel,
   HomeViewModel,
   HeroStatisticsViewModel,
+  SportsViewModel,
 } from '../view-models';
 import {
   HeroStatisticInput,
@@ -23,7 +30,89 @@ import {
 } from '../services';
 
 const SEARCH_ACTION_URL = '/api/v1/products/search';
+const ANNOUNCEMENT_MESSAGE = "South Africa's Court Sports Specialists";
 const FEATURED_PRODUCTS_LIMIT = 8;
+const FEATURED_CATEGORIES_LIMIT = 6;
+const FEATURED_SPORTS_LIMIT = 3;
+const FEATURED_BRANDS_LIMIT = 7;
+
+const FEATURED_SPORT_SLUGS = ['tennis', 'padel', 'squash'];
+const FEATURED_CATEGORY_PRIORITY = [
+  'racquet',
+  'shoe',
+  'apparel',
+  'bag',
+  'string',
+  'accessories',
+  'accessory',
+];
+const FEATURED_CATEGORY_FALLBACKS = [
+  'Racquets',
+  'Shoes',
+  'Apparel',
+  'Bags',
+  'Strings',
+  'Accessories',
+];
+const FEATURED_BRAND_PRIORITY = [
+  'wilson',
+  'head',
+  'babolat',
+  'tecnifibre',
+  'dunlop',
+  'yonex',
+  'asics',
+];
+
+const HEADER_NAVIGATION = [
+  {
+    label: 'Shop',
+    href: '/shop',
+  },
+  {
+    label: 'Sports',
+    href: '/#shop-by-sport',
+  },
+  {
+    label: 'Brands',
+    href: '/#featured-brands',
+  },
+  {
+    label: 'New Arrivals',
+    href: '/shop?sort=newest',
+  },
+  {
+    label: 'About',
+    href: '/about',
+  },
+  {
+    label: 'Contact',
+    href: '/contact',
+  },
+];
+
+const TRUST_CARDS = [
+  {
+    icon: 'star',
+    title: 'Premium Brands',
+    description: "Official performance equipment from the world's leading manufacturers.",
+  },
+  {
+    icon: 'racket',
+    title: 'Court Sports Specialists',
+    description: 'Focused exclusively on Tennis, Padel and Squash.',
+  },
+  {
+    icon: 'truck',
+    title: 'Nationwide Delivery',
+    description: 'Fast delivery across South Africa.',
+  },
+  {
+    icon: 'lock',
+    title: 'Secure Checkout',
+    description: 'Safe encrypted online payments.',
+  },
+];
 
 type FeaturedProductRecord = Prisma.ProductGetPayload<{
   include: {
@@ -32,11 +121,6 @@ type FeaturedProductRecord = Prisma.ProductGetPayload<{
     variants: {
       include: {
         inventory: true;
-      };
-    };
-    media: {
-      include: {
-        media: true;
       };
     };
   };
@@ -53,29 +137,68 @@ type CategoryRecord = Prisma.CategoryGetPayload<{
 }>;
 
 export class StorefrontFacade {
-  async buildHomeViewModel(): Promise<HomeViewModel> {
+  async getHomepage(): Promise<HomeViewModel> {
     const [
       heroStatistics,
       featuredProducts,
-      brands,
-      categories,
-      sports,
+      featuredBrands,
+      featuredCategories,
+      featuredSports,
     ] = await Promise.all([
       this.buildHeroStatistics(),
-      this.buildFeaturedProducts(),
-      this.buildBrands(),
-      this.buildCategories(),
-      this.buildSports(),
+      this.getFeaturedProducts(),
+      this.getFeaturedBrands(),
+      this.getFeaturedCategories(),
+      this.getFeaturedSports(),
     ]);
 
     return {
+      announcement: {
+        message: ANNOUNCEMENT_MESSAGE,
+      },
+      header: {
+        logoUrl: '/images/logo/logo.png',
+        logoAlt: 'Pro Court Sports logo',
+        navigation: HEADER_NAVIGATION,
+        searchUrl: '/search',
+        accountUrl: '/account',
+        cartUrl: '/cart',
+      },
+      hero: {
+        headline: 'Performance Equipment for Tennis, Padel & Squash',
+        supportingText: "Premium racquets, footwear, apparel and accessories from the world's leading court sports brands.",
+        primaryCtaLabel: 'Shop Now',
+        primaryCtaUrl: '/shop',
+        secondaryCtaLabel: 'Browse Sports',
+        secondaryCtaUrl: '/#shop-by-sport',
+        imageUrl: '/images/hero/HeroImage.png',
+        imageAlt: 'Court sports equipment lifestyle banner',
+      },
+      featuredSports,
+      featuredCategories,
       heroStatistics,
       featuredProducts,
-      brands,
-      categories,
-      sports,
+      featuredBrands,
+      trustCards: TRUST_CARDS,
+      newsletter: {
+        heading: 'Stay Ahead of the Game',
+        subheading: 'Receive product launches, promotions and court sports news.',
+        emailPlaceholder: 'Enter your email address',
+        buttonLabel: 'Subscribe',
+        actionUrl: '#',
+      },
+      currentYear: new Date().getFullYear(),
+
+      // Backward compatibility.
+      brands: featuredBrands,
+      categories: featuredCategories,
+      sports: featuredSports,
       searchAction: SEARCH_ACTION_URL,
     };
+  }
+
+  async buildHomeViewModel(): Promise<HomeViewModel> {
+    return this.getHomepage();
   }
 
   private async buildHeroStatistics(): Promise<HeroStatisticsViewModel> {
@@ -148,7 +271,7 @@ export class StorefrontFacade {
     };
   }
 
-  private async buildFeaturedProducts() {
+  async getFeaturedProducts(): Promise<FeaturedProductsViewModel> {
     const products = await productService.getProducts({
       where: {
         status: RecordStatus.ACTIVE,
@@ -186,19 +309,6 @@ export class StorefrontFacade {
             inventory: true,
           },
         },
-        media: {
-          orderBy: [
-            {
-              isPrimary: 'desc',
-            },
-            {
-              displayOrder: 'asc',
-            },
-          ],
-          include: {
-            media: true,
-          },
-        },
       },
       orderBy: [
         {
@@ -214,17 +324,14 @@ export class StorefrontFacade {
       take: FEATURED_PRODUCTS_LIMIT,
     }) as FeaturedProductRecord[];
 
+    const mediaMap = await mediaService.resolveProductImages(
+      products.map((product) => product.id),
+    );
+
     return {
       items: products.map((product) => {
         const variant = product.variants[0];
-        const primaryMedia = product.media.find((entry) => (
-          entry.isPrimary ||
-          entry.mediaRole === MediaRole.PRIMARY ||
-          entry.mediaRole === MediaRole.HERO
-        ));
-
-        const imageUrl = primaryMedia?.media.url ??
-          '/images/products/wilson-clash.jpeg';
+        const media = mediaMap[product.id];
 
         const availableQuantity = variant.inventory.reduce(
           (sum: number, inventory) => (
@@ -234,6 +341,17 @@ export class StorefrontFacade {
         );
 
         const isOutOfStock = availableQuantity <= 0;
+        const isLimitedStock = !isOutOfStock && availableQuantity <= 3;
+        const stockLabel = isOutOfStock
+          ? 'Out of stock'
+          : isLimitedStock
+            ? 'Limited stock'
+            : 'In stock';
+        const stockState = isOutOfStock
+          ? 'out'
+          : isLimitedStock
+            ? 'limited'
+            : 'in';
 
         return {
           id: product.id,
@@ -244,12 +362,14 @@ export class StorefrontFacade {
             'Premium performance product selected for specialist players.',
           brandName: product.brand.name,
           sportName: product.sport.name,
-          imageUrl,
-          imageAlt: variant.name,
+          imageUrl: media.url,
+          imageAlt: media.altText,
           formattedPrice:
             storefrontPresentationService.formatPrice(
               Number(variant.sellingPrice),
             ),
+          stockLabel,
+          stockState,
           availabilityLabel:
             isOutOfStock ? 'Out of Stock' : 'In Stock',
           isOutOfStock,
@@ -263,7 +383,7 @@ export class StorefrontFacade {
     };
   }
 
-  private async buildBrands() {
+  async getFeaturedBrands(): Promise<BrandsViewModel> {
     const brands = await brandService.getBrands({
       where: {
         status: RecordStatus.ACTIVE,
@@ -276,24 +396,78 @@ export class StorefrontFacade {
           name: 'asc',
         },
       ],
-      take: 10,
+    });
+
+    const sortedBrands = [...brands].sort((left, right) => {
+      const leftPriority = FEATURED_BRAND_PRIORITY.indexOf(
+        left.slug.toLowerCase(),
+      );
+      const rightPriority = FEATURED_BRAND_PRIORITY.indexOf(
+        right.slug.toLowerCase(),
+      );
+
+      const normalizedLeft = leftPriority >= 0
+        ? leftPriority
+        : FEATURED_BRAND_PRIORITY.length;
+      const normalizedRight = rightPriority >= 0
+        ? rightPriority
+        : FEATURED_BRAND_PRIORITY.length;
+
+      return normalizedLeft - normalizedRight;
+    });
+
+    const selectedBrands = sortedBrands.slice(0, FEATURED_BRANDS_LIMIT);
+    const selectedBrandSlugs = new Set(
+      selectedBrands.map((brand) => brand.slug.toLowerCase()),
+    );
+
+    FEATURED_BRAND_PRIORITY.forEach((slug) => {
+      if (
+        selectedBrands.length >= FEATURED_BRANDS_LIMIT ||
+        selectedBrandSlugs.has(slug)
+      ) {
+        return;
+      }
+
+      selectedBrands.push({
+        id: `fallback-brand-${slug}`,
+        name: slug.charAt(0).toUpperCase() + slug.slice(1),
+        code: `fallback-${slug}`,
+        slug,
+        sportId: '',
+        logoUrl: null,
+        website: null,
+        description: null,
+        status: RecordStatus.ACTIVE,
+        displayOrder: 999,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
     });
 
     return {
-      items: brands.map((brand) => ({
-        id: brand.id,
-        name: brand.name,
-        logoUrl: brand.logoUrl ?? undefined,
-        url: `/brands?brand=${brand.slug}`,
-        themeClass:
-          storefrontPresentationService.resolveBrandThemeClass(
-            brand.slug,
-          ),
-      })),
+      items: selectedBrands.map((brand) => {
+        const logo = mediaService.resolveBrandLogo(
+          brand.name,
+          brand.slug,
+          brand.logoUrl,
+        );
+
+        return {
+          id: brand.id,
+          name: brand.name,
+          logoUrl: logo.url,
+          url: `/shop?brand=${brand.slug}`,
+          themeClass:
+            storefrontPresentationService.resolveBrandThemeClass(
+              brand.slug,
+            ),
+        };
+      }),
     };
   }
 
-  private async buildCategories() {
+  async getFeaturedCategories(): Promise<CategoriesViewModel> {
     const categories = await categoryService.getCategories({
       where: {
         status: RecordStatus.ACTIVE,
@@ -316,35 +490,94 @@ export class StorefrontFacade {
           name: 'asc',
         },
       ],
-      take: 8,
     }) as CategoryRecord[];
 
+    const sortedCategories = [...categories].sort((left, right) => {
+      const leftName = left.name.toLowerCase();
+      const rightName = right.name.toLowerCase();
+
+      const leftPriority = FEATURED_CATEGORY_PRIORITY.findIndex((token) => (
+        leftName.includes(token)
+      ));
+      const rightPriority = FEATURED_CATEGORY_PRIORITY.findIndex((token) => (
+        rightName.includes(token)
+      ));
+
+      const normalizedLeft = leftPriority >= 0
+        ? leftPriority
+        : FEATURED_CATEGORY_PRIORITY.length;
+      const normalizedRight = rightPriority >= 0
+        ? rightPriority
+        : FEATURED_CATEGORY_PRIORITY.length;
+
+      return normalizedLeft - normalizedRight;
+    });
+
+    const selectedCategories = sortedCategories.slice(
+      0,
+      FEATURED_CATEGORIES_LIMIT,
+    );
+
+    const selectedCategoryNames = new Set(
+      selectedCategories.map((category) => category.name.toLowerCase()),
+    );
+
+    FEATURED_CATEGORY_FALLBACKS.forEach((name) => {
+      if (
+        selectedCategories.length >= FEATURED_CATEGORIES_LIMIT ||
+        selectedCategoryNames.has(name.toLowerCase())
+      ) {
+        return;
+      }
+
+      selectedCategories.push({
+        id: `fallback-category-${name.toLowerCase()}`,
+        name,
+        code: `fallback-${name.toLowerCase()}`,
+        slug: name.toLowerCase(),
+        sportId: '',
+        description: null,
+        status: RecordStatus.ACTIVE,
+        displayOrder: 999,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        products: [],
+      });
+    });
+
     return {
-      items: categories.map((category) => ({
-        id: category.id,
-        name: category.name,
-        description:
-          storefrontPresentationService.resolveCategoryDescription(
-            category.name,
-          ),
-        imageUrl:
-          storefrontPresentationService.resolveCategoryImage(
-            category.slug,
-          ),
-        productCount: category.products.length,
-        formattedProductCount:
-          storefrontPresentationService.formatInteger(
-            category.products.length,
-          ),
-        url: `/category/${category.slug}`,
-      })),
+      items: selectedCategories.map((category) => {
+        const media = mediaService.resolveCategoryImage(
+          category.name,
+          category.slug,
+        );
+
+        return {
+          id: category.id,
+          name: category.name,
+          description:
+            storefrontPresentationService.resolveCategoryDescription(
+              category.name,
+            ),
+          imageUrl: media.url,
+          productCount: category.products.length,
+          formattedProductCount:
+            storefrontPresentationService.formatInteger(
+              category.products.length,
+            ),
+          url: `/shop?category=${category.slug}`,
+        };
+      }),
     };
   }
 
-  private async buildSports() {
+  async getFeaturedSports(): Promise<SportsViewModel> {
     const sports = await sportService.getSports({
       where: {
         status: RecordStatus.ACTIVE,
+        slug: {
+          in: FEATURED_SPORT_SLUGS,
+        },
       },
       orderBy: [
         {
@@ -354,30 +587,60 @@ export class StorefrontFacade {
           name: 'asc',
         },
       ],
-      take: 6,
+    });
+
+    const sportBySlug = new Map(
+      sports.map((sport) => [sport.slug.toLowerCase(), sport]),
+    );
+
+    const selectedSports = FEATURED_SPORT_SLUGS.slice(
+      0,
+      FEATURED_SPORTS_LIMIT,
+    ).map((slug) => {
+      const existingSport = sportBySlug.get(slug);
+
+      if (existingSport) {
+        return existingSport;
+      }
+
+      return {
+        id: `fallback-sport-${slug}`,
+        name: slug.charAt(0).toUpperCase() + slug.slice(1),
+        code: `fallback-${slug}`,
+        slug,
+        description: null,
+        status: RecordStatus.ACTIVE,
+        displayOrder: 999,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
     });
 
     return {
-      items: sports.map((sport) => ({
-        id: sport.id,
-        name: sport.name,
-        description:
-          storefrontPresentationService.resolveSportDescription(
-            sport.name,
-            sport.description,
-          ),
-        tagline:
-          storefrontPresentationService.resolveSportTagline(
-            sport.slug,
-          ),
-        heroImageUrl:
-          storefrontPresentationService.resolveSportImage(
-            sport.slug,
-          ),
-        heroImageAlt: `${sport.name} equipment`,
-        statusLabel: 'Catalog Launching Soon',
-        url: `/sports?sport=${sport.slug}`,
-      })),
+      items: selectedSports.map((sport) => {
+        const media = mediaService.resolveSportImage(
+          sport.name,
+          sport.slug,
+        );
+
+        return {
+          id: sport.id,
+          name: sport.name,
+          description:
+            storefrontPresentationService.resolveSportDescription(
+              sport.name,
+              sport.description,
+            ),
+          tagline:
+            storefrontPresentationService.resolveSportTagline(
+              sport.slug,
+            ),
+          heroImageUrl: media.url,
+          heroImageAlt: media.altText,
+          statusLabel: 'Shop Collection',
+          url: `/shop?sport=${sport.slug}`,
+        };
+      }),
     };
   }
 }

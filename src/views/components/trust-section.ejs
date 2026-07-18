@@ -1,0 +1,18 @@
+<section id="why-pro-court-sports" class="hp-section hp-reveal" aria-labelledby="trust-title">
+  <div class="hp-container">
+    <div class="hp-section-heading">
+      <p class="hp-eyebrow">Why Pro Court Sports</p>
+      <h2 id="trust-title">Specialist service built for court-sport athletes</h2>
+    </div>
+
+    <div class="hp-grid hp-grid-trust">
+      <% home.trustCards.forEach((card) => { %>
+        <article class="hp-trust-card">
+          <div class="hp-trust-icon" aria-hidden="true"><%= card.icon %></div>
+          <h3><%= card.title %></h3>
+          <p><%= card.description %></p>
+        </article>
+      <% }); %>
+    </div>
+  </div>
+</section>
